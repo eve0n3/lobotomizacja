@@ -15,21 +15,8 @@
     $email = trim($data['email']); 
     $password = $data['password'];
 
-    //dane bazy danych
-    $server = "localhost"; 
-    $user = "root";
-    $dbPassword = "";
-    $database = "sprzontando";
-
-    $conn = new mysqli($server, $user, $dbPassword, $database);
-
-    if ($conn->connect_error) {      
-        http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'Database connection failed']);
-        exit;
-    }
-
-
+    //połączenie z bazą danych
+    include 'dbconnect.php';
 
 $stmt = $conn->prepare('SELECT id, email, haslo FROM users WHERE email = ?');
 $stmt->bind_param('s', $email);
