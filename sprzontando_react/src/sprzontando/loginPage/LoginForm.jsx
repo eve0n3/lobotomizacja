@@ -6,12 +6,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ function LoginForm() {
     if (!result.success) {
       setMessage(result.message);
     } else {
-      setMessage(result.message);
+      navigate("/offerts");
     }
     setLoading(false);
   };
