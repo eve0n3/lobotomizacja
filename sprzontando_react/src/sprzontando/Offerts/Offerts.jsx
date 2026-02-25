@@ -1,11 +1,13 @@
 import Container from "@mui/material/Container";
-import SidePanel from "../sidePanel/SidePanel";
-import Typography from "@mui/material/Typography";
+
+import OffertsSearch from "./OffertsSearch";
+import AddOffertButton from "./AddOffertButton";
 
 function Offerts() {
   return (
     <Container>
-      <Typography variant="h1">Oferty</Typography>
+      <OffertsSearch />
+      <AddOffertButton />
     </Container>
   );
 }

@@ -1,6 +1,6 @@
 import Container from "@mui/material/Container";
 import SidePanel from "./sidePanel/SidePanel";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
 function PageLayout() {
+  const navigate = useNavigate();
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -20,22 +21,24 @@ function PageLayout() {
       >
         <Toolbar>
           <CleanHandsIcon />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             Sprzontando
           </Typography>
-          <Button variant="contained">ZALOGUJ SIĘ</Button>
+          <Button variant="contained" onClick={() => navigate("/login")}>
+            ZALOGUJ SIĘ
+          </Button>
         </Toolbar>
       </AppBar>
-      <SidePanel Container />
+      <SidePanel />
       <Box
         component="main"
         sx={{
+          display: "flex",
           marginTop: "64px",
           marginLeft: "250px",
-          padding: 3,
-          width: "calc(100vw - 250px)",
-          height: "calc(100vh - 64px)",
-          overflow: "auto",
+          padding: 2,
+          width: "100%",
+          height: "100%",
         }}
       >
         <Outlet />
