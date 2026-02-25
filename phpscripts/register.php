@@ -56,7 +56,7 @@
             "message" => $messages
         ]);
     }else{
-        $stmt = $conn->prepare("INSERT INTO users (nazwa, email, haslo) VALUES (?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO users (nazwa, email, haslo) VALUES (?, ?, ?)"); //TODO: timestamp tworzenia
         $stmt->bind_param("sss", $username, $email, $password);
         
         if($stmt->execute()){
