@@ -7,7 +7,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-import CleanHandsIcon from "@mui/icons-material/CleanHands";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import ChairOutlinedIcon from "@mui/icons-material/ChairOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -15,16 +14,9 @@ import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
-const SideBarList = ({ toggleDrawer }) => (
-  <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+const SideBarList = () => (
+  <Box sx={{ width: 250 }}>
     <List>
-      <ListItem key={0}>
-        <ListItemIcon>
-          <CleanHandsIcon />
-        </ListItemIcon>
-        <ListItemText primary={"Sprzontando"} />
-      </ListItem>
-
       <ListItem key={1} disablePadding>
         <ListItemButton>
           <ListItemIcon>

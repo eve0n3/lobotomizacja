@@ -51,8 +51,10 @@
         if($userExist){
             array_push($messages, "Ta nazwa użytkownika jest zajęta");
         }
+        http_response_code(400);
         echo json_encode([
             "success" => false,
+            "status" => 400,
             "message" => $messages
         ]);
     }else{
@@ -63,11 +65,14 @@
             http_response_code(201);
             echo json_encode([
                 "success" => true,
+                "status" => 201,
                 "message" => "Użytkownik stworzony"
             ]);
         }else{
+            http_response_code(503);
             echo json_encode([
                 "success" => false,
+                "status" => 503,
                 "message" => "wystąpił błąd"
             ]);
         }

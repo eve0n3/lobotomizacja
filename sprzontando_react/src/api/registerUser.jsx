@@ -15,6 +15,7 @@ export const registerUser = async (data) => {
   } catch (error) {
     return {
       success: false,
+      status: error.response?.data?.status,
       message: error.response?.data?.message || error.message,
     };
   }
