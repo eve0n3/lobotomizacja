@@ -1,6 +1,6 @@
 <?php 
     header('Access-Control-Allow-Origin: *'); 
-    header('Access-Control-Allow-Methods: GET,POST,OPTIONS');
+    header('Access-Control-Allow-Methods: POST,OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, Authorization');
     header('Content-type: application/json');
 
@@ -9,9 +9,12 @@
     exit(0);
     }
 
+
+
     //dane z react
     $dataJSON = file_get_contents('php://input');
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
+
     $username = $data['name'];
     $email = $data['email'];
     $password = $data['password'];
@@ -44,12 +47,14 @@
             "success" => false,
             "message" => "Ten adres email jest zajęty"
         ]);
-    }elseif($userExist){
+    }
+    if($userExist){
         echo json_encode([
             "success" => false,
             "message" => "Ta nazwa użytkownika jest zajęta"
         ]);
-    }elseif(!$userExist && !$mailExist){
+    }
+    if(!$userExist && !$mailExist){
         $stmt = $conn->prepare("INSERT INTO users (nazwa, email, haslo) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $email, $password);
         
@@ -67,7 +72,6 @@
         }
     }
 
-
-    
-
+    $stmt->close();
+    $conn->close();
 ?>
