@@ -41,20 +41,21 @@
     $row = $res->fetch_assoc();
 
     $userExist = boolval($row["COUNT(*)"]);//true/false czy user istnieje
+    
+    $messages = [];
 
-    if($mailExist){
+    if($mailExist || $userExist){
+        if($mailExist){
+            array_push($messages, "Ten adres Email jest zajęty");
+        }
+        if($userExist){
+            array_push($messages, "Ta nazwa użytkownika jest zajęta");
+        }
         echo json_encode([
             "success" => false,
-            "message" => "Ten adres email jest zajęty"
+            "message" => $messages
         ]);
-    }
-    if($userExist){
-        echo json_encode([
-            "success" => false,
-            "message" => "Ta nazwa użytkownika jest zajęta"
-        ]);
-    }
-    if(!$userExist && !$mailExist){
+    }else{
         $stmt = $conn->prepare("INSERT INTO users (nazwa, email, haslo) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $email, $password);
         
