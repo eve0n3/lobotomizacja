@@ -15,7 +15,7 @@
     $dataJSON = file_get_contents('php://input');
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
 
-    $username = $data['name'];
+    $username = $data['username'];
     $email = $data['email'];
     $password = $data['password'];
 

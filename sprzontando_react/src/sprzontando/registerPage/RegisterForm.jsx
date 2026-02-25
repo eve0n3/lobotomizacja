@@ -6,6 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import { registerUser } from "../../api/registerUser";
 
 function RegisterForm() {
   const [email, setEmail] = useState("");
@@ -32,13 +33,10 @@ function RegisterForm() {
       const registerData = { email, username, password };
       setLoading(true);
 
-      const result = await registerLogin(registerData);
+      const result = await registerUser(registerData);
 
-      if (!result.success) {
-        setMessage(result.message);
-      } else {
-        setMessage(result.message);
-      }
+      setMessage(result.message);
+
       setLoading(false);
     }
   };

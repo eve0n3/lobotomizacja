@@ -8,8 +8,10 @@ export const registerUser = async (data) => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response);
-    return { success: true, message: "Logged successfully" };
+
+    console.log(response.data);
+
+    return { success: true, message: "Pomyslnie utworzono użytkonika." };
   } catch (error) {
     return {
       success: false,
