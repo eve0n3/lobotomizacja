@@ -25,7 +25,8 @@ function SidePanel() {
         open={open}
         onClose={toggleDrawer()}
         sx={{
-          display: { xs: "none", sm: "block" },
+          width: 250,
+          flexShrink: 0,
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: 250 },
         }}
       >
