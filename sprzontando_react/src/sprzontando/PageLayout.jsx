@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import CleanHandsIcon from "@mui/icons-material/CleanHands";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 function PageLayout() {
   const navigate = useNavigate();
@@ -33,12 +34,10 @@ function PageLayout() {
       <Box
         component="main"
         sx={{
-          display: "flex",
-          marginTop: "64px",
-          marginLeft: "250px",
-          padding: 2,
-          width: "100%",
-          height: "100%",
+          flexGrow: 1,
+          p: 3,
+          mt: 8, // pushes below AppBar
+          width: `calc(100% - ${250}px)`,
         }}
       >
         <Outlet />

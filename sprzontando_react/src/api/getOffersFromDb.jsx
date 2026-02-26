@@ -11,7 +11,7 @@ export const getOffersFromDb = async (data) => {
 
     console.log(response.data);
 
-    return { success: true, message: "Pomyslnie utworzono użytkonika." };
+    return { success: true, data: response };
   } catch (error) {
     return {
       success: false,
