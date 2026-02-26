@@ -1,9 +1,9 @@
 import axios from "axios";
-import { REGISTER_URL } from "../../utils/consts";
+import { OFFERS_URL } from "../../utils/consts";
 
-export const registerUser = async (data) => {
+export const getOffersFromDb = async (data) => {
   try {
-    const response = await axios.post(REGISTER_URL, data, {
+    const response = await axios.post(OFFERS_URL, data, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -11,7 +11,7 @@ export const registerUser = async (data) => {
 
     console.log(response.data);
 
-    return { success: true, message: "Pomyslnie utworzono użytkonika." };
+    return { success: true, data: response };
   } catch (error) {
     return {
       success: false,
