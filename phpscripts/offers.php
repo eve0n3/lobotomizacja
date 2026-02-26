@@ -9,8 +9,6 @@
     exit(0);
     }
 
-
-
     //dane z react
     $dataJSON = file_get_contents('php://input');
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
@@ -22,6 +20,9 @@
     $page = $data["page"] ?? 1; //page 1 default
     $limit = $data["limit"] ?? 12; //12 art per page default
 
+    $offset = ($page-1)*$limit; //offset to nr strony pomnożony przez limit na stronie
+
+    /*
     echo json_encode([
         "debugvals" => [
             "miasto" => $miasto,
@@ -31,7 +32,7 @@
             "page" => $page,
         ]
     ]);
-
+    */
 
     include 'dbconnect.php';
 
@@ -47,39 +48,68 @@
 
         if(!is_null($miasto)){
             array_push($criteria, "miasto = ?");
-            array_push($params, &$miasto);
+            array_push($params, $miasto);
             $paramTypes .= "s";
         }
         if(!is_null($kategoria)){
             array_push($criteria, "kategoria = ?");
-            array_push($params, &$miasto);
+            array_push($params, $kategoria);
             $paramTypes .= "s";
         }
         if(!is_null($cena)){
             array_push($criteria, "cena = ?");
-            array_push($params, &$cena);
+            array_push($params, $cena);
             $paramTypes .= "s";
         }
         $sqlQueryStart .= join(" AND ", $criteria);
         
-        echo json_encode([
-            "query" => $sqlQueryStart,
-            "no miasto?" => is_null($miasto),
-            "no kategoria?" => is_null($kategoria),
-            "no cena?" => is_null($cena)
-        ])
-        
-        array_push($params, $limit);
-        $paramTypes .= "s";
-        array_push($params, $offset); // zrob offset
-    }else{
 
     }
 
-    
+    array_push($params, $limit);
+    $paramTypes .= "s";
+    array_push($params, $offset);
+    $paramTypes .= "s";
 
+    $sqlQueryEnd = " ORDER BY utworzenie DESC LIMIT ? OFFSET ?";
+    $sqlQuery = $sqlQueryStart.$sqlQueryEnd;
 
+    /*
+    echo json_encode([
+        "querydebug" => [
+        "query" => $sqlQuery,
+        "no miasto?" => is_null($miasto),
+        "no kategoria?" => is_null($kategoria),
+        "no cena?" => is_null($cena),
+        "params" => [$paramTypes, $params]
+        ]
+    ]);
+    */
 
+    $stmt = $conn->prepare($sqlQuery);
+    $stmt->bind_param($paramTypes, ...$params);
 
+    if($stmt->execute()){
+        $res = $stmt->get_result();
+        $cols = $res->fetch_all(MYSQLI_ASSOC);
+        
+        if($cols){
+            echo json_encode([
+                "data" => $cols
+            ]);
+        }else{
+            http_response_code(204);
+            echo json_encode([
+                "success" => true,
+                "message" => "nie ma"
+            ]);
+        }
+    }else{
+        http_response_code(503);
+        echo json_encode([
+            "success" => false,
+            "message" => "prosze spróbować ponownie później"
+        ]);
+    }
 
 ?>
