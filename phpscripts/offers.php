@@ -98,7 +98,7 @@
                 "data" => $cols
             ]);
         }else{
-            http_response_code(204);
+            //http_response_code(205); 
             echo json_encode([
                 "success" => true,
                 "message" => "nie ma"
@@ -112,4 +112,6 @@
         ]);
     }
 
+    $stmt->close();
+    $conn->close();
 ?>
