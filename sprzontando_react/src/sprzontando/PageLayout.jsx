@@ -21,8 +21,8 @@ function PageLayout() {
         }}
       >
         <Toolbar>
-          <CleanHandsIcon />
-          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h4" sx={{ flexGrow: 1 }}>
+            <CleanHandsIcon />
             Sprzontando
           </Typography>
           <Button variant="contained" onClick={() => navigate("/login")}>
@@ -31,7 +31,7 @@ function PageLayout() {
         </Toolbar>
       </AppBar>
       <SidePanel />
-      <Box
+      <Grid
         component="main"
         sx={{
           flexGrow: 1,
@@ -41,7 +41,7 @@ function PageLayout() {
         }}
       >
         <Outlet />
-      </Box>
+      </Grid>
     </Box>
   );
 }

@@ -62,8 +62,6 @@
             $paramTypes .= "s";
         }
         $sqlQueryStart .= join(" AND ", $criteria);
-        
-
     }
 
     array_push($params, $limit);
@@ -95,10 +93,11 @@
         
         if($cols){
             echo json_encode([
+                "success" => true,
                 "data" => $cols
             ]);
         }else{
-            http_response_code(204);
+            //http_response_code(204);
             echo json_encode([
                 "success" => true,
                 "message" => "nie ma"

@@ -15,6 +15,27 @@ function Offerts() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  //search states
+  const [search, setSearch] = useState(null);
+  const [localization, setLocalization] = useState(null);
+  const [price, setPrice] = useState(null);
+  const [type, setType] = useState(null);
+
+  const searchProps = [
+    search,
+    setSearch,
+    localization,
+    setLocalization,
+    price,
+    setPrice,
+    type,
+    setType,
+    setOffers,
+    setIsLoading,
+    setError,
+    error,
+  ];
+
   useEffect(() => {
     let retryCount = 0;
     const maxRetries = 3; //TO DO do constow
@@ -57,17 +78,17 @@ function Offerts() {
   }
 
   return (
-    <Container>
+    <Grid>
       {isLoading ? (
         <LinearProgress />
       ) : (
         <>
-          <OffertsSearch />
+          <OffertsSearch searchProps={searchProps} />
           <OffersList offers={offers} />
           <AddOffertButton />
         </>
       )}
-    </Container>
+    </Grid>
   );
 }
 

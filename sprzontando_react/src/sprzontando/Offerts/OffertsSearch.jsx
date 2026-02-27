@@ -1,23 +1,77 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
+
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import { useState } from "react";
+
 import OffertTypeSelect from "./OffertTypeSelect";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import { getOffersFromDb } from "../../api/getOffersFromDb";
 
-function OffertsSearch() {
-  const [search, setSearch] = useState("");
-  const [localization, setLocalization] = useState("");
-  const [price, setPrice] = useState("");
-  const [type, setType] = useState("");
+function OffertsSearch({ searchProps }) {
+  const [
+    search,
+    setSearch,
+    localization,
+    setLocalization,
+    price,
+    setPrice,
+    type,
+    setType,
+    setOffers,
+    setIsLoading,
+    setError,
+  ] = searchProps;
+
+  const getCriteriaObj = (search, price, type, localization) => {
+    return {
+      miasto: localization,
+      kategoria: type,
+      cena: price,
+    };
+  };
+  let retryCount = 0;
+  const fatchFromDb = async () => {
+    const maxRetries = 3; //TO DO do constow
+
+    console.log(
+      "search, price, type, localization",
+      search,
+      price,
+      type,
+      localization,
+    );
+    setError(null);
+    setIsLoading(true);
+
+    const response = await getOffersFromDb(
+      getCriteriaObj(search, price, type, localization),
+    );
+
+    if (!response.success && retryCount < maxRetries) {
+      retryCount++;
+      console.log(`Retry ${retryCount}/${maxRetries} in 2s...`);
+      setTimeout(() => fatchFromDb(), 2000);
+    } else if (response.success) {
+      setOffers(response.data);
+      setIsLoading(false);
+    } else {
+      console.error("Max retries exceeded");
+      setError("Ładowanie ofert nie powiodło się.");
+      setIsLoading(false);
+      console.error("Powód:", response.message);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await fatchFromDb();
+  };
 
   return (
     <Container>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Grid
           container
           sx={{
@@ -33,7 +87,10 @@ function OffertsSearch() {
               label="Wyszukaj ofarty"
               variant="standard"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              defaultValue={null}
+              onChange={(e) =>
+                setSearch(e.target.value === "" ? null : e.target.value)
+              }
             />
           </Grid>
           <Grid item size={2}>
@@ -42,7 +99,10 @@ function OffertsSearch() {
               label="Lokalizacja"
               variant="standard"
               value={localization}
-              onChange={(e) => setLocalization(e.target.value)}
+              defaultValue={null}
+              onChange={(e) =>
+                setLocalization(e.target.value === "" ? null : e.target.value)
+              }
             />
           </Grid>
           <Grid item size={2}>
@@ -50,8 +110,11 @@ function OffertsSearch() {
               fullWidth
               label="Cena"
               variant="standard"
+              defaultValue={null}
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) =>
+                setPrice(e.target.value === "" ? null : e.target.value)
+              }
             />
           </Grid>
           <Grid item size={2}>
