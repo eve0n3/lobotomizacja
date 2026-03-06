@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { registerUser } from "../../api/registerUser";
+import "../../styles/App.css"
 
 function RegisterForm() {
   const [email, setEmail] = useState("");
@@ -44,30 +45,39 @@ function RegisterForm() {
   return (
     <Container>
       <Grid>
-        <form onSubmit={handleSubmit}>
+        
+        <form onSubmit={handleSubmit} className="login-form">
+
           <TextField
+            className="login-input"
             onChange={(e) => setEmail(e.target.value)}
             label="email"
             type="email"
           ></TextField>
           <TextField
+            className="login-input"
             onChange={(e) => setUsername(e.target.value)}
             label="nazwa użytkownika"
             type="username"
           ></TextField>
           <TextField
+            className="login-input"
             onChange={(e) => setPassword(e.target.value)}
             label="hasło"
             type="password"
           ></TextField>
           <TextField
+            className="login-input"
             onChange={(e) => setRepeatPassword(e.target.value)}
             label="powtórz hasło"
             type="password"
           ></TextField>
           {message && <Typography>{message}</Typography>}
-
+                <Typography className="login-text" onClick={() => navigate("/login")}>
+                  Zaloguj się
+                </Typography>
           <Button
+            className="login-button"
             type="submit"
             variant="contained"
             disabled={
