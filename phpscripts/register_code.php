@@ -33,9 +33,9 @@ error_reporting(E_ALL);
     $odp_kod = $res->fetch_assoc();
 
     if ($odp_kod["zatwierdzony"] == null){
-        $expire_data = $odp_kod["kod_wygasniecie"];
+        $mysql_date = $odp_kod["kod_wygasniecie"];
+        $expire_data= new DateTime($mysql_date);
         $teraz = new DateTime();
-        echo json_encode([$odp_kod]);
 
 
         if ($expire_data<=$teraz){
@@ -44,10 +44,16 @@ error_reporting(E_ALL);
             "message" => "Kod wygasł, wygeneruj nowy"
             ]);
         } else{
-            if $kod === $odp_kod["kod"]{
+            if ($kod == $odp_kod["kod"]){
                 echo json_encode([
                     "succes" => "true",
-                    "message" => "Poprawny kod!! Proces rejestracji zakończony sukcesem",
+                    "message" => "Poprawny kod!! Proces rejestracji zakończony sukcesem"
+                ]);
+
+            } else{
+                echo json_encode([
+                    "succes" => "false",
+                    "message" => "Kod niepoprawny!!"
                 ]);
             }
         }
@@ -56,8 +62,8 @@ error_reporting(E_ALL);
 
         } else{
         echo json_encode([
-        "succes" => "false",
-        "message" => "Ten użytkownik jest już zatwierdzony",
+            "succes" => "false",
+            "message" => "Ten użytkownik jest już zatwierdzony"
         ]);
         }
 
