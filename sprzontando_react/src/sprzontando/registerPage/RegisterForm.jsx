@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { registerUser } from "../../api/registerUser";
-import "../../styles/App.css"
+import "../../styles/App.css";
 import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
@@ -76,9 +76,7 @@ function RegisterForm() {
   return (
     <Container>
       <Grid>
-        
         <form onSubmit={handleSubmit} className="login-form">
-
           <TextField
             className="login-input"
             onChange={(e) => {
@@ -120,9 +118,9 @@ function RegisterForm() {
             helperText={repeatPasswordHelper}
           ></TextField>
           {message && <Typography>{message}</Typography>}
-                <Typography className="login-text" onClick={() => navigate("/login")}>
-                  Zaloguj się
-                </Typography>
+          <Typography className="login-text" onClick={() => navigate("/login")}>
+            Zaloguj się
+          </Typography>
           <Button
             className="login-button"
             type="submit"
