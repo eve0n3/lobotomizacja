@@ -39,9 +39,17 @@ error_reporting(E_ALL);
 
 
         if ($expire_data<=$teraz){
-            echo "Kod wygasł, wygeneruj nowy";
+            echo json_encode([               
+            "succes" => "false",
+            "message" => "Kod wygasł, wygeneruj nowy"
+            ]);
         } else{
-            echo "Lecimy dalej";
+            if $kod === $odp_kod["kod"]{
+                echo json_encode([
+                    "succes" => "true",
+                    "message" => "Poprawny kod!! Proces rejestracji zakończony sukcesem",
+                ]);
+            }
         }
     
 
