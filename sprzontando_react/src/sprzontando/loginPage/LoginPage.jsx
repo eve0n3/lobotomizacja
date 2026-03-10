@@ -3,6 +3,7 @@ import LoginForm from "./LoginForm";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import "../../styles/App.css"
+import Button from "@mui/material/Button";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ function LoginPage() {
           Logowanie
         </Typography>
       <LoginForm></LoginForm>
+      <Typography>Nie masz konta?</Typography>
+      <Button onClick={() => navigate("/register")}>Stwórz je !</Button>
     </Container>
     </div>
   );
