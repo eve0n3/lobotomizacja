@@ -26,20 +26,6 @@
 
     $offset = ($page-1)*$limit; //offset to nr strony pomnożony przez limit na stronie
 
-    
-    echo json_encode([
-        "debugvals" => [
-            "tytul" => $tytul,
-            "miasto" => $miasto,
-            "kategoria" => $kategoria,
-            "minCena" => $minCena,
-            "maxCena" => $maxCena,
-            "limit" => $limit,
-            "page" => $page,
-        ]
-    ]);
-    
-
     include 'dbconnect.php';
 
     $sqlQueryStart = "SELECT * FROM ogloszenia_oferty";
@@ -89,15 +75,6 @@
 
     $sqlQueryEnd = " ORDER BY utworzenie DESC LIMIT ? OFFSET ?";
     $sqlQuery = $sqlQueryStart.$sqlQueryEnd;
-
-    
-    echo json_encode([
-        "querydebug" => [
-        "query" => $sqlQuery,
-        "params" => [$paramTypes, $params]
-        ]
-    ]);
-    
 
     $stmt = $conn->prepare($sqlQuery);
     $stmt->bind_param($paramTypes, ...$params);
