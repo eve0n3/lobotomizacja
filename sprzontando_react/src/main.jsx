@@ -10,6 +10,9 @@ import {
 import LoginPage from "./sprzontando/loginPage/LoginPage";
 import RegisterPage from "./sprzontando/registerPage/RegisterPage";
 import Offerts from "./sprzontando/Offerts/Offerts";
+import SuccessRegister from "./sprzontando/registerPage/SuccessRegister";
+import PageLayout from "./sprzontando/PageLayout";
+import UsersRanking from "./sprzontando/usersRanking/UsersRanking";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,8 +27,22 @@ const router = createBrowserRouter([
     element: <RegisterPage />,
   },
   {
-    path: "/offerts",
-    element: <Offerts />,
+    path: "/successRegister",
+    element: <SuccessRegister />,
+  },
+  {
+    path: "/sprzontando",
+    element: <PageLayout />,
+    children: [
+      {
+        index: true,
+        element: <Offerts />,
+      },
+      {
+        path: "/sprzontando/usersRanking",
+        element: <UsersRanking />,
+      },
+    ],
   },
 ]);
 

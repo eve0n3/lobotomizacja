@@ -1,17 +1,14 @@
-import Container from "@mui/material/Container";
-
-import OffertsSearch from "./OffertsSearch";
-import AddOffertButton from "./AddOffertButton";
-import { getOffersFromDb } from "../../api/getOffersFromDb";
-import { useEffect, useState } from "react";
-import LinearProgress from "@mui/material/LinearProgress";
-import OffersList from "./OffersList";
-import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import { useEffect, useState } from "react";
+import { getUsersRankingFromDb } from "../../api/getUsersRankingFromDb";
+import LinearProgress from "@mui/material/LinearProgress";
+import UsersRankingTable from "./UsersRankingTable";
+import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
-function Offerts() {
-  const [offers, setOffers] = useState([]);
+function UsersRanking() {
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -23,14 +20,15 @@ function Offerts() {
     setIsLoading(true);
 
     const fetchData = async () => {
-      const response = await getOffersFromDb({});
+      const response = await getUsersRankingFromDb();
 
       if (!response.success && retryCount < maxRetries) {
         retryCount++;
         console.log(`Retry ${retryCount}/${maxRetries} in 2s...`);
         setTimeout(() => fetchData(), 2000);
       } else if (response.success) {
-        setOffers(response.data);
+        console.log(response, " z rankingfatch");
+        setUsers(response.data);
         setIsLoading(false);
       } else {
         console.error("Max retries exceeded");
@@ -62,13 +60,11 @@ function Offerts() {
         <LinearProgress />
       ) : (
         <>
-          <OffertsSearch />
-          <OffersList offers={offers} />
-          <AddOffertButton />
+          <UsersRankingTable users={users} />
         </>
       )}
     </Container>
   );
 }
 
-export default Offerts;
+export default UsersRanking;
