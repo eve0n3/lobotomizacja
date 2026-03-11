@@ -27,7 +27,7 @@ function LoginForm() {
     if (!result.success) {
       setMessage(result.message);
     } else {
-      navigate("/sprzontando");
+      navigate("/offerts");
     }
     setLoading(false);
   };
