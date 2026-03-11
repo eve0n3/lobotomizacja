@@ -91,11 +91,11 @@
 
     if($stmt->execute()){
         $res = $stmt->get_result();
-        $cols = $res->fetch_all(MYSQLI_ASSOC);
+        $rows = $res->fetch_all(MYSQLI_ASSOC);
         
-        if($cols){
+        if($rows){
             echo json_encode([
-                "data" => $cols
+                "data" => $rows
             ]);
         }else{
             http_response_code(204);
