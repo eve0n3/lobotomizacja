@@ -60,7 +60,7 @@ const SideBarList = () => {
         <Divider />
 
         <ListItem key={5} disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => navigate("./usersRanking")}>
             <ListItemIcon>
               <LeaderboardOutlinedIcon />
             </ListItemIcon>
