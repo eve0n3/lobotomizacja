@@ -13,9 +13,7 @@ export const getUsersRankingFromDb = async () => {
       },
     );
 
-    console.log(response.data);
-
-    return { success: true, data: response };
+    return response.data;
   } catch (error) {
     return {
       success: false,

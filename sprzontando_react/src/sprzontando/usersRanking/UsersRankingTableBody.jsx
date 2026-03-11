@@ -1,4 +1,5 @@
 import Grid from "@mui/material/Grid";
+import Rating from "@mui/material/Rating";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,10 +10,17 @@ function UsersRankingTableBody({ users }) {
     return users.map((user, id) => {
       return (
         <TableRow>
-          <TableCell>{id}</TableCell>
+          <TableCell>{id + 1}</TableCell>
           <TableCell>{user.nazwa}</TableCell>
-          <TableCell>{user.miasto}</TableCell>
-          <TableCell>{user.ocena}</TableCell>
+
+          <TableCell>
+            <Rating
+              name="read-only"
+              value={user.avgocena}
+              precision={0.1}
+              readOnly
+            />
+          </TableCell>
         </TableRow>
       );
     });

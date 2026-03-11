@@ -15,12 +15,13 @@
 
     include 'dbconnect.php';
 
-    $sqlQuery = "SELECT users.nazwa, ROUND(CAST(AVG(oceny.ocena) AS DECIMAL(4,2)), 2) AS avgocena FROM `ogloszenia_zrobione` 
+    $sqlQuery = "SELECT users.nazwa, ROUND(CAST(AVG(ocena) AS DECIMAL(4,2)), 2) AS avgocena FROM `ogloszenia_zrobione` 
     JOIN users ON ogloszenia_zrobione.id_wykon=users.id 
-    JOIN oceny ON ogloszenia_zrobione.id_ocena=oceny.id 
     GROUP BY users.nazwa 
     ORDER BY avgocena DESC
     LIMIT 10";
+
+   
 
     $stmt = $conn->prepare($sqlQuery);
 

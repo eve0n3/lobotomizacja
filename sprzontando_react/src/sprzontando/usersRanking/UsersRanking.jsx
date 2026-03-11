@@ -27,7 +27,8 @@ function UsersRanking() {
         console.log(`Retry ${retryCount}/${maxRetries} in 2s...`);
         setTimeout(() => fetchData(), 2000);
       } else if (response.success) {
-        setOffers(response.data);
+        console.log(response, " z rankingfatch");
+        setUsers(response.data);
         setIsLoading(false);
       } else {
         console.error("Max retries exceeded");

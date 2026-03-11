@@ -4,17 +4,17 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-function UsersRankingHeader() {
+function UsersRankingTableHead() {
   return (
     <TableHead>
       <TableRow>
-        <TableCell></TableCell>
+        <TableCell>Pozycja</TableCell>
         <TableCell>Nazwa użytkownika</TableCell>
-        <TableCell>Miasto</TableCell>
+
         <TableCell>Ocena</TableCell>
       </TableRow>
     </TableHead>
   );
 }
 
-export default UsersRankingHeader;
+export default UsersRankingTableHead;

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 10, 2026 at 01:45 PM
+-- Generation Time: Mar 11, 2026 at 11:26 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -52,7 +52,8 @@ CREATE TABLE `oceny` (
 INSERT INTO `oceny` (`id`, `ocena`) VALUES
 (1, 5),
 (2, 4),
-(3, 3);
+(3, 3),
+(4, 3);
 
 -- --------------------------------------------------------
 
@@ -147,19 +148,20 @@ INSERT INTO `ogloszenia_oferty` (`id`, `tytul`, `kategoria`, `miasto`, `adres`, 
 --
 
 CREATE TABLE `ogloszenia_zrobione` (
+  `id` int(11) NOT NULL,
   `id_ogl` int(11) NOT NULL,
   `id_wykon` int(11) NOT NULL,
-  `id_ocena` int(11) NOT NULL
+  `ocena` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
 -- Dumping data for table `ogloszenia_zrobione`
 --
 
-INSERT INTO `ogloszenia_zrobione` (`id_ogl`, `id_wykon`, `id_ocena`) VALUES
-(2, 1, 1),
-(10, 2, 2),
-(12, 1, 3);
+INSERT INTO `ogloszenia_zrobione` (`id`, `id_ogl`, `id_wykon`, `ocena`) VALUES
+(1, 2, 1, 1),
+(2, 10, 2, 2),
+(3, 12, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -233,7 +235,8 @@ ALTER TABLE `ogloszenia_oferty`
 -- Indexes for table `ogloszenia_zrobione`
 --
 ALTER TABLE `ogloszenia_zrobione`
-  ADD PRIMARY KEY (`id_ocena`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_ogl` (`id_ogl`);
 
 --
 -- Indexes for table `users`
@@ -249,7 +252,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `oceny`
 --
 ALTER TABLE `oceny`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ogloszenia_oferty`
@@ -261,7 +264,7 @@ ALTER TABLE `ogloszenia_oferty`
 -- AUTO_INCREMENT for table `ogloszenia_zrobione`
 --
 ALTER TABLE `ogloszenia_zrobione`
-  MODIFY `id_ocena` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
