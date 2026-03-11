@@ -22,10 +22,6 @@
     ORDER BY avgocena DESC
     LIMIT 10";
 
-    echo json_encode([  
-        "q" => $sqlQuery
-    ]);
-
     $stmt = $conn->prepare($sqlQuery);
 
     if($stmt->execute()){
@@ -36,5 +32,12 @@
             "success" => true,
             "data" => $rows
         ]);
+        http_response_code(200);
+    }else{
+        echo json_encode([
+            "success" => false,
+            "message" => "Tymczasowy Błąd, prosze spróbować póxniej"
+        ]);
+        http_response_code(503);
     }
 ?>
