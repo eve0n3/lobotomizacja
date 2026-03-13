@@ -1,9 +1,15 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import ImagePlaceHolder from "../../components/imagePlaceHolder";
+import ImagePlaceHolder from "../../components/ImagePlaceHolder";
 import Divider from "@mui/material/Divider";
-import { OF_CITY, OF_DATE, OF_PRICE, OF_TYPE } from "../../../utils/consts";
+import {
+  OF_CITY,
+  OF_DATE,
+  OF_PRICE,
+  OF_TITLE,
+  OF_TYPE,
+} from "../../../utils/consts";
 
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
@@ -32,7 +38,7 @@ import { flexCentered } from "../../styles/AppStyle";
 function OffersListItem({ offer }) {
   console.log(offer);
   return (
-    <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+    <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
       <Paper sx={offerPaper}>
         <Box sx={itemBox}>
           <Stack sx={itemStack}>
@@ -42,7 +48,7 @@ function OffersListItem({ offer }) {
         <Grid sx={flexCentered} container spacing={2}>
           <Grid item size={12} sx={titleGrid}>
             <Typography sx={{ fontSize: FONT_SIZE_XXL }}>
-              {offer[OF_TYPE]}
+              {offer[OF_TITLE]}
             </Typography>
           </Grid>
 

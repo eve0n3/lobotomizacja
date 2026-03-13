@@ -8,6 +8,8 @@ import OffertTypeSelect from "./OffertTypeSelect";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { getOffersFromDb } from "../../api/getOffersFromDb";
+import InputAdornment from "@mui/material/InputAdornment";
+import Typography from "@mui/material/Typography";
 
 function OffertsSearch({ searchProps }) {
   const [
@@ -15,8 +17,10 @@ function OffertsSearch({ searchProps }) {
     setSearch,
     localization,
     setLocalization,
-    price,
-    setPrice,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
     type,
     setType,
     setOffers,
@@ -24,35 +28,30 @@ function OffertsSearch({ searchProps }) {
     setError,
   ] = searchProps;
 
-  const getCriteriaObj = (search, price, type, localization) => {
+  const getCriteriaObj = (search, minPrice, maxPrice, type, localization) => {
     return {
+      tytul: search,
       miasto: localization,
       kategoria: type,
-      cena: price,
+      minCena: minPrice,
+      maxCena: maxPrice,
     };
   };
   let retryCount = 0;
-  const fatchFromDb = async () => {
+  const fetchFromDb = async () => {
     const maxRetries = 3; //TO DO do constow
 
-    console.log(
-      "search, price, type, localization",
-      search,
-      price,
-      type,
-      localization,
-    );
     setError(null);
     setIsLoading(true);
 
     const response = await getOffersFromDb(
-      getCriteriaObj(search, price, type, localization),
+      getCriteriaObj(search, minPrice, maxPrice, type, localization),
     );
 
     if (!response.success && retryCount < maxRetries) {
       retryCount++;
       console.log(`Retry ${retryCount}/${maxRetries} in 2s...`);
-      setTimeout(() => fatchFromDb(), 2000);
+      setTimeout(() => fetchFromDb(), 2000);
     } else if (response.success) {
       setOffers(response.data);
       setIsLoading(false);
@@ -66,25 +65,30 @@ function OffertsSearch({ searchProps }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fatchFromDb();
+    await fetchFromDb();
+  };
+
+  const handleMaxPriceChange = (e) => {
+    setPriceTo(e.target.value === "" ? null : val);
   };
 
   return (
-    <Container>
+    <Grid sx={{ px: "5%" }}>
       <form onSubmit={handleSubmit}>
         <Grid
           container
           sx={{
-            justifyContent: "space-between",
+            width: "100%",
+
             alignItems: "flex-end",
           }}
           spacing={2}
         >
-          <Grid item size={4} sx={{ display: "flex", alignItems: "flex-end" }}>
+          <Grid item size={3} sx={{ display: "flex", alignItems: "flex-end" }}>
             <SearchIcon sx={{ mr: 1, my: 0.5 }} />
             <TextField
               fullWidth
-              label="Wyszukaj ofarty"
+              label="Wyszukaj oferty"
               variant="standard"
               value={search}
               defaultValue={null}
@@ -93,6 +97,7 @@ function OffertsSearch({ searchProps }) {
               }
             />
           </Grid>
+
           <Grid item size={2}>
             <TextField
               fullWidth
@@ -106,28 +111,40 @@ function OffertsSearch({ searchProps }) {
             />
           </Grid>
           <Grid item size={2}>
+            <OffertTypeSelect type={type} setType={setType} />
+          </Grid>
+          <Grid item size={2}>
             <TextField
               fullWidth
-              label="Cena"
-              variant="standard"
+              label="Cena od"
+              variant="outlined"
+              type="number"
+              value={minPrice}
               defaultValue={null}
-              value={price}
               onChange={(e) =>
-                setPrice(e.target.value === "" ? null : e.target.value)
+                setMinPrice(e.target.value === "" ? null : e.target.value)
               }
             />
           </Grid>
           <Grid item size={2}>
-            <OffertTypeSelect type={type} setType={setType} />
+            <TextField
+              fullWidth
+              label="Cena do"
+              variant="outlined"
+              type="number"
+              value={maxPrice}
+              defaultValue={null}
+              onChange={(e) => handleMaxPriceChange(e)}
+            />
           </Grid>
-          <Grid item size={2}>
-            <Button type="submit" variant="contained">
+          <Grid item size={1}>
+            <Button type="submit" variant="contained" sx={{ width: "100%" }}>
               wyszukaj
             </Button>
           </Grid>
         </Grid>
       </form>
-    </Container>
+    </Grid>
   );
 }
 

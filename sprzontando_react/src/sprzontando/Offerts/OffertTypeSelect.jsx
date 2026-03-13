@@ -16,13 +16,13 @@ function OffertTypeSelect({ type, setType }) {
         onChange={(e) => setType(e.target.value)}
       >
         <MenuItem value={null}>----</MenuItem>
-        <MenuItem value={"Sprzątanie mieszkań"}>mieszkanie</MenuItem>
-        <MenuItem value={"Sprzątanie biur"}>biuro</MenuItem>
-        <MenuItem value={"Sprzątanie garaży"}>garaż</MenuItem>
-        <MenuItem value={"Sprzątanie piwnic"}>piwnica</MenuItem>
-        <MenuItem value={"Sprzątanie ogrodów"}>ogród</MenuItem>
-        <MenuItem value={"Sprzątanie magazynów "}>magazyn / przemysł </MenuItem>
-        <MenuItem value={"Sprzątanie samochodu"}>samochód</MenuItem>
+        <MenuItem value={"mieszkania"}>mieszkanie</MenuItem>
+        <MenuItem value={"biura"}>biuro</MenuItem>
+        <MenuItem value={"garaże"}>garaż</MenuItem>
+        <MenuItem value={"piwnice"}>piwnica</MenuItem>
+        <MenuItem value={"ogrody"}>ogród</MenuItem>
+        <MenuItem value={"magazyny "}>magazyn / przemysł </MenuItem>
+        <MenuItem value={"samochody"}>samochód</MenuItem>
       </Select>
     </FormControl>
   );

@@ -18,7 +18,8 @@ function Offerts() {
   //search states
   const [search, setSearch] = useState(null);
   const [localization, setLocalization] = useState(null);
-  const [price, setPrice] = useState(null);
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
   const [type, setType] = useState(null);
 
   const searchProps = [
@@ -26,8 +27,10 @@ function Offerts() {
     setSearch,
     localization,
     setLocalization,
-    price,
-    setPrice,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
     type,
     setType,
     setOffers,
