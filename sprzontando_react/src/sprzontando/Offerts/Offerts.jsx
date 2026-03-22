@@ -9,11 +9,36 @@ import OffersList from "./OffersList";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import NoOffers from "./NoOffers";
 
 function Offerts() {
   const [offers, setOffers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  //search states
+  const [search, setSearch] = useState(null);
+  const [localization, setLocalization] = useState(null);
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
+  const [type, setType] = useState(null);
+
+  const searchProps = [
+    search,
+    setSearch,
+    localization,
+    setLocalization,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
+    type,
+    setType,
+    setOffers,
+    setIsLoading,
+    setError,
+    error,
+  ];
 
   useEffect(() => {
     let retryCount = 0;
@@ -57,17 +82,17 @@ function Offerts() {
   }
 
   return (
-    <Container>
+    <Grid>
       {isLoading ? (
         <LinearProgress />
       ) : (
         <>
-          <OffertsSearch />
-          <OffersList offers={offers} />
+          <OffertsSearch searchProps={searchProps} />
+          {offers.length > 0 ? <OffersList offers={offers} /> : <NoOffers />}
           <AddOffertButton />
         </>
       )}
-    </Container>
+    </Grid>
   );
 }
 
