@@ -90,6 +90,7 @@ const PriceInputs = ({ inputsProps }) => {
           <Tooltip
             title={maxError ? "Musi być większa niż cena od" : ""}
             open={maxError}
+            arrow
             placement="bottom"
           >
             <TextField
