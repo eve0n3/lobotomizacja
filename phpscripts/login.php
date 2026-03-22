@@ -1,5 +1,5 @@
 <?php
-    header('Access-Control-Allow-Origin: http://localhost:5173'); 
+    header('Access-Control-Allow-Origin: http://localhost:5173'); //domena na produkcji 
     header('Access-Control-Allow-Methods: POST,OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, Authorization');
     header('Access-Control-Allow-Credentials: true');
@@ -34,7 +34,7 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
     setcookie("username", $user['nazwa'], [
         'expires'  => time() + 3600,
         'path'     => '/',
-        'secure'   => false,        // true in production (HTTPS)
+        'secure'   => true,        // true in production (HTTPS)
         'httponly' => false,        // must be false so JS can read it
         'samesite' => 'None',       // required for cross-origin
     ]);
