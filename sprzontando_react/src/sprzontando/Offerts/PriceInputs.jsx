@@ -75,7 +75,6 @@ const PriceInputs = ({ inputsProps }) => {
               fullWidth
               label="Cena od"
               variant="outlined"
-              type="number"
               value={minPrice || null}
               defaultValue={null}
               onChange={handleMinPriceChange}
@@ -97,7 +96,6 @@ const PriceInputs = ({ inputsProps }) => {
               fullWidth
               label="Cena do"
               variant="outlined"
-              type="number"
               value={maxPrice || null}
               defaultValue={null}
               onChange={handleMaxPriceChange}
