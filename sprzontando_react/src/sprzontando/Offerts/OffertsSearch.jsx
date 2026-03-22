@@ -10,6 +10,8 @@ import Button from "@mui/material/Button";
 import { getOffersFromDb } from "../../api/getOffersFromDb";
 import InputAdornment from "@mui/material/InputAdornment";
 import Typography from "@mui/material/Typography";
+import PriceInputs from "./PriceInputs";
+import { useState } from "react";
 
 function OffertsSearch({ searchProps }) {
   const [
@@ -27,6 +29,7 @@ function OffertsSearch({ searchProps }) {
     setIsLoading,
     setError,
   ] = searchProps;
+  const [disableSearch, setDisableSearch] = useState(false);
 
   const getCriteriaObj = (search, minPrice, maxPrice, type, localization) => {
     return {
@@ -67,9 +70,12 @@ function OffertsSearch({ searchProps }) {
     e.preventDefault();
     await fetchFromDb();
   };
-
-  const handleMaxPriceChange = (e) => {
-    setPriceTo(e.target.value === "" ? null : val);
+  const priceInputsProps = {
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
+    setDisableSearch,
   };
 
   return (
@@ -79,7 +85,6 @@ function OffertsSearch({ searchProps }) {
           container
           sx={{
             width: "100%",
-
             alignItems: "flex-end",
           }}
           spacing={2}
@@ -113,32 +118,17 @@ function OffertsSearch({ searchProps }) {
           <Grid item size={2}>
             <OffertTypeSelect type={type} setType={setType} />
           </Grid>
-          <Grid item size={2}>
-            <TextField
-              fullWidth
-              label="Cena od"
-              variant="outlined"
-              type="number"
-              value={minPrice}
-              defaultValue={null}
-              onChange={(e) =>
-                setMinPrice(e.target.value === "" ? null : e.target.value)
-              }
-            />
-          </Grid>
-          <Grid item size={2}>
-            <TextField
-              fullWidth
-              label="Cena do"
-              variant="outlined"
-              type="number"
-              value={maxPrice}
-              defaultValue={null}
-              onChange={(e) => handleMaxPriceChange(e)}
-            />
+          <Grid item size={4}>
+            <PriceInputs inputsProps={priceInputsProps} />
           </Grid>
           <Grid item size={1}>
-            <Button type="submit" variant="contained" sx={{ width: "100%" }}>
+            <Button
+              type="submit"
+              variant="contained"
+              helperText=""
+              sx={{ width: "100%" }}
+              disabled={disableSearch}
+            >
               wyszukaj
             </Button>
           </Grid>

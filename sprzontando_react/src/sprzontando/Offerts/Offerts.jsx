@@ -9,6 +9,7 @@ import OffersList from "./OffersList";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import NoOffers from "./NoOffers";
 
 function Offerts() {
   const [offers, setOffers] = useState([]);
@@ -87,7 +88,7 @@ function Offerts() {
       ) : (
         <>
           <OffertsSearch searchProps={searchProps} />
-          <OffersList offers={offers} />
+          {offers.length > 0 ? <OffersList offers={offers} /> : <NoOffers />}
           <AddOffertButton />
         </>
       )}

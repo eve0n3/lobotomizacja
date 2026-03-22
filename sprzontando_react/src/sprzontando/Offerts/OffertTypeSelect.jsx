@@ -13,6 +13,7 @@ function OffertTypeSelect({ type, setType }) {
         id="type-select"
         value={type}
         label="Typ"
+        helperText=""
         onChange={(e) => setType(e.target.value)}
       >
         <MenuItem value={null}>----</MenuItem>
