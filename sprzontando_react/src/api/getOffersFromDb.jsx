@@ -11,7 +11,7 @@ export const getOffersFromDb = async (data) => {
 
     console.log(response.data);
 
-    return { success: true, data: response };
+    return { success: true, data: response.data.data };
   } catch (error) {
     return {
       success: false,

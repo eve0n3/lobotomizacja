@@ -88,6 +88,7 @@ function Offerts() {
       ) : (
         <>
           <OffertsSearch searchProps={searchProps} />
+          {console.log(offers)}
           {offers.length > 0 ? <OffersList offers={offers} /> : <NoOffers />}
           <AddOffertButton />
         </>

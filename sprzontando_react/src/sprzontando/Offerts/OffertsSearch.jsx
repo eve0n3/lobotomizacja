@@ -125,8 +125,7 @@ function OffertsSearch({ searchProps }) {
             <Button
               type="submit"
               variant="contained"
-              helperText=""
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", height: "100%" }}
               disabled={disableSearch}
             >
               wyszukaj
