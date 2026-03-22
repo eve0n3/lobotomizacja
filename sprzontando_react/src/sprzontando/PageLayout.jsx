@@ -9,6 +9,7 @@ import CleanHandsIcon from "@mui/icons-material/CleanHands";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import ToolbarLoggedUser from "../components/User.jsx";
 
 function PageLayout() {
   const navigate = useNavigate();
@@ -25,9 +26,10 @@ function PageLayout() {
             <CleanHandsIcon />
             Sprzontando
           </Typography>
-          <Button variant="contained" onClick={() => navigate("/login")}>
+          {/* <Button variant="contained" onClick={() => navigate("/login")}>
             ZALOGUJ SIĘ
-          </Button>
+          </Button> */}
+          <ToolbarLoggedUser username="WirtualnyKierowcaWolin" />
         </Toolbar>
       </AppBar>
       <SidePanel />
