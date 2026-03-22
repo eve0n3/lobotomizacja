@@ -1,12 +1,11 @@
 import Container from "@mui/material/Container";
 import LoginForm from "./LoginForm";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
+
 import "../../styles/App.css";
 import Button from "@mui/material/Button";
 
 function LoginPage() {
-  const navigate = useNavigate();
   return (
     <div className="login-page">
       <Container maxWidth="sm" className="login-container">

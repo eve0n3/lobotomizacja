@@ -15,10 +15,6 @@ import PageLayout from "./sprzontando/PageLayout";
 import UsersRanking from "./sprzontando/usersRanking/UsersRanking";
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
-  },
-  {
     path: "/login",
     element: <LoginPage />,
   },
@@ -31,7 +27,7 @@ const router = createBrowserRouter([
     element: <SuccessRegister />,
   },
   {
-    path: "/sprzontando",
+    path: "/",
     element: <PageLayout />,
     children: [
       {
@@ -39,7 +35,7 @@ const router = createBrowserRouter([
         element: <Offerts />,
       },
       {
-        path: "/sprzontando/usersRanking",
+        path: "/usersRanking",
         element: <UsersRanking />,
       },
     ],

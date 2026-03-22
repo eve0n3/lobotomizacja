@@ -27,7 +27,7 @@ function LoginForm() {
     if (!result.success) {
       setMessage(result.message);
     } else {
-      navigate("/sprzontando");
+      navigate("/");
     }
     setLoading(false);
   };
@@ -37,25 +37,28 @@ function LoginForm() {
       <Grid>
         <form onSubmit={handleSubmit} className="login-form">
           <div>
-          <TextField
-            className="login-input"
-            onChange={(e) => setEmail(e.target.value)}
-            label="email"
-            type="email"
-          ></TextField>
+            <TextField
+              className="login-input"
+              onChange={(e) => setEmail(e.target.value)}
+              label="email"
+              type="email"
+            ></TextField>
           </div>
           <div>
-          <TextField
-            className="login-input"
-            onChange={(e) => setPassword(e.target.value)}
-            label="hasło"
-            type="password"
-          ></TextField>
+            <TextField
+              className="login-input"
+              onChange={(e) => setPassword(e.target.value)}
+              label="hasło"
+              type="password"
+            ></TextField>
           </div>
           {message && <Typography>{message}</Typography>}
-            <Typography className="login-text" onClick={() => navigate("/register")}>
-              Załóż konto
-            </Typography>
+          <Typography
+            className="login-text"
+            onClick={() => navigate("/register")}
+          >
+            Załóż konto
+          </Typography>
           <Button
             className="login-button"
             type="submit"
