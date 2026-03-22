@@ -21,7 +21,7 @@ const SideBarList = () => {
     <Box sx={{ width: 250 }}>
       <List>
         <ListItem key={1} disablePadding>
-          <ListItemButton onClick={() => navigate("/sprzontando")}>
+          <ListItemButton onClick={() => navigate("/")}>
             <ListItemIcon>
               <GridOnIcon />
             </ListItemIcon>
@@ -60,7 +60,7 @@ const SideBarList = () => {
         <Divider />
 
         <ListItem key={5} disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => navigate("./usersRanking")}>
             <ListItemIcon>
               <LeaderboardOutlinedIcon />
             </ListItemIcon>

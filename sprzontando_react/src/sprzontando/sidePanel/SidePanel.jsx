@@ -16,6 +16,10 @@ function SidePanel() {
 
   return (
     <>
+      <Button onClick={toggleDrawer()}>
+        <DehazeOutlinedIcon />
+      </Button>
+
       <Drawer
         variant="permanent"
         open={open}
