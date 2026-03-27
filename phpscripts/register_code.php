@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
     header('Access-Control-Allow-Origin: *'); 
     header('Access-Control-Allow-Methods: POST,OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, Authorization');
@@ -12,6 +8,7 @@ error_reporting(E_ALL);
     http_response_code(200);
     exit(0);
     }
+
 
     //dane z react
     $dataJSON = file_get_contents('php://input');
@@ -40,19 +37,24 @@ error_reporting(E_ALL);
 
         if ($expire_data<=$teraz){
             echo json_encode([               
-            "succes" => "false",
+            "success" => false,
             "message" => "Kod wygasł, wygeneruj nowy"
             ]);
         } else{
             if ($kod == $odp_kod["kod"]){
+                $stmt = $conn->prepare('UPDATE users SET zatwierdzony = TRUE WHERE email = ?');
+                $stmt->bind_param('s',$email);
+                $stmt->execute();   
+
                 echo json_encode([
-                    "succes" => "true",
+                    "success" => true,
                     "message" => "Poprawny kod!! Proces rejestracji zakończony sukcesem"
+                        
                 ]);
 
             } else{
                 echo json_encode([
-                    "succes" => "false",
+                    "success" => false,
                     "message" => "Kod niepoprawny!!"
                 ]);
             }
@@ -62,7 +64,7 @@ error_reporting(E_ALL);
 
         } else{
         echo json_encode([
-            "succes" => "false",
+            "success" => false,
             "message" => "Ten użytkownik jest już zatwierdzony"
         ]);
         }

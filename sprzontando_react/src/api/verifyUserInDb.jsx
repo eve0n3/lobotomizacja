@@ -1,13 +1,12 @@
 import axios from "axios";
-import { LOGIN_URL } from "../../utils/consts";
+import { LOGIN_URL, VERFY_USER_URL } from "../../utils/consts";
 
-export const submitLogin = async (data) => {
+export const verifyUserInDb = async (data) => {
   try {
-    const response = await axios.post(LOGIN_URL, data, {
+    const response = await axios.post(VERFY_USER_URL, data, {
       headers: {
         "Content-Type": "application/json",
       },
-      withCredentials: true,
     });
     console.log(response.data);
     return response.data;
@@ -15,7 +14,6 @@ export const submitLogin = async (data) => {
     return {
       success: false,
       message: error.response?.data?.message || error.message,
-      type: error.response?.data?.type || "",
     };
   }
 };

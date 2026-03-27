@@ -19,7 +19,7 @@
     //połączenie z bazą danych
     include 'dbconnect.php';
 
-$stmt = $conn->prepare('SELECT id, nazwa, email, haslo FROM users WHERE email = ?');
+$stmt = $conn->prepare('SELECT id, email, haslo,zatwierdzony FROM users WHERE email = ?');
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -27,22 +27,33 @@ $user = $result->fetch_assoc();
 
 
 if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba bedzie to poprawic
-
     http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'Nie poprawne hasło lub email']);
+    echo json_encode(['success' => false, 'message' => 'Nie poprawne hasło lub email', 'type' => 'password']);
 } else {
-    setcookie("username", $user['nazwa'], [
+    if ($user["zatwierdzony"] == null){
+        echo json_encode([
+        'success' => false,
+        'message' => 'Weryfikacja wymagana', 
+        'type' => 'verification'
+        
+    ]);
+    }
+    else{
+      setcookie("username", $user['nazwa'], [
         'expires'  => time() + 3600,
         'path'     => '/',
         'secure'   => true,        // true in production (HTTPS)
         'httponly' => false,        // must be false so JS can read it
         'samesite' => 'None',       // required for cross-origin
     ]);
-
-    echo json_encode([
+        echo json_encode([
         'success' => true,
         'message' => 'Login successful', 
+        
     ]);
+    }
+    
+    
 }
 
 $stmt->close();
