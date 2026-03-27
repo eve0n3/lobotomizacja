@@ -6,6 +6,7 @@ import "../../styles/App.css";
 
 function RegisterPage() {
   const navigate = useNavigate();
+
   return (
     <div className="login-page">
       <Container maxWidth="sm" className="login-container">
