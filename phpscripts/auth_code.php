@@ -55,14 +55,14 @@ $httpCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
 
 if ($httpCode != 200) {
     echo json_encode([
-        "success" => "false",
+        "success" => false,
         "message" => "Nie udało się wysłać wiadomości. Błąd: ".$httpCode, //jeśli problem po stronie curl a nie serwera, zwraca 0
         //"response" => json_decode($response)
         
     ]);
 } else {
     echo json_encode([
-        "succes" => "true",
+        "success" => true,
         "message" => "Wiadomość została wysłana na podany adres e-mail",
         //"response" => json_decode($response)
         

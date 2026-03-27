@@ -3,34 +3,58 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { popupModal } from "../../styles/popUp.styles";
 import Typography from "@mui/material/Typography";
+import { verifyUserInDb } from "../../api/verifyUserInDb";
+import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
-function VerificationPopup({ isPopupOpen, setIsPopupOpen, username }) {
+function VerificationPopup({ isPopupOpen, email, navigateLocation }) {
   const [code, setCode] = useState("");
+  const [isOpen, setIsOpen] = useState(isPopupOpen);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setError(null);
+    if (code.length !== 4) return;
+
+    const verify = async () => {
+      setIsLoading(true);
+
+      const response = await verifyUserInDb({ email, kod: code });
+      response.success ? handleClose() : setError(response.message);
+
+      setIsLoading(false);
+    };
+
+    verify();
+  }, [code]);
+
+  useEffect(() => {
+    setIsOpen(isPopupOpen);
+  }, [isPopupOpen]);
 
   const handleClose = () => {
-    //setIsPopupOpen(false);
-    navigate("/successRegister");
-  };
-  const verifyUserInDb = async () => {
-    console.log("werifikuje sie");
+    console.log("a");
+    setIsOpen(false);
+    navigate(navigateLocation);
   };
   return (
-    <Modal open={isPopupOpen} onClose={handleClose}>
+    <Modal open={isOpen}>
       <Box sx={popupModal}>
         <Typography>Wprowadź kod wysłany na email</Typography>
         <TextField
-          onChange={(e) => {
-            setCode(e.target.value);
-            e.target.value.length === 4 && verifyUserInDb();
-          }}
-          inputProps={{
-            maxLength: 4,
-          }}
+          onChange={(e) => setCode(e.target.value)}
+          inputProps={{ maxLength: 4 }}
           label="Kod weryfikacyjny"
-        ></TextField>
+          disabled={isLoading}
+          error={error !== null}
+          helperText={error}
+        />
+        {isLoading && <CircularProgress />}
       </Box>
     </Modal>
   );

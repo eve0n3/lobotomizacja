@@ -5,3 +5,5 @@ export const OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/offers.php";
 export const USERS_RANKING_URL =
   "http://localhost/lobotomizacja/phpscripts/users_ranking.php";
+export const VERFY_USER_URL =
+  "http://localhost/lobotomizacja/phpscripts/register_code.php";

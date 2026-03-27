@@ -1,4 +1,13 @@
 <?php
+    header('Access-Control-Allow-Origin: *'); 
+    header('Access-Control-Allow-Methods: POST,OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
+    header('Content-type: application/json');
+
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { //wazne bez tego bledy nie dzialaja
+    http_response_code(200);
+    exit(0);
+    }
 
 
     //dane z react
@@ -28,23 +37,24 @@
 
         if ($expire_data<=$teraz){
             echo json_encode([               
-            "succes" => "false",
+            "success" => false,
             "message" => "Kod wygasł, wygeneruj nowy"
             ]);
         } else{
             if ($kod == $odp_kod["kod"]){
-                echo json_encode([
-                    "succes" => "true",
-                    "message" => "Poprawny kod!! Proces rejestracji zakończony sukcesem"
-                        $stmt = $conn->prepare('UPDATE users SET zatwierdzony = TRUE WHERE email = ?');
-                        $stmt->bind_param('s',$email);
-                        $stmt->execute();   
+                $stmt = $conn->prepare('UPDATE users SET zatwierdzony = TRUE WHERE email = ?');
+                $stmt->bind_param('s',$email);
+                $stmt->execute();   
 
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Poprawny kod!! Proces rejestracji zakończony sukcesem"
+                        
                 ]);
 
             } else{
                 echo json_encode([
-                    "succes" => "false",
+                    "success" => false,
                     "message" => "Kod niepoprawny!!"
                 ]);
             }
@@ -54,7 +64,7 @@
 
         } else{
         echo json_encode([
-            "succes" => "false",
+            "success" => false,
             "message" => "Ten użytkownik jest już zatwierdzony"
         ]);
         }

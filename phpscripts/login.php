@@ -18,7 +18,7 @@
     //połączenie z bazą danych
     include 'dbconnect.php';
 
-$stmt = $conn->prepare('SELECT id, email, haslo FROM users WHERE email = ?');
+$stmt = $conn->prepare('SELECT id, email, haslo,zatwierdzony FROM users WHERE email = ?');
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -30,13 +30,15 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
     http_response_code(401);
     echo json_encode([
         'success' => false,
-        'message' => 'Nie poprawne hasło lub email'
+        'message' => 'Nie poprawne hasło lub email',
+        'type' => 'password'
     ]);
 } else {
-    if ($odp_kod["zatwierdzony"] == null){
+    if ($user["zatwierdzony"] == null){
         echo json_encode([
         'success' => false,
-        'message' => 'Musisz zweryfikowac konto przed zalogowaniem', 
+        'message' => 'Weryfikacja wymagana', 
+        'type' => 'verification'
         
     ]);
     }

@@ -143,8 +143,8 @@ function RegisterForm() {
       </Container>
       <VerificationPopup
         isPopupOpen={isPopupOpen}
-        setIsPopupOpen={setIsPopupOpen}
-        username={username}
+        email={email}
+        navigateLocation={"/successRegister"}
       />
     </>
   );
