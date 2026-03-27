@@ -7,6 +7,7 @@ export const submitLogin = async (data) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
     console.log(response.data);
     return response.data;

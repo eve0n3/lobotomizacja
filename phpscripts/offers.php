@@ -90,9 +90,10 @@
         }else{
             echo json_encode([
                 "success" => true,
+                "data" => [],
                 "message" => "Żadne ogłoszenie nie spełnia kryterii"
             ]);
-            http_response_code(404);
+           
         }
     }else{
         echo json_encode([

@@ -1,7 +1,8 @@
 <?php
-    header('Access-Control-Allow-Origin: *'); 
+    header('Access-Control-Allow-Origin: http://localhost:5173'); //domena na produkcji 
     header('Access-Control-Allow-Methods: POST,OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, Authorization');
+    header('Access-Control-Allow-Credentials: true');
     header('Content-type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { //wazne bez tego bledy nie dzialaja
@@ -26,13 +27,8 @@ $user = $result->fetch_assoc();
 
 
 if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba bedzie to poprawic
-
     http_response_code(401);
-    echo json_encode([
-        'success' => false,
-        'message' => 'Nie poprawne hasło lub email',
-        'type' => 'password'
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Nie poprawne hasło lub email', 'type' => 'password']);
 } else {
     if ($user["zatwierdzony"] == null){
         echo json_encode([
@@ -43,6 +39,13 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
     ]);
     }
     else{
+      setcookie("username", $user['nazwa'], [
+        'expires'  => time() + 3600,
+        'path'     => '/',
+        'secure'   => true,        // true in production (HTTPS)
+        'httponly' => false,        // must be false so JS can read it
+        'samesite' => 'None',       // required for cross-origin
+    ]);
         echo json_encode([
         'success' => true,
         'message' => 'Login successful', 
