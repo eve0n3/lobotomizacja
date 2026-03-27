@@ -28,13 +28,27 @@ $user = $result->fetch_assoc();
 if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba bedzie to poprawic
 
     http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'Nie poprawne hasło lub email']);
-} else {
-     
     echo json_encode([
+        'success' => false,
+        'message' => 'Nie poprawne hasło lub email'
+    ]);
+} else {
+    if ($odp_kod["zatwierdzony"] == null){
+        echo json_encode([
+        'success' => false,
+        'message' => 'Musisz zweryfikowac konto przed zalogowaniem', 
+        
+    ]);
+    }
+    else{
+        echo json_encode([
         'success' => true,
         'message' => 'Login successful', 
+        
     ]);
+    }
+    
+    
 }
 
 $stmt->close();
