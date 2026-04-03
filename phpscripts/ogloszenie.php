@@ -21,7 +21,7 @@
 
     $waznosc = $data['waznosc'];
 
-    $tworca = $data['tworca'];
+    $id_tworca = $data['id_tworca'];
     
     include 'dbconnect.php';
 
@@ -30,7 +30,7 @@
                 VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?);";
     
     $stmt = $conn->prepare($sqlquery);
-    $stmt->bind_param('ssssdssi', $tytul, $kategoria, $miasto, $adres, $cena, $opis, $waznosc, $tworca);
+    $stmt->bind_param('ssssdssi', $tytul, $kategoria, $miasto, $adres, $cena, $opis, $waznosc, $id_tworca);
 
     /*
     echo json_encode([ "debugs1" => [
@@ -55,5 +55,6 @@
             "success"=>false,
             "message"=>"coś nie działa"
         ]);
+        http_response_code(503);
     }
 ?>
