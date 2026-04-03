@@ -180,7 +180,8 @@ CREATE TABLE `users` (
   `ban_data` datetime DEFAULT NULL,
   `ban_end` datetime DEFAULT NULL,
   `kod` int(4) DEFAULT NULL,
-  `kod_wygasniecie` datetime DEFAULT NULL
+  `kod_wygasniecie` datetime DEFAULT NULL,
+  `zatwierdzony` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
