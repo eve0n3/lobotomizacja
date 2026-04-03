@@ -19,7 +19,7 @@
     //połączenie z bazą danych
     include 'dbconnect.php';
 
-$stmt = $conn->prepare('SELECT id, email, haslo,zatwierdzony FROM users WHERE email = ?');
+$stmt = $conn->prepare('SELECT id, nazwa, email, haslo,zatwierdzony FROM users WHERE email = ?');
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -39,7 +39,10 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
     ]);
     }
     else{
-      setcookie("username", $user['nazwa'], [
+      setcookie("loggedas", json_encode([
+        "id"=>$user['id'],
+        "username"=>$user['nazwa']]),
+        [
         'expires'  => time() + 3600,
         'path'     => '/',
         'secure'   => true,        // true in production (HTTPS)
