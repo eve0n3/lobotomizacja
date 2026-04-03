@@ -14,9 +14,7 @@ import Cookies from "js-cookie";
 
 function PageLayout() {
   const navigate = useNavigate();
-  const username = Cookies.get("username");
-
-  console.log("Logged in user:", username);
+  const loggedas = JSON.parse(Cookies.get("loggedas")) || null;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -31,12 +29,12 @@ function PageLayout() {
             <CleanHandsIcon />
             Sprzontando
           </Typography>
-          {!username ? (
+          {!loggedas ? (
             <Button variant="contained" onClick={() => navigate("/login")}>
               ZALOGUJ SIĘ
             </Button>
           ) : (
-            <ToolbarLoggedUser username={username} />
+            <ToolbarLoggedUser loggedas={loggedas} />
           )}
         </Toolbar>
       </AppBar>

@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-const ToolbarLoggedUser = ({ username }) => {
+const ToolbarLoggedUser = ({ loggedas }) => {
+  const username = loggedas.username;
   function stringToColor(string) {
     let hash = 0;
     let i;
