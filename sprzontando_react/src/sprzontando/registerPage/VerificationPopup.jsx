@@ -17,6 +17,12 @@ function VerificationPopup({ isPopupOpen, email, navigateLocation }) {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const handleClose = () => {
+    console.log("a");
+    setIsOpen(false);
+    navigate(navigateLocation);
+  };
+
   useEffect(() => {
     setError(null);
     if (code.length !== 4) return;
@@ -37,11 +43,6 @@ function VerificationPopup({ isPopupOpen, email, navigateLocation }) {
     setIsOpen(isPopupOpen);
   }, [isPopupOpen]);
 
-  const handleClose = () => {
-    console.log("a");
-    setIsOpen(false);
-    navigate(navigateLocation);
-  };
   return (
     <Modal open={isOpen}>
       <Box sx={popupModal}>

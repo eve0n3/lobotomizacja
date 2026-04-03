@@ -13,6 +13,7 @@ import Offerts from "./sprzontando/Offerts/Offerts";
 import SuccessRegister from "./sprzontando/registerPage/SuccessRegister";
 import PageLayout from "./sprzontando/PageLayout";
 import UsersRanking from "./sprzontando/usersRanking/UsersRanking";
+import SuccessVerification from "./sprzontando/registerPage/SuccessVerification";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/successRegister",
     element: <SuccessRegister />,
+  },
+  {
+    path: "/successVerification",
+    element: <SuccessVerification />,
   },
   {
     path: "/",

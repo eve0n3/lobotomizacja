@@ -79,7 +79,7 @@ function LoginForm() {
       <VerificationPopup
         isPopupOpen={isPopupOpen}
         email={email}
-        navigateLocation={"/"}
+        navigateLocation={"/successVerification"}
       />
     </>
   );
