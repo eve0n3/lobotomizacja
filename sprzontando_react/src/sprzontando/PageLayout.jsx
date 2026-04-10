@@ -14,7 +14,7 @@ import Cookies from "js-cookie";
 
 function PageLayout() {
   const navigate = useNavigate();
-  const loggedas = JSON.parse(Cookies.get("loggedas")) || null;
+  const loggedas =Cookies.get("loggedas") ? JSON.parse(Cookies.get("loggedas")) : null;
 
   return (
     <Box sx={{ display: "flex" }}>
