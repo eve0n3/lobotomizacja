@@ -7,6 +7,8 @@ export const USERS_RANKING_URL =
   "http://localhost/lobotomizacja/phpscripts/users_ranking.php";
 export const VERFY_USER_URL =
   "http://localhost/lobotomizacja/phpscripts/register_code.php";
+export const ADD_OFFER_URL =
+  "http://localhost/lobotomizacja/phpscripts/ogloszenie.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";

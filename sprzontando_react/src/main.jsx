@@ -14,6 +14,7 @@ import SuccessRegister from "./sprzontando/registerPage/SuccessRegister";
 import PageLayout from "./sprzontando/PageLayout";
 import UsersRanking from "./sprzontando/usersRanking/UsersRanking";
 import SuccessVerification from "./sprzontando/registerPage/SuccessVerification";
+import AddOffer from "./sprzontando/AddOffer/AddOffer";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/usersRanking",
         element: <UsersRanking />,
+      },
+      {
+        path: "/addOffer",
+        element: <AddOffer />,
       },
     ],
   },

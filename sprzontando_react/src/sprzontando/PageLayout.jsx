@@ -10,11 +10,13 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import ToolbarLoggedUser from "../components/User.jsx";
-import Cookies from "js-cookie";
+
+import { useState } from "react";
+import { getLoggedUser, getLoggedUserUsername } from "../../utils/utilis.js";
 
 function PageLayout() {
   const navigate = useNavigate();
-  const loggedas =Cookies.get("loggedas") ? JSON.parse(Cookies.get("loggedas")) : null;
+  const loggedUser = getLoggedUser();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -29,12 +31,12 @@ function PageLayout() {
             <CleanHandsIcon />
             Sprzontando
           </Typography>
-          {!loggedas ? (
+          {!loggedUser ? (
             <Button variant="contained" onClick={() => navigate("/login")}>
               ZALOGUJ SIĘ
             </Button>
           ) : (
-            <ToolbarLoggedUser loggedas={loggedas} />
+            <ToolbarLoggedUser loggedUser={loggedUser} />
           )}
         </Toolbar>
       </AppBar>

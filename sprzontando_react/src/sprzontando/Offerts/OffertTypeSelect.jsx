@@ -24,6 +24,7 @@ function OffertTypeSelect({ type, setType }) {
         <MenuItem value={"ogrody"}>ogród</MenuItem>
         <MenuItem value={"magazyny "}>magazyn / przemysł </MenuItem>
         <MenuItem value={"samochody"}>samochód</MenuItem>
+        <MenuItem value={"inne"}>inne</MenuItem>
       </Select>
     </FormControl>
   );
