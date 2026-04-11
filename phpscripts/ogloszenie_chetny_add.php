@@ -15,14 +15,14 @@
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
 
     $id_ogl = $data["id_ogl"];
-    $id_chetny = $data["id_chetny"];
+    $id_chetnego = $data["id_chetnego"];
 
     $sqlquery = "INSERT INTO chetny 
                 (id_ogloszenia, id_chetnego, data)
                 VALUES (?,?,CURRENT_TIMESTAMP);";
     
     $stmt = $conn->prepare($sqlquery);
-    $stmt->bind_param('ii', $id_ogl, $id_chetny); //hitler code
+    $stmt->bind_param('ii', $id_ogl, $id_chetnego); //hitler code
 /*
     echo json_encode([ "debug"=>[
         "id_c"=>$id_chetny,
