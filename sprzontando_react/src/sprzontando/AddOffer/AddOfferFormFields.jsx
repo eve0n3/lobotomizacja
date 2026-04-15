@@ -3,6 +3,7 @@ import moment from "moment";
 import OffertTypeSelect from "../Offerts/OffertTypeSelect";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import React from "react";
+import Grid from "@mui/material/Grid";
 
 const AddOfferFormFields = ({ fieldProps }) => {
   const {
@@ -17,7 +18,7 @@ const AddOfferFormFields = ({ fieldProps }) => {
   const handleCityKeyPress = (e) => {
     // Allow only letters (including Polish), digits, and spaces
     if (
-      !/[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ0-9\s]/.test(e.key) &&
+      !/[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s]/.test(e.key) &&
       e.key !== "Backspace" &&
       e.key !== "Delete" &&
       e.key !== "Tab" &&
@@ -64,13 +65,14 @@ const AddOfferFormFields = ({ fieldProps }) => {
         inputProps={{ maxLength: 64 }}
         sx={{ mb: 2 }}
       />
-
-      <OffertTypeSelect
-        type={form.type}
-        setType={handleTypeChange}
-        error={!!errors.type}
-        helperText={errors.type}
-      />
+      <Grid sx={{ mb: 2 }}>
+        <OffertTypeSelect
+          type={form.type}
+          setType={handleTypeChange}
+          error={!!errors.type}
+          helperText={errors.type}
+        />
+      </Grid>
 
       <TextField
         label="Cena (zł)"
@@ -91,7 +93,7 @@ const AddOfferFormFields = ({ fieldProps }) => {
         helperText={errors.city}
         onChange={handleFieldChange("city")}
         onKeyPress={handleCityKeyPress}
-        inputProps={{ maxLength: 100 }}
+        inputProps={{ maxLength: 64 }}
         sx={{ mb: 2 }}
       />
 
@@ -119,6 +121,7 @@ const AddOfferFormFields = ({ fieldProps }) => {
         }}
         format="DD.MM.YYYY HH:mm"
         disablePast
+        maxDate={moment().add(1, "year")}
         ampm={false}
         slotProps={{
           textField: {

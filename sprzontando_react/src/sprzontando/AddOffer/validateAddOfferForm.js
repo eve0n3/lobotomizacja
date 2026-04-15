@@ -22,11 +22,15 @@ export const validateAddOfferForm = (setErrors, form) => {
   if (!form.address.trim()) {
     newErrors.address = "Adres jest wymagany";
   }
-
+  const dateMoment = moment(form.date);
   if (!form.date) {
     newErrors.date = "Data i godzina są wymagane";
   } else if (moment(form.date).isBefore(moment(), "minute")) {
     newErrors.date = "Data nie może być w przeszłości";
+  } else if (moment(form.date).isAfter(moment().add(1, "year"))) {
+    newErrors.date = "Data nie może być w przyszłości więcej niż rok";
+  } else if (!dateMoment.isValid()) {
+    newErrors.date = "Nieprawidłowa data i godzina";
   }
 
   setErrors(newErrors);
