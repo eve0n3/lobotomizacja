@@ -4,12 +4,13 @@ import AddIcon from "@mui/icons-material/Add";
 import { getLoggedUser } from "../../../utils/utilis";
 
 import { useNavigate } from "react-router-dom";
+import { ADD_OFFER_LOCATION, LOGIN_LOCATION } from "../../../utils/consts";
 
 function AddOffertButton() {
   const navigate = useNavigate();
   const handleClick = () => {
     const isUserLogged = getLoggedUser();
-    isUserLogged ? navigate("/addOffer") : navigate("/login");
+    isUserLogged ? navigate(ADD_OFFER_LOCATION) : navigate(LOGIN_LOCATION);
   };
 
   return (
