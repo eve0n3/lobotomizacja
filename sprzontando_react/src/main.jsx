@@ -15,6 +15,7 @@ import PageLayout from "./sprzontando/PageLayout";
 import UsersRanking from "./sprzontando/usersRanking/UsersRanking";
 import SuccessVerification from "./sprzontando/registerPage/SuccessVerification";
 import AddOffer from "./sprzontando/AddOffer/AddOffer";
+
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <PageLayout />,
+    element: <App />,
     children: [
       {
         index: true,
@@ -54,8 +55,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+    <RouterProvider router={router}></RouterProvider>
   </StrictMode>,
 );
