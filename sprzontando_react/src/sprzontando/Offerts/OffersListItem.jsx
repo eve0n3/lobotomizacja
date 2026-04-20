@@ -36,7 +36,6 @@ import {
 import { flexCentered } from "../../styles/AppStyle";
 
 function OffersListItem({ offer }) {
-  console.log(offer);
   return (
     <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
       <Paper sx={offerPaper}>

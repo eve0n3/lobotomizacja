@@ -14,34 +14,49 @@ import SuccessRegister from "./sprzontando/registerPage/SuccessRegister";
 import PageLayout from "./sprzontando/PageLayout";
 import UsersRanking from "./sprzontando/usersRanking/UsersRanking";
 import SuccessVerification from "./sprzontando/registerPage/SuccessVerification";
+import AddOffer from "./sprzontando/AddOffer/AddOffer";
+import {
+  ADD_OFFER_LOCATION,
+  HOME_LOCATION,
+  LOGIN_LOCATION,
+  REGISTER_LOCATION,
+  SUCCESS_REGISTER_LOCATION,
+  SUCCESS_VERIFICATION_LOCATION,
+  USERS_RANKING_LOCATION,
+} from "../utils/consts";
+
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: LOGIN_LOCATION,
     element: <LoginPage />,
   },
   {
-    path: "/register",
+    path: REGISTER_LOCATION,
     element: <RegisterPage />,
   },
   {
-    path: "/successRegister",
+    path: SUCCESS_REGISTER_LOCATION,
     element: <SuccessRegister />,
   },
   {
-    path: "/successVerification",
+    path: SUCCESS_VERIFICATION_LOCATION,
     element: <SuccessVerification />,
   },
   {
-    path: "/",
-    element: <PageLayout />,
+    path: HOME_LOCATION,
+    element: <App />,
     children: [
       {
         index: true,
         element: <Offerts />,
       },
       {
-        path: "/usersRanking",
+        path: USERS_RANKING_LOCATION,
         element: <UsersRanking />,
+      },
+      {
+        path: ADD_OFFER_LOCATION,
+        element: <AddOffer />,
       },
     ],
   },
@@ -49,8 +64,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+    <RouterProvider router={router}></RouterProvider>
   </StrictMode>,
 );
