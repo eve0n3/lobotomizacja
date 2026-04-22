@@ -93,7 +93,6 @@
                 "data" => [],
                 "message" => "Żadne ogłoszenie nie spełnia kryterii"
             ]);
-           
         }
     }else{
         echo json_encode([

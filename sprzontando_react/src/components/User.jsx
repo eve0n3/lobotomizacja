@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-const ToolbarLoggedUser = ({ loggedas }) => {
-  const username = loggedas.username;
+const ToolbarLoggedUser = ({ loggedUser }) => {
+  const username = loggedUser.username;
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -25,12 +25,14 @@ const ToolbarLoggedUser = ({ loggedas }) => {
 
   return (
     <Grid container alignItems={"center"} spacing={1}>
-      <Avatar item size={6} sx={{ bgcolor: stringToColor(username) }}>
-        {username.charAt(0).toUpperCase()}{" "}
-      </Avatar>
-      <Typography item size={6} variant="h6">
-        {username}
-      </Typography>
+      <Grid size={6}>
+        <Avatar sx={{ bgcolor: stringToColor(username) }}>
+          {username.charAt(0).toUpperCase()}{" "}
+        </Avatar>
+      </Grid>
+      <Grid size={6}>
+        <Typography variant="h6">{username}</Typography>
+      </Grid>
     </Grid>
   );
 };
