@@ -6,7 +6,7 @@ import { listGrid } from "../../styles/offersListItem.styles";
 function OffersList({ offers }) {
   const getListItems = (offers) => {
     return offers.map((offer) => (
-      <OffersListItem offer={offer}></OffersListItem>
+      <OffersListItem key={offer.id} offer={offer}></OffersListItem>
     ));
   };
 

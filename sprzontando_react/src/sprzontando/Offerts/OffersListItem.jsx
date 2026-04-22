@@ -27,7 +27,7 @@ import {
   offerPaper,
   priceGrid,
   titleGrid,
-} from "../../styles/offersListItem.styles";
+} from "../../styles/offersListItem.styles";  
 import {
   FONT_SIZE_LG,
   FONT_SIZE_XL,
@@ -35,15 +35,24 @@ import {
 } from "../../../utils/styleConsts";
 import { flexCentered } from "../../styles/AppStyle";
 
+import { useNavigate } from "react-router-dom";
+
 function OffersListItem({ offer }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/offer/${offer.id}`);
+  };
+
   return (
     <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
-      <Paper sx={offerPaper}>
+      <Paper sx={offerPaper} onClick={handleClick} style={{ cursor: "pointer" }}>
         <Box sx={itemBox}>
           <Stack sx={itemStack}>
             <ImagePlaceHolder />
           </Stack>
         </Box>
+
         <Grid sx={flexCentered} container spacing={2}>
           <Grid item size={12} sx={titleGrid}>
             <Typography sx={{ fontSize: FONT_SIZE_XXL }}>
@@ -57,12 +66,14 @@ function OffersListItem({ offer }) {
               {offer[OF_CITY]}
             </Typography>
           </Grid>
+
           <Grid item size={4} sx={infoGrid}>
             <TodayOutlinedIcon sx={icon} />
             <Typography sx={{ fontSize: FONT_SIZE_LG }}>
               {nowToPlDate(offer[OF_DATE])}
             </Typography>
           </Grid>
+
           <Grid item size={4} sx={priceGrid}>
             <PaymentsOutlinedIcon sx={biggerIcon} />
             <Typography sx={{ fontSize: FONT_SIZE_XL }}>
@@ -74,5 +85,4 @@ function OffersListItem({ offer }) {
     </Grid>
   );
 }
-
 export default OffersListItem;
