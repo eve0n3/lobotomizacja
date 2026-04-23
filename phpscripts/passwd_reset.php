@@ -21,7 +21,7 @@
 
     $kod= random_int(1000, 9999);
 
-    $stmt = $conn->prepare('UPDATE users SET kod = ?, kod_wygasniecie = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE email = ?');
+    $stmt = $conn->prepare('UPDATE users SET kod = ? WHERE email = ?');
     $stmt->bind_param('is', $kod, $email);
     $stmt->execute();   
 
@@ -63,14 +63,14 @@ $httpCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
 
 if ($httpCode != 200) {
     echo json_encode([
-        "success" => "false",
+        "success" => false,
         "message" => "Nie udało się wysłać wiadomości. Błąd: ".$httpCode, //jeśli problem po stronie curl a nie serwera, zwraca 0
         //"response" => json_decode($response)
         
     ]);
 } else {
     echo json_encode([
-        "succes" => "true",
+        "success" => true,
         "message" => "Wiadomość została wysłana na podany adres e-mail",
         //"response" => json_decode($response)
         

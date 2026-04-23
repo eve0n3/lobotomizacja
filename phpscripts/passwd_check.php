@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
     header('Access-Control-Allow-Origin: *'); 
     header('Access-Control-Allow-Methods: POST,OPTIONS');
@@ -18,8 +18,9 @@ error_reporting(E_ALL);
     $data = json_decode( $dataJSON, true ); //convert JSON into array
     $email = trim($data['email']); 
     $kod = trim($data['kod']); 
+    $haslo = trim($data['haslo']);
 
-    
+
 
     //połączenie z bazą danych
     include 'dbconnect.php';
@@ -32,34 +33,24 @@ error_reporting(E_ALL);
     $res = $stmt->get_result();
     $odp_kod = $res->fetch_assoc();
 
-    
-        $mysql_date = $odp_kod["kod_wygasniecie"];
-        $expire_data= new DateTime($mysql_date);
-        $teraz = new DateTime();
-
-
-        if ($expire_data<=$teraz){
-            echo json_encode([               
-            "succes" => "false",
-            "message" => "Kod wygasł, wygeneruj nowy"
-            ]);
-        } else{
             if ($kod == $odp_kod["kod"]){
                 echo json_encode([
-                    "succes" => "true",
-                    "message" => "Poprawny kod!! Zostaniesz teraz przekierowany do strony gdzie ustawisz swoje nowe hasło"
+                    "success" => true,
+                    "message" => "Poprawny kod!! Twoje hasło zostało zmienione"
+                    $stmt = $conn->prepare('UPDATE users SET haslo=? WHERE email = ?');
+                    $stmt->bind_param('ss', $haslo, $email);
+                    $stmt->execute();
                 ]);
 
             } else{
                 echo json_encode([
-                    "succes" => "false",
+                    "success" => false,
                     "message" => "Kod niepoprawny!!"
                 ]);
             }
-        }
+        
     
 
 
-        
-
+    
 ?>
