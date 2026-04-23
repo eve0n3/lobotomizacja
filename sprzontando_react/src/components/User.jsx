@@ -25,12 +25,12 @@ const ToolbarLoggedUser = ({ loggedUser }) => {
 
   return (
     <Grid container alignItems={"center"} spacing={1}>
-      <Grid size={6}>
+      <Grid item>
         <Avatar sx={{ bgcolor: stringToColor(username) }}>
           {username.charAt(0).toUpperCase()}{" "}
         </Avatar>
       </Grid>
-      <Grid size={6}>
+      <Grid item>
         <Typography variant="h6">{username}</Typography>
       </Grid>
     </Grid>
