@@ -25,7 +25,7 @@ error_reporting(E_ALL);
     include 'dbconnect.php';
 
     
-    $stmt = $conn->prepare('SELECT passwd_kod, passwd_expire FROM users WHERE email = ?');
+    $stmt = $conn->prepare('SELECT kod, kod_wygasniecie FROM users WHERE email = ?');
     $stmt->bind_param('s',$email);
     $stmt->execute();   
 
@@ -33,7 +33,7 @@ error_reporting(E_ALL);
     $odp_kod = $res->fetch_assoc();
 
     
-        $mysql_date = $odp_kod["passwd_expire"];
+        $mysql_date = $odp_kod["kod_wygasniecie"];
         $expire_data= new DateTime($mysql_date);
         $teraz = new DateTime();
 
@@ -44,7 +44,7 @@ error_reporting(E_ALL);
             "message" => "Kod wygasł, wygeneruj nowy"
             ]);
         } else{
-            if ($kod == $odp_kod["passwd_kod"]){
+            if ($kod == $odp_kod["kod"]){
                 echo json_encode([
                     "succes" => "true",
                     "message" => "Poprawny kod!! Zostaniesz teraz przekierowany do strony gdzie ustawisz swoje nowe hasło"
