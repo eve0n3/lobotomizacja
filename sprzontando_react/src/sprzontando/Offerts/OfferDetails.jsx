@@ -139,8 +139,6 @@ function OfferDetails() {
                   {`${offer[OF_CITY]}, ${offer[OF_ADRESS]}`}
                 </Typography>
               </Box>
-            </Stack>
-            <Stack direction="row" spacing={2} alignItems="center">
               <CategoryOutlinedIcon sx={{ fontSize: 32 }} color="action" />
               <Box>
                 <Typography sx={{ fontWeight: 600 }}>Typ usługi</Typography>
