@@ -52,10 +52,6 @@ const AddOfferFormFields = ({ fieldProps }) => {
     ) {
       e.preventDefault();
     }
-    const dotIndex = e.target.value.indexOf(".");
-    if (dotIndex !== -1 && e.target.value.length - dotIndex > 2) {
-      e.preventDefault();
-    }
   };
   return (
     <>
@@ -84,9 +80,6 @@ const AddOfferFormFields = ({ fieldProps }) => {
         value={form.price || ""}
         error={!!errors.price}
         helperText={errors.price}
-        inputProps={{
-          maxLength: 9,
-        }}
         onChange={handleFieldChange("price")}
         onKeyPress={handlePriceKeyPress}
         sx={{ mb: 2 }}

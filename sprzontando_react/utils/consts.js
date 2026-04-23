@@ -9,8 +9,6 @@ export const VERFY_USER_URL =
   "http://localhost/lobotomizacja/phpscripts/register_code.php";
 export const ADD_OFFER_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie.php";
-export const APPLY_FOR_OFFER_URL =
-  "http://localhost/lobotomizacja/phpscripts/ogloszenie_chetny_add.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";
@@ -19,10 +17,6 @@ export const OF_PRICE = "cena";
 export const OF_TYPE = "kategoria";
 export const OF_DATE = "waznosc";
 export const OF_TITLE = "tytul";
-export const OF_DESCRIPTION = "opis";
-export const OF_ADRESS = "adres";
-export const OF_ID = "id";
-export const OF_CREATOR_ID = "id_zglasz";
 
 //navigacja podstrony
 

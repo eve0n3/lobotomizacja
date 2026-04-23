@@ -12,7 +12,6 @@ import {
   Divider,
   Stack,
   Button,
-  Tooltip,
 } from "@mui/material";
 
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
@@ -20,27 +19,20 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import ShareIcon from "@mui/icons-material/Share";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
-import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 
 import { getOffersFromDb } from "../../api/getOffersFromDb";
 
 import {
-  OF_ADRESS,
   OF_CITY,
-  OF_CREATOR_ID,
   OF_DATE,
-  OF_DESCRIPTION,
   OF_PRICE,
   OF_TITLE,
   OF_TYPE,
 } from "../../../utils/consts";
 import ImagePlaceHolder from "../../components/ImagePlaceHolder";
-import { getLoggedUserId } from "../../../utils/utilis";
 
 function OfferDetails() {
   const { id } = useParams();
-  const userId = getLoggedUserId();
 
   const [offer, setOffer] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -92,101 +84,138 @@ function OfferDetails() {
       </Container>
     );
   }
-  const handleApplyButtonClick = () => {};
 
   return (
-    <Container sx={{ mt: 4, mb: 8 }}>
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 8 }}>
       {/* NAGŁÓWEK NAD ZDJĘCIEM */}
       <Box sx={{ mb: 3 }}>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
+          {offer[OF_TITLE]}
+        </Typography>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Typography
-            variant="h3"
-            sx={{
-              whiteSpace: "normal",
-              overflowWrap: "anywhere",
-            }}
+            variant="subtitle1"
+            sx={{ textDecoration: "underline", fontWeight: 600, cursor: "pointer" }}
           >
-            {offer[OF_TITLE]}
-          </Typography>
-        </Box>
-        <Stack direction={"row"}>
-          <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />
-          <Typography variant="h4" color="text.primary">
-            {offer[OF_PRICE]} zł
+            {offer[OF_CITY]}
           </Typography>
         </Stack>
       </Box>
 
       {/* GŁÓWNY UKŁAD STRONY */}
-      <Grid container spacing={2}>
+      <Grid container spacing={6}>
+        
         {/* LEWA KOLUMNA: Zdjęcie + Informacje szczegółowe */}
-
-        {/* ZDJĘCIE (PLACEHOLDER) */}
-        <Grid size={6} item>
-          <ImagePlaceHolder />
-        </Grid>
-
-        <Grid size={6} item>
-          {/* detale */}
-
-          <Stack spacing={3}>
-            <Stack direction="row" spacing={2} alignItems="center"></Stack>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <PinDropOutlinedIcon sx={{ fontSize: 32 }} color="action" />
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>Lokalizacja</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {`${offer[OF_CITY]}, ${offer[OF_ADRESS]}`}
-                </Typography>
-              </Box>
-            </Stack>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <CategoryOutlinedIcon sx={{ fontSize: 32 }} color="action" />
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>Typ usługi</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {offer[OF_TYPE]}
-                </Typography>
-              </Box>
-            </Stack>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <TodayOutlinedIcon sx={{ fontSize: 32 }} color="action" />
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>
-                  Data ważności ogłoszenia
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {offer[OF_DATE]}
-                </Typography>
-              </Box>
-            </Stack>
-            {userId !== offer[OF_CREATOR_ID] && (
-              <Button variant="contained" onClick={handleApplyButtonClick()}>
-                Zgłoś się
-              </Button>
-            )}
-          </Stack>
-        </Grid>
-
-        <Grid size={12} item>
-          <Divider sx={{ my: 4 }} />
-        </Grid>
-        <Grid size={12} item>
-          {/* OPIS */}
-          <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
-            Opis oferty
-          </Typography>
-          <Typography
-            variant="body1"
+       
+        <Grid item xs={12} md={8}>
+          {/* ZDJĘCIE (PLACEHOLDER) */}
+          <Paper
+            elevation={0}
             sx={{
-              color: "text.primary",
-              lineHeight: 1.8,
-              whiteSpace: "pre-line",
+              overflow: "hidden",
+              borderRadius: 4,
+              mb: 4,
+              height: { xs: 100, md: 150 },
+              width: "100%",
             }}
           >
-            {offer[OF_DESCRIPTION]}
-          </Typography>
+            <ImagePlaceHolder />
+          </Paper>
+        {/* PRAWA KOLUMNA: Karta kontaktu (Sticky) */}
+        <Grid item xs={12} md={4} >
+          <Box
+            sx={{
+              position: { md: "sticky" },
+              top: 100, // Odstęp od góry strony przy przewijaniu
+              zIndex: 1,
+            }}
+          >
+            <Paper
+              elevation={0}
+              sx={{
+                p: 3,
+                borderRadius: 4,
+                border: "1px solid #ddd",
+                boxShadow: "0px 6px 16px rgba(0,0,0,0.12)",
+              }}
+            >
+              {/* CENA */}
+              <Typography variant="h4" sx={{ fontWeight: 700, mb: 3 }}>
+                {offer[OF_PRICE]} PLN
+                <Typography component="span" variant="body1" sx={{ ml: 1, fontWeight: 400 }}>
+                  całość
+                </Typography>
+              </Typography>
+
+              {/* RAMKA Z INFO */}
+              <Box sx={{ border: "1px solid #b0b0b0", borderRadius: 2, mb: 2 }}>
+                <Box sx={{ p: 1.5, borderBottom: "1px solid #b0b0b0" }}>
+                  <Typography sx={{ fontSize: "10px", fontWeight: 800, textTransform: "uppercase" }}>
+                    Lokalizacja
+                  </Typography>
+                  <Typography variant="body2">{offer[OF_CITY]}</Typography>
+                </Box>
+                <Box sx={{ p: 1.5 }}>
+                  <Typography sx={{ fontSize: "10px", fontWeight: 800, textTransform: "uppercase" }}>
+                    Kategoria
+                  </Typography>
+                  <Typography variant="body2">{offer[OF_TYPE]}</Typography>
+                </Box>
+              </Box>
+            </Paper>
+          </Box>
         </Grid>
+          {/* SEKACJA POD ZDJĘCIEM */}
+          <Box>
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+              Kategoria: {offer[OF_TYPE]}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Lokalizacja oferty: {offer[OF_CITY]}
+            </Typography>
+
+            <Divider sx={{ my: 4 }} />
+
+            {/* IKONY CECH */}
+            <Stack spacing={3}>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <CategoryOutlinedIcon sx={{ fontSize: 32 }} color="action" />
+                <Box>
+                  <Typography sx={{ fontWeight: 600 }}>Typ usługi</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {offer[OF_TYPE]}
+                  </Typography>
+                </Box>
+              </Stack>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <TodayOutlinedIcon sx={{ fontSize: 32 }} color="action" />
+                <Box>
+                  <Typography sx={{ fontWeight: 600 }}>Data ogłoszenia</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {offer[OF_DATE]}
+                  </Typography>
+                </Box>
+              </Stack>
+            </Stack>
+
+            <Divider sx={{ my: 4 }} />
+
+            {/* OPIS */}
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
+              Opis oferty
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{ color: "text.primary", lineHeight: 1.8, whiteSpace: "pre-line" }}
+            >
+              To jest ogłoszenie z kategorii {offer[OF_TYPE]}, zlokalizowane w miejscowości {offer[OF_CITY]}. 
+              Aktualna cena za realizację to {offer[OF_PRICE]} PLN. Zapraszamy do kontaktu w celu 
+              ustalenia szczegółowych warunków współpracy.
+            </Typography>
+          </Box>
+        </Grid>
+
+        
       </Grid>
     </Container>
   );

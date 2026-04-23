@@ -13,8 +13,6 @@ export const validateAddOfferForm = (setErrors, form) => {
     newErrors.price = "Cena jest wymagana";
   } else if (isNaN(form.price) || Number(form.price) <= 0) {
     newErrors.price = "Cena musi być większa niż 0";
-  } else if (!/^\d+(\.\d{1,2})?$/.test(form.price.toString())) {
-    newErrors.price = "Cena może mieć maksymalnie 2 miejsca po przecinku";
   }
 
   if (!form.city.trim()) {

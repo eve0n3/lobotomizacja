@@ -14,7 +14,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import "moment/locale/pl";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
-import { getLoggedUser } from "../../utils/utilis.js";
+import { useState } from "react";
+import { getLoggedUser, getLoggedUserUsername } from "../../utils/utilis.js";
 
 function PageLayout() {
   const navigate = useNavigate();
@@ -30,17 +31,7 @@ function PageLayout() {
           }}
         >
           <Toolbar>
-            <Typography
-              variant="h4"
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-                cursor: "pointer",
-              }}
-              onClick={() => navigate("/")}
-            >
+            <Typography variant="h4" sx={{ flexGrow: 1 }}>
               <CleanHandsIcon />
               Sprzontando
             </Typography>
