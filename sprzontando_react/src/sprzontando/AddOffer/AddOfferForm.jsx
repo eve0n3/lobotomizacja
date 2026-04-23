@@ -9,6 +9,7 @@ import { validateAddOfferForm } from "./validateAddOfferForm";
 import { addOffer } from "../../api/addOffer";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_LOCATION } from "../../../utils/consts";
+import { Typography } from "@mui/material";
 
 function AddOfferForm() {
   const [loading, setLoading] = useState(false);
@@ -75,7 +76,7 @@ function AddOfferForm() {
     }
   };
   const handleSuccess = () => {
-    // tutaj dałabym przekierowanie na strone tego nowego ogłoszenia ale narazie bedzie na listę ogłoszeń
+    // tutaj dałabym przekierowanie na strone tego nowego ogłoszenia ale narazie bedzie na listę moich ogłoszeń
     console.log("Oferta została dodana pomyślnie!");
     navigate("/");
     setLoading(false);
@@ -83,6 +84,9 @@ function AddOfferForm() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        Dodaj nowe ogłoszenie
+      </Typography>
       {submitError && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {submitError}
