@@ -13,6 +13,10 @@ import {
   Stack,
   Button,
   Tooltip,
+  AlertTitle,
+  Collapse,
+  Alert,
+  IconButton,
 } from "@mui/material";
 
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
@@ -37,14 +41,19 @@ import {
 } from "../../../utils/consts";
 import ImagePlaceHolder from "../../components/ImagePlaceHolder";
 import { getLoggedUserId } from "../../../utils/utilis";
+import { applyForOfferInDb } from "../../api/applyForOfferInDb";
+import ErrorAlert from "../../components/ErrorAlert";
+import SuccessAlert from "../../components/SuccessAlert";
 
 function OfferDetails() {
   const { id } = useParams();
   const userId = getLoggedUserId();
 
   const [offer, setOffer] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchOffer = async () => {
@@ -67,6 +76,7 @@ function OfferDetails() {
         setOffer(found);
       } catch (err) {
         setError(err.message);
+        setMessage(err.message);
       } finally {
         setLoading(false);
       }
@@ -83,16 +93,24 @@ function OfferDetails() {
     );
   }
 
-  if (error) {
-    return (
-      <Container sx={{ mt: 4 }}>
-        <Typography variant="h5" color="error">
-          {error}
-        </Typography>
-      </Container>
-    );
-  }
-  const handleApplyButtonClick = () => {};
+  const handleApplyButtonClick = async () => {
+    // tutaj trze bedzie sprawdzac czy uzytkonik juz sie nie zglosil do tej oferty
+    const result = await applyForOfferInDb({
+      id_oferty: offer.id,
+      id_uzytkownika: userId,
+    });
+
+    if (result.success) {
+      handleSuccess();
+    } else {
+      setError("Nie udało się zgłosić się do wykonania ogłoszenia.");
+      setMessage("Nie udało się zgłosić się do wykonania ogłoszenia.");
+    }
+  };
+  const handleSuccess = () => {
+    setError(null);
+    setMessage("Pomyślnie zgłoszono się do wykonania ogłoszenia.");
+  };
 
   return (
     <Container sx={{ mt: 4, mb: 8 }}>
@@ -116,7 +134,6 @@ function OfferDetails() {
           </Typography>
         </Stack>
       </Box>
-
       {/* GŁÓWNY UKŁAD STRONY */}
       <Grid container spacing={2}>
         {/* LEWA KOLUMNA: Zdjęcie + Informacje szczegółowe */}
@@ -159,7 +176,10 @@ function OfferDetails() {
               </Box>
             </Stack>
             {userId !== offer[OF_CREATOR_ID] && (
-              <Button variant="contained" onClick={handleApplyButtonClick()}>
+              <Button
+                variant="contained"
+                onClick={async () => handleApplyButtonClick()}
+              >
                 Zgłoś się
               </Button>
             )}
@@ -186,6 +206,20 @@ function OfferDetails() {
           </Typography>
         </Grid>
       </Grid>
+      {error && (
+        <ErrorAlert
+          message={!!message}
+          open={error}
+          onClose={() => setError(null)}
+        />
+      )}
+      {!error && message && (
+        <SuccessAlert
+          message={message}
+          open={!!message}
+          onClose={() => setMessage("")}
+        />
+      )}
     </Container>
   );
 }

@@ -9,8 +9,6 @@ export const applyForOfferInDb = async (data) => {
       },
     });
 
-    console.log(response.data);
-
     return {
       success: true,
       message: "Pomyślnie zgłoszono się do wykonania ogłoszenia.",
