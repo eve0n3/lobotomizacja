@@ -40,7 +40,7 @@ const SideBarList = () => {
           </ListItemButton>
         </ListItem>
 
-        <ListItem key={3} disablePadding>
+        <ListItem key={3} onClick={() => navigate("/myOffers")} disablePadding>
           <ListItemButton>
             <ListItemIcon>
               <ChairOutlinedIcon />

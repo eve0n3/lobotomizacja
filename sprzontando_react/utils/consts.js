@@ -14,6 +14,8 @@ export const APPLY_FOR_OFFER_URL =
 
 export const USER_APPLIED_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie_chetny_show.php";
+export const USER_OFFERS_URL =
+  "http://localhost/lobotomizacja/phpscripts/user_offers.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";

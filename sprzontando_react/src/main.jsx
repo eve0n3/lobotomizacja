@@ -25,6 +25,7 @@ import {
   SUCCESS_VERIFICATION_LOCATION,
   USERS_RANKING_LOCATION,
 } from "../utils/consts";
+import MyOffers from "./sprzontando/MyOffers/MyOffers";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: ADD_OFFER_LOCATION,
         element: <AddOffer />,
+      },
+      {
+        path: "/myOffers",
+        element: <MyOffers />,
       },
     ],
   },
