@@ -104,13 +104,21 @@ function OfferDetails() {
       handleSuccess();
     } else {
       setError("Nie udało się zgłosić się do wykonania ogłoszenia.");
-      setMessage("Nie udało się zgłosić się do wykonania ogłoszenia.");
     }
   };
   const handleSuccess = () => {
     setError(null);
     setMessage("Pomyślnie zgłoszono się do wykonania ogłoszenia.");
   };
+  if (error) {
+    return (
+      <Container sx={{ mt: 4 }}>
+        <Typography variant="h5" color="error">
+          {error}
+        </Typography>
+      </Container>
+    );
+  }
 
   return (
     <Container sx={{ mt: 4, mb: 8 }}>
