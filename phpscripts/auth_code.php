@@ -13,7 +13,7 @@
 
     $kod= random_int(1000, 9999);
 
-    $kod_zapisywanie = $conn->prepare('UPDATE users SET kod = ?, kod_wygasniecie = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE email = ?');
+    $kod_zapisywanie = $conn->prepare('UPDATE users SET kod = ? WHERE email = ?');
     $kod_zapisywanie->bind_param('is', $kod, $email);
     $kod_zapisywanie->execute();   
     
@@ -57,7 +57,7 @@ if ($httpCode != 200) {
     echo json_encode([
         "success" => false,
         "message" => "Nie udało się wysłać wiadomości. Błąd: ".$httpCode, //jeśli problem po stronie curl a nie serwera, zwraca 0
-        //"response" => json_decode($response)
+        "response" => json_decode($response)
         
     ]);
 } else {

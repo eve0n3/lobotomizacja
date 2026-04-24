@@ -37,6 +37,10 @@
                 $stmt = $conn->prepare('UPDATE users SET haslo=? WHERE email = ?');
                 $stmt->bind_param('ss', $haslo, $email);
                 $stmt->execute();
+
+                $stmt = $conn->prepare('UPDATE users SET kod=NULL WHERE email = ?');
+                $stmt->bind_param('s', $email);
+                $stmt->execute();
                 echo json_encode([
                     "success" => true,
                     "message" => "Poprawny kod!! Twoje hasło zostało zmienione"
