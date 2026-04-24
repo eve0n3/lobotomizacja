@@ -41,7 +41,7 @@ function OffersListItem({ offer }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/offer/${offer.id}`);
+    navigate(`/offer`, { state: { offer: offer } });
   };
 
   return (

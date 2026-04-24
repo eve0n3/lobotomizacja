@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import {
   Container,
@@ -13,6 +13,10 @@ import {
   Stack,
   Button,
   Tooltip,
+  AlertTitle,
+  Collapse,
+  Alert,
+  IconButton,
 } from "@mui/material";
 
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
@@ -23,67 +27,35 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 
-import { getOffersFromDb } from "../../api/getOffersFromDb";
-
 import {
+  AP_USER_ID,
+  LOGIN_LOCATION,
   OF_ADRESS,
   OF_CITY,
   OF_CREATOR_ID,
   OF_DATE,
   OF_DESCRIPTION,
+  OF_ID,
   OF_PRICE,
   OF_TITLE,
   OF_TYPE,
 } from "../../../utils/consts";
 import ImagePlaceHolder from "../../components/ImagePlaceHolder";
 import { getLoggedUserId } from "../../../utils/utilis";
+import { applyForOfferInDb } from "../../api/applyForOfferInDb";
+import ErrorAlert from "../../components/ErrorAlert";
+import SuccessAlert from "../../components/SuccessAlert";
+import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
 
 function OfferDetails() {
-  const { id } = useParams();
-  const userId = getLoggedUserId();
-
-  const [offer, setOffer] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    const fetchOffer = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await getOffersFromDb({});
-
-        if (!response.success) {
-          throw new Error(response.message || "Błąd pobierania danych");
-        }
-
-        const found = response.data.find((o) => String(o.id) === String(id));
-
-        if (!found) {
-          throw new Error("Nie znaleziono oferty");
-        }
-
-        setOffer(found);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOffer();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
+  const offer = location.state?.offer;
+  if (!offer) {
     return (
       <Container sx={{ mt: 4 }}>
         <Typography variant="h5" color="error">
@@ -92,7 +64,48 @@ function OfferDetails() {
       </Container>
     );
   }
-  const handleApplyButtonClick = () => {};
+
+  const userId = getLoggedUserId();
+
+  const handleApplyButtonClick = async () => {
+    userId === null && navigate(LOGIN_LOCATION);
+
+    setLoading(true);
+    const isAlreadyApplied = await checkIfUserAlreadyApplied();
+    if (isAlreadyApplied) {
+      setError("Już zgłosiłeś się do tej oferty.");
+      setLoading(false);
+      return;
+    }
+    const result = await applyForOfferInDb({
+      offerId: offer[OF_ID],
+      userId: userId,
+    });
+
+    if (result.success) {
+      handleSuccess();
+      setLoading(false);
+    } else {
+      setError("Nie udało się zgłosić się do wykonania ogłoszenia.");
+      setLoading(false);
+    }
+  };
+
+  const checkIfUserAlreadyApplied = async () => {
+    const result = await getOfferAppliedUserFromDb(offer.id);
+    if (result.success) {
+      const appliedUsers = result.data;
+      return appliedUsers.some((user) => user[AP_USER_ID] === userId);
+    } else {
+      setError("Nie udało się zgłosić się do wykonania ogłoszenia.");
+      setLoading(false);
+    }
+  };
+
+  const handleSuccess = () => {
+    setError(null);
+    setMessage("Pomyślnie zgłoszono się do wykonania ogłoszenia.");
+  };
 
   return (
     <Container sx={{ mt: 4, mb: 8 }}>
@@ -116,7 +129,6 @@ function OfferDetails() {
           </Typography>
         </Stack>
       </Box>
-
       {/* GŁÓWNY UKŁAD STRONY */}
       <Grid container spacing={2}>
         {/* LEWA KOLUMNA: Zdjęcie + Informacje szczegółowe */}
@@ -159,7 +171,12 @@ function OfferDetails() {
               </Box>
             </Stack>
             {userId !== offer[OF_CREATOR_ID] && (
-              <Button variant="contained" onClick={handleApplyButtonClick()}>
+              <Button
+                variant="contained"
+                onClick={async () => handleApplyButtonClick()}
+                disabled={loading}
+                startIcon={loading && <CircularProgress size={20} />}
+              >
                 Zgłoś się
               </Button>
             )}
@@ -186,6 +203,20 @@ function OfferDetails() {
           </Typography>
         </Grid>
       </Grid>
+      {error && (
+        <ErrorAlert
+          message={error}
+          open={error}
+          onClose={() => setError(null)}
+        />
+      )}
+      {!error && message && (
+        <SuccessAlert
+          message={message}
+          open={!!message}
+          onClose={() => setMessage("")}
+        />
+      )}
     </Container>
   );
 }
