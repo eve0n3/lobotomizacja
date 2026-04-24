@@ -34,13 +34,15 @@
     $odp_kod = $res->fetch_assoc();
 
             if ($kod == $odp_kod["kod"]){
+                $stmt = $conn->prepare('UPDATE users SET haslo=? WHERE email = ?');
+                $stmt->bind_param('ss', $haslo, $email);
+                $stmt->execute();
                 echo json_encode([
                     "success" => true,
                     "message" => "Poprawny kod!! Twoje hasło zostało zmienione"
-                    $stmt = $conn->prepare('UPDATE users SET haslo=? WHERE email = ?');
-                    $stmt->bind_param('ss', $haslo, $email);
-                    $stmt->execute();
+
                 ]);
+
 
             } else{
                 echo json_encode([
