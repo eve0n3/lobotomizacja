@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
 import {
   Container,
@@ -27,8 +27,6 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 
-import { getOffersFromDb } from "../../api/getOffersFromDb";
-
 import {
   OF_ADRESS,
   OF_CITY,
@@ -46,55 +44,21 @@ import ErrorAlert from "../../components/ErrorAlert";
 import SuccessAlert from "../../components/SuccessAlert";
 
 function OfferDetails() {
-  const { id } = useParams();
-  const userId = getLoggedUserId();
-
-  const [offer, setOffer] = useState(null);
-
-  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    const fetchOffer = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await getOffersFromDb({});
-
-        if (!response.success) {
-          throw new Error(response.message || "Błąd pobierania danych");
-        }
-
-        const found = response.data.find((o) => String(o.id) === String(id));
-
-        if (!found) {
-          throw new Error("Nie znaleziono oferty");
-        }
-
-        setOffer(found);
-      } catch (err) {
-        setError(err.message);
-        setMessage(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOffer();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
-        <CircularProgress />
-      </Box>
-    );
+  const offer = location.state?.offer;
+  if (!offer) {
+    setError("Nie znaleziono oferty.");
   }
+
+  const userId = getLoggedUserId();
 
   const handleApplyButtonClick = async () => {
     // tutaj trze bedzie sprawdzac czy uzytkonik juz sie nie zglosil do tej oferty
+    setLoading(true);
     const result = await applyForOfferInDb({
       id_oferty: offer.id,
       id_uzytkownika: userId,
@@ -102,14 +66,17 @@ function OfferDetails() {
 
     if (result.success) {
       handleSuccess();
+      setLoading(false);
     } else {
       setError("Nie udało się zgłosić się do wykonania ogłoszenia.");
+      setLoading(false);
     }
   };
   const handleSuccess = () => {
     setError(null);
     setMessage("Pomyślnie zgłoszono się do wykonania ogłoszenia.");
   };
+
   if (error) {
     return (
       <Container sx={{ mt: 4 }}>
@@ -187,6 +154,8 @@ function OfferDetails() {
               <Button
                 variant="contained"
                 onClick={async () => handleApplyButtonClick()}
+                disabled={loading}
+                startIcon={loading && <CircularProgress size={20} />}
               >
                 Zgłoś się
               </Button>
