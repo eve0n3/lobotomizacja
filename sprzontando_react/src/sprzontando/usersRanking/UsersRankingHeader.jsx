@@ -1,5 +1,3 @@
-import Grid from "@mui/material/Grid";
-import Table from "@mui/material/Table";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -9,9 +7,9 @@ function UsersRankingTableHead() {
     <TableHead>
       <TableRow>
         <TableCell>Pozycja</TableCell>
-        <TableCell>Nazwa użytkownika</TableCell>
-
+        <TableCell>Nazwa uzytkownika</TableCell>
         <TableCell>Ocena</TableCell>
+        <TableCell>Liczba ocen</TableCell>
       </TableRow>
     </TableHead>
   );

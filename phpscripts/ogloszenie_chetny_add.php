@@ -1,45 +1,75 @@
 <?php
-    header('Access-Control-Allow-Origin: *'); 
-    header('Access-Control-Allow-Methods: POST,OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type, Authorization');
-    header('Content-type: application/json');
+require_once 'helpers.php';
+cors_json_headers();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { //wazne bez tego bledy nie dzialaja
-    http_response_code(200);
-    exit(0);
-    }
+$data = read_json_input();
+$id_ogl = intval($data["id_ogl"] ?? 0);
+$id_chetnego = intval($data["id_chetnego"] ?? 0);
 
-    include 'dbconnect.php';
+include 'dbconnect.php';
+ensure_app_schema($conn);
 
-    $dataJSON = file_get_contents('php://input');
-    $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
+if (!$id_ogl || !$id_chetnego) {
+    json_response([
+        "success" => false,
+        "message" => "Brak danych zgloszenia."
+    ], 400);
+}
 
-    $id_ogl = $data["id_ogl"];
-    $id_chetnego = $data["id_chetnego"];
+$offerStmt = $conn->prepare("SELECT id_zglasz, ban FROM ogloszenia_oferty WHERE id = ?");
+$offerStmt->bind_param("i", $id_ogl);
+$offerStmt->execute();
+$offer = $offerStmt->get_result()->fetch_assoc();
+$offerStmt->close();
 
-    $sqlquery = "INSERT INTO chetny 
-                (id_ogloszenia, id_chetnego, zgloszenie)
-                VALUES (?,?,CURRENT_TIMESTAMP);";
-    
-    $stmt = $conn->prepare($sqlquery);
-    $stmt->bind_param('ii', $id_ogl, $id_chetnego); //hitler code
-/*
-    echo json_encode([ "debug"=>[
-        "id_c"=>$id_chetny,
-        "id_o"=>$id_ogl
-    ]
+if (!$offer) {
+    json_response([
+        "success" => false,
+        "message" => "Nie znaleziono ogloszenia."
+    ], 404);
+}
+
+if (intval($offer["ban"]) === 1) {
+    json_response([
+        "success" => false,
+        "message" => "Nie mozna zglosic sie do zbanowanego ogloszenia."
+    ], 400);
+}
+
+if (intval($offer["id_zglasz"]) === $id_chetnego) {
+    json_response([
+        "success" => false,
+        "message" => "Nie mozna zglosic sie do wlasnej oferty."
+    ], 400);
+}
+
+$duplicateStmt = $conn->prepare("SELECT id FROM chetny WHERE id_ogloszenia = ? AND id_chetnego = ?");
+$duplicateStmt->bind_param("ii", $id_ogl, $id_chetnego);
+$duplicateStmt->execute();
+$duplicate = $duplicateStmt->get_result()->fetch_assoc();
+$duplicateStmt->close();
+
+if ($duplicate) {
+    json_response([
+        "success" => false,
+        "message" => "Juz zglosiles sie do tej oferty."
+    ], 409);
+}
+
+$stmt = $conn->prepare("INSERT INTO chetny (id_ogloszenia, id_chetnego, zgloszenie) VALUES (?, ?, CURRENT_TIMESTAMP)");
+$stmt->bind_param('ii', $id_ogl, $id_chetnego);
+
+if ($stmt->execute()) {
+    $stmt->close();
+    json_response([
+        "success" => true,
+        "message" => "Zgloszono do ogloszenia."
     ]);
-*/
-    if($stmt->execute()){
-        echo json_encode([
-            "success"=>true,
-            "message"=>"Zgłoszono do ogłoszenia!"
-        ]);
-    }else{
-        echo json_encode([
-            "success"=>false,
-            "message"=>"wystąpił błąd!"
-        ]);
-        http_response_code(503);
-    }
+}
+
+$stmt->close();
+json_response([
+    "success" => false,
+    "message" => "Wystapil blad."
+], 503);
 ?>

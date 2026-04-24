@@ -9,7 +9,9 @@ export const getOffersFromDb = async (data) => {
       },
     });
     console.log("Received offers:", response.data);
-    return { success: true, data: response.data.data };
+    return response.data.success
+      ? { success: true, data: response.data.data }
+      : response.data;
   } catch (error) {
     return {
       success: false,

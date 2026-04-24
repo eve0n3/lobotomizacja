@@ -16,11 +16,23 @@ import UsersRanking from "./sprzontando/usersRanking/UsersRanking";
 import SuccessVerification from "./sprzontando/registerPage/SuccessVerification";
 import OfferDetails from "./sprzontando/Offerts/OfferDetails";
 import AddOffer from "./sprzontando/AddOffer/AddOffer";
+import EditOffer from "./sprzontando/AddOffer/EditOffer";
+import UserProfile from "./sprzontando/userProfile/UserProfile";
+import MyOffers from "./sprzontando/userOffers/MyOffers";
+import MyApplications from "./sprzontando/userOffers/MyApplications";
+import PasswordResetPage from "./sprzontando/passwordReset/PasswordResetPage";
+import AdminDashboard from "./sprzontando/admin/AdminDashboard";
 import {
   ADD_OFFER_LOCATION,
+  ADMIN_LOCATION,
+  EDIT_OFFER_LOCATION,
   HOME_LOCATION,
   LOGIN_LOCATION,
+  MY_APPLICATIONS_LOCATION,
+  MY_OFFERS_LOCATION,
+  PROFILE_LOCATION,
   REGISTER_LOCATION,
+  RESET_PASSWORD_LOCATION,
   SUCCESS_REGISTER_LOCATION,
   SUCCESS_VERIFICATION_LOCATION,
   USERS_RANKING_LOCATION,
@@ -44,6 +56,10 @@ const router = createBrowserRouter([
     element: <SuccessVerification />,
   },
   {
+    path: RESET_PASSWORD_LOCATION,
+    element: <PasswordResetPage />,
+  },
+  {
     path: HOME_LOCATION,
     element: <App />,
     children: [
@@ -62,6 +78,26 @@ const router = createBrowserRouter([
       {
         path: ADD_OFFER_LOCATION,
         element: <AddOffer />,
+      },
+      {
+        path: EDIT_OFFER_LOCATION,
+        element: <EditOffer />,
+      },
+      {
+        path: PROFILE_LOCATION,
+        element: <UserProfile />,
+      },
+      {
+        path: MY_OFFERS_LOCATION,
+        element: <MyOffers />,
+      },
+      {
+        path: MY_APPLICATIONS_LOCATION,
+        element: <MyApplications />,
+      },
+      {
+        path: ADMIN_LOCATION,
+        element: <AdminDashboard />,
       },
     ],
   },

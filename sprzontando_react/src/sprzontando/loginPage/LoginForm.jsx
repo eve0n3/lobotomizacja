@@ -1,12 +1,14 @@
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { useState } from "react";
-import { submitLogin } from "../../api/submitLogin";
 import CircularProgress from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { RESET_PASSWORD_LOCATION } from "../../../utils/consts";
+import { submitLogin } from "../../api/submitLogin";
 import VerificationPopup from "../registerPage/VerificationPopup";
 
 function LoginForm() {
@@ -21,15 +23,15 @@ function LoginForm() {
     e.preventDefault();
     setMessage("");
 
-    const loginData = { email, password };
     setLoading(true);
-
-    const response = await submitLogin(loginData);
+    const response = await submitLogin({ email, password });
 
     if (!response.success) {
-      response.type === "password"
-        ? setMessage(response.message)
-        : setIsPopupOpen(true);
+      if (response.type === "verification") {
+        setIsPopupOpen(true);
+      } else {
+        setMessage(response.message || "Logowanie nie powiodlo sie.");
+      }
     } else {
       navigate("/");
     }
@@ -47,22 +49,28 @@ function LoginForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 label="email"
                 type="email"
-              ></TextField>
+              />
             </div>
             <div>
               <TextField
                 className="login-input"
                 onChange={(e) => setPassword(e.target.value)}
-                label="hasło"
+                label="haslo"
                 type="password"
-              ></TextField>
+              />
             </div>
             {message && <Typography>{message}</Typography>}
             <Typography
               className="login-text"
               onClick={() => navigate("/register")}
             >
-              Załóż konto
+              Zaloz konto
+            </Typography>
+            <Typography
+              className="login-text"
+              onClick={() => navigate(RESET_PASSWORD_LOCATION)}
+            >
+              Nie pamietasz hasla?
             </Typography>
             <Button
               className="login-button"
@@ -71,7 +79,7 @@ function LoginForm() {
               disabled={loading || !email || !password}
               startIcon={loading && <CircularProgress size={20} />}
             >
-              Zatwierdź
+              Zatwierdz
             </Button>
           </form>
         </Grid>
@@ -79,7 +87,7 @@ function LoginForm() {
       <VerificationPopup
         isPopupOpen={isPopupOpen}
         email={email}
-        navigateLocation={"/successVerification"}
+        navigateLocation="/successVerification"
       />
     </>
   );

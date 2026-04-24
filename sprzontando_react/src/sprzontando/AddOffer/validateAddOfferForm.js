@@ -7,7 +7,9 @@ export const validateAddOfferForm = (setErrors, form) => {
     newErrors.title = "Tytuł jest wymagany";
   }
 
-  if (!form.type) newErrors.type = "Kategoria jest wymagana";
+  if (!form.type || (Array.isArray(form.type) && form.type.length === 0)) {
+    newErrors.type = "Kategoria jest wymagana";
+  }
 
   if (!form.price.toString().trim()) {
     newErrors.price = "Cena jest wymagana";

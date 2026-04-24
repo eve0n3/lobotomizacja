@@ -9,18 +9,19 @@ function UsersRankingTableBody({ users }) {
   const mapRows = () => {
     return users.map((user, id) => {
       return (
-        <TableRow>
+        <TableRow key={user.id || user.nazwa}>
           <TableCell>{id + 1}</TableCell>
           <TableCell>{user.nazwa}</TableCell>
 
           <TableCell>
             <Rating
               name="read-only"
-              value={user.avgocena}
+              value={Number(user.avgocena)}
               precision={0.1}
               readOnly
             />
           </TableCell>
+          <TableCell>{user.liczba_ocen}</TableCell>
         </TableRow>
       );
     });

@@ -1,65 +1,71 @@
 <?php
-    header('Access-Control-Allow-Origin: http://localhost:5173'); //domena na produkcji 
-    header('Access-Control-Allow-Methods: POST,OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type, Authorization');
-    header('Access-Control-Allow-Credentials: true');
-    header('Content-type: application/json');
+require_once 'helpers.php';
+cors_json_headers('http://localhost:5173', true);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { //wazne bez tego bledy nie dzialaja
-    http_response_code(200);
-    exit(0);
-    }
+$data = read_json_input();
+$email = trim($data['email'] ?? '');
+$password = $data['password'] ?? '';
 
-    //dane z react
-    $dataJSON = file_get_contents('php://input');
-    $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
-    $email = trim($data['email']); 
-    $password = $data['password'];
+include 'dbconnect.php';
+ensure_app_schema($conn);
 
-    //połączenie z bazą danych
-    include 'dbconnect.php';
-
-$stmt = $conn->prepare('SELECT id, nazwa, email, haslo,zatwierdzony FROM users WHERE email = ?');
+$stmt = $conn->prepare('SELECT id, nazwa, email, haslo, zatwierdzony, ban, ban_end, rola FROM users WHERE email = ?');
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
+$stmt->close();
 
-
-if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba bedzie to poprawic
-    http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'Nie poprawne hasło lub email', 'type' => 'password']);
-} else {
-    if ($user["zatwierdzony"] == null){
-        echo json_encode([
+if (!$user || !($password == $user['haslo'])) {
+    json_response([
         'success' => false,
-        'message' => 'Weryfikacja wymagana', 
-        'type' => 'verification'
-        
-    ]);
-    }
-    else{
-      setcookie("loggedas", json_encode([
-        "id"=>$user['id'],
-        "username"=>$user['nazwa']]),
-        [
-        'expires'  => time() + 3600,
-        'path'     => '/',
-        'secure'   => true,        // true in production (HTTPS)
-        'httponly' => false,        // must be false so JS can read it
-        'samesite' => 'None',       // required for cross-origin
-    ]);
-        echo json_encode([
-        'success' => true,
-        'message' => 'Login successful', 
-        
-    ]);
-    }
-    
-    
+        'message' => 'Niepoprawne haslo lub email.',
+        'type' => 'password'
+    ], 401);
 }
 
-$stmt->close();
-$conn->close();
-   
+if ($user['zatwierdzony'] == null) {
+    json_response([
+        'success' => false,
+        'message' => 'Weryfikacja wymagana.',
+        'type' => 'verification'
+    ]);
+}
+
+$isBanned = intval($user['ban'] ?? 0) === 1;
+$banEnd = $user['ban_end'] ?? null;
+if ($isBanned && ($banEnd === null || strtotime($banEnd) > time())) {
+    json_response([
+        'success' => false,
+        'message' => 'Konto jest czasowo zbanowane.',
+        'type' => 'ban',
+        'ban_end' => $banEnd
+    ], 403);
+}
+
+$cookieValue = json_encode([
+    "id" => intval($user['id']),
+    "username" => $user['nazwa'],
+    "email" => $user['email'],
+    "role" => $user['rola'] ?? 'user'
+]);
+
+setcookie("loggedas", $cookieValue, [
+    'expires' => time() + 3600,
+    'path' => '/',
+    'secure' => false,
+    'httponly' => false,
+    'samesite' => 'Lax',
+]);
+
+json_response([
+    'success' => true,
+    'message' => 'Login successful',
+    'user' => [
+        "id" => intval($user['id']),
+        "username" => $user['nazwa'],
+        "email" => $user['email'],
+        "role" => $user['rola'] ?? 'user'
+    ]
+]);
 ?>

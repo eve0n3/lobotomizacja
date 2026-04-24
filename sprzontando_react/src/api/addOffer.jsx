@@ -9,9 +9,7 @@ export const addOffer = async (data) => {
       },
     });
 
-    console.log(response.data);
-
-    return { success: true, message: "Pomyslnie utworzono ogloszenie." };
+    return response.data;
   } catch (error) {
     return {
       success: false,

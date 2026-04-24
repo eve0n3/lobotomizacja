@@ -1,13 +1,14 @@
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { registerUser } from "../../api/registerUser";
 import "../../styles/App.css";
-import { useNavigate } from "react-router-dom";
 import VerificationPopup from "./VerificationPopup";
 
 function RegisterForm() {
@@ -22,57 +23,46 @@ function RegisterForm() {
   const [message, setMessage] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate = useNavigate();
-  const validateData = (password, repeat) => {
-    if (password === repeat) {
-      return true;
-    } else {
-      setRepeatPasswordHelper("hasła nie są identyczne");
-      return false;
-    }
-    // TO DO długosć hasła złożonosć (opcjonalne)
+
+  const validateData = () => {
+    if (password === repeatPassword) return true;
+    setRepeatPasswordHelper("Hasla nie sa identyczne.");
+    return false;
   };
-  const setHelper = (message) => {
-    message.forEach((mes) => {
-      if (mes == "Ten adres Email jest zajęty") {
-        setEmailHelper(mes);
+
+  const setErrorMessage = (result) => {
+    const messages = Array.isArray(result.message)
+      ? result.message
+      : [result.message || "Rejestracja nie powiodla sie."];
+
+    messages.forEach((item) => {
+      if (String(item).toLowerCase().includes("email")) {
+        setEmailHelper(item);
+      } else if (String(item).toLowerCase().includes("nazwa")) {
+        setUsernameHelper(item);
       } else {
-        setUsernameHelper(mes);
+        setMessage(item);
       }
     });
   };
-  const setErrorMessage = (result) => {
-    switch (result.status) {
-      case 400:
-        setHelper(result.message);
 
-        break;
-      case 503:
-        setMessage();
-        break;
-
-      default:
-        setMessage();
-        break;
-    }
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    const isCorrect = validateData(password, repeatPassword);
+    setEmailHelper("");
+    setUsernameHelper("");
 
-    if (isCorrect) {
-      const registerData = { email, username, password };
-      setLoading(true);
+    if (!validateData()) return;
 
-      const result = await registerUser(registerData);
+    setLoading(true);
+    const result = await registerUser({ email, username, password });
 
-      !result.success ? setErrorMessage(result) : handleSuccessRegister();
-
-      setLoading(false);
+    if (result.success) {
+      setIsPopupOpen(true);
+    } else {
+      setErrorMessage(result);
     }
-  };
-  const handleSuccessRegister = () => {
-    setIsPopupOpen(true);
+    setLoading(false);
   };
 
   return (
@@ -82,50 +72,43 @@ function RegisterForm() {
           <form onSubmit={handleSubmit} className="login-form">
             <TextField
               className="login-input"
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setEmailHelper("");
-              }}
+              onChange={(e) => setEmail(e.target.value)}
               label="email"
               type="email"
               helperText={emailHelper}
+              error={!!emailHelper}
               required
-            ></TextField>
+            />
             <TextField
               className="login-input"
-              onChange={(e) => {
-                setUsername(e.target.value);
-                setUsernameHelper("");
-              }}
-              label="nazwa użytkownika"
-              type="username"
+              onChange={(e) => setUsername(e.target.value)}
+              label="nazwa uzytkownika"
               helperText={usernameHelper}
+              error={!!usernameHelper}
               required
-            ></TextField>
+            />
             <TextField
               className="login-input"
               onChange={(e) => setPassword(e.target.value)}
-              label="hasło"
+              label="haslo"
               type="password"
               required
-            ></TextField>
+            />
             <TextField
               className="login-input"
               onChange={(e) => {
                 setRepeatPassword(e.target.value);
                 setRepeatPasswordHelper("");
               }}
-              label="powtórz hasło"
+              label="powtorz haslo"
               type="password"
               required
               helperText={repeatPasswordHelper}
-            ></TextField>
+              error={!!repeatPasswordHelper}
+            />
             {message && <Typography>{message}</Typography>}
-            <Typography
-              className="login-text"
-              onClick={() => navigate("/login")}
-            >
-              Zaloguj się
+            <Typography className="login-text" onClick={() => navigate("/login")}>
+              Zaloguj sie
             </Typography>
             <Button
               className="login-button"
@@ -136,7 +119,7 @@ function RegisterForm() {
               }
               startIcon={loading && <CircularProgress size={20} />}
             >
-              Zatwierdź
+              Zatwierdz
             </Button>
           </form>
         </Grid>
@@ -144,7 +127,7 @@ function RegisterForm() {
       <VerificationPopup
         isPopupOpen={isPopupOpen}
         email={email}
-        navigateLocation={"/successRegister"}
+        navigateLocation="/successRegister"
       />
     </>
   );

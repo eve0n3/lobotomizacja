@@ -1,60 +1,48 @@
 <?php
-    header('Access-Control-Allow-Origin: *'); 
-    header('Access-Control-Allow-Methods: POST,OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type, Authorization');
-    header('Content-type: application/json');
+require_once 'helpers.php';
+cors_json_headers();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { //wazne bez tego bledy nie dzialaja
-    http_response_code(200);
-    exit(0);
-    }
+$data = read_json_input();
 
-    $dataJSON = file_get_contents('php://input');
-    $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
-    
-    $tytul = $data['tytul'];
-    $miasto = $data['miasto'];
-    $adres = $data['adres'];
-    $cena = $data['cena'];
-    $kategoria = $data['kategoria'];
-    $opis = $data['opis'];
+$tytul = trim($data['tytul'] ?? '');
+$miasto = trim($data['miasto'] ?? '');
+$adres = trim($data['adres'] ?? '');
+$cena = floatval($data['cena'] ?? 0);
+$kategoria = trim($data['kategoria'] ?? '');
+$opis = clamp_text($data['opis'] ?? '', 500);
+$waznosc = trim($data['waznosc'] ?? '');
+$id_tworca = intval($data['id_tworca'] ?? 0);
 
-    $waznosc = $data['waznosc'];
+if ($tytul === '' || $miasto === '' || $adres === '' || $cena <= 0 || $kategoria === '' || $waznosc === '' || !$id_tworca) {
+    json_response([
+        "success" => false,
+        "message" => "Uzupelnij wszystkie wymagane pola."
+    ], 400);
+}
 
-    $id_tworca = $data['id_tworca'];
-    
-    include 'dbconnect.php';
+include 'dbconnect.php';
+ensure_app_schema($conn);
 
-    $sqlquery = "INSERT INTO ogloszenia_oferty
-                (tytul, kategoria, miasto, adres, cena, opis, utworzenie, waznosc, id_zglasz)
-                VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?);";
-    
-    $stmt = $conn->prepare($sqlquery);
-    $stmt->bind_param('ssssdssi', $tytul, $kategoria, $miasto, $adres, $cena, $opis, $waznosc, $id_tworca);
+$sqlquery = "INSERT INTO ogloszenia_oferty
+            (tytul, kategoria, miasto, adres, cena, opis, utworzenie, waznosc, id_zglasz, ban)
+            VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, 0)";
 
-    /*
-    echo json_encode([ "debugs1" => [
-        "tytul"=>$tytul,
-        "kateg"=>$kategoria,
-        "miasto"=>$miasto,
-        "adres"=>$adres,
-        "cena"=>$cena,
-        "opis"=>$opis,
-        "waznosc"=>$waznosc,
-        "tworca"=>$tworca  
-    ]]);
-    */
+$stmt = $conn->prepare($sqlquery);
+$stmt->bind_param('ssssdssi', $tytul, $kategoria, $miasto, $adres, $cena, $opis, $waznosc, $id_tworca);
 
-    if($stmt->execute()){
-        echo json_encode([
-            "success"=>true,
-            "message"=>"ogloszenie dodane"
-        ]);
-    }else{
-        echo json_encode([
-            "success"=>false,
-            "message"=>"coś nie działa"
-        ]);
-        http_response_code(503);
-    }
+if ($stmt->execute()) {
+    $newId = $stmt->insert_id;
+    $stmt->close();
+    json_response([
+        "success" => true,
+        "message" => "Ogloszenie dodane.",
+        "id" => $newId
+    ]);
+}
+
+$stmt->close();
+json_response([
+    "success" => false,
+    "message" => "Nie udalo sie dodac ogloszenia."
+], 503);
 ?>

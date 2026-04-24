@@ -2,7 +2,6 @@ import TextField from "@mui/material/TextField";
 import moment from "moment";
 import OffertTypeSelect from "../Offerts/OffertTypeSelect";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import React from "react";
 import Grid from "@mui/material/Grid";
 
 const AddOfferFormFields = ({ fieldProps }) => {
@@ -75,6 +74,7 @@ const AddOfferFormFields = ({ fieldProps }) => {
           setType={handleTypeChange}
           error={!!errors.type}
           helperText={errors.type}
+          multiple
         />
       </Grid>
 

@@ -95,8 +95,7 @@ function OffertsSearch({ searchProps }) {
               fullWidth
               label="Wyszukaj oferty"
               variant="standard"
-              value={search}
-              defaultValue={null}
+              value={search || ""}
               onChange={(e) =>
                 setSearch(e.target.value === "" ? null : e.target.value)
               }
@@ -108,8 +107,7 @@ function OffertsSearch({ searchProps }) {
               fullWidth
               label="Lokalizacja"
               variant="standard"
-              value={localization}
-              defaultValue={null}
+              value={localization || ""}
               onChange={(e) =>
                 setLocalization(e.target.value === "" ? null : e.target.value)
               }

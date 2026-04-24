@@ -75,8 +75,7 @@ const PriceInputs = ({ inputsProps }) => {
               fullWidth
               label="Cena od"
               variant="outlined"
-              value={minPrice || null}
-              defaultValue={null}
+              value={minPrice || ""}
               onChange={handleMinPriceChange}
               onKeyPress={handleKeyPress}
               error={minError}
@@ -96,8 +95,7 @@ const PriceInputs = ({ inputsProps }) => {
               fullWidth
               label="Cena do"
               variant="outlined"
-              value={maxPrice || null}
-              defaultValue={null}
+              value={maxPrice || ""}
               onChange={handleMaxPriceChange}
               onKeyPress={handleKeyPress}
               error={maxError}

@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { popupModal } from "../../styles/popUp.styles";
 import Typography from "@mui/material/Typography";
 import { verifyUserInDb } from "../../api/verifyUserInDb";
@@ -17,11 +17,11 @@ function VerificationPopup({ isPopupOpen, email, navigateLocation }) {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     console.log("a");
     setIsOpen(false);
     navigate(navigateLocation);
-  };
+  }, [navigate, navigateLocation]);
 
   useEffect(() => {
     setError(null);
@@ -37,7 +37,7 @@ function VerificationPopup({ isPopupOpen, email, navigateLocation }) {
     };
 
     verify();
-  }, [code]);
+  }, [code, email, handleClose]);
 
   useEffect(() => {
     setIsOpen(isPopupOpen);

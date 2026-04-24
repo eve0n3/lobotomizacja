@@ -9,9 +9,9 @@ export const registerUser = async (data) => {
       },
     });
 
-    console.log(response.data);
-
-    return { success: true, message: "Pomyslnie utworzono użytkonika." };
+    return response.data.success
+      ? { success: true, message: "Pomyslnie utworzono uzytkownika." }
+      : response.data;
   } catch (error) {
     return {
       success: false,
