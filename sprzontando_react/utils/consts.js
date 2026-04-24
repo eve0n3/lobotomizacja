@@ -40,3 +40,4 @@ export const SUCCESS_VERIFICATION_LOCATION = "/successVerification";
 export const HOME_LOCATION = "/";
 export const USERS_RANKING_LOCATION = "/usersRanking";
 export const ADD_OFFER_LOCATION = "/addOffer";
+export const USER_PROFILE_LOCATION = "/userProfile";
