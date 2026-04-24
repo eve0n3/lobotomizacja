@@ -19,14 +19,14 @@
     $id_chetnego = $data["id_chetnego"] ?? null;
 
     if(!is_null($id_chetnego)){
-        $sqlquery = "SELECT id_ogloszenia FROM chetny WHERE id_chetnego = ?;";
+        $sqlquery = "SELECT id_ogloszenia FROM chetny WHERE id_chetnego = ?;"; //dla id ogl daje mi wszystkich chetnych
         $param = $id_chetnego;
     }elseif(!is_null($id_ogl)){
-        $sqlquery = "SELECT id_chetnego FROM chetny WHERE id_ogloszenia = ?;";
+        $sqlquery = "SELECT id_chetnego FROM chetny WHERE id_ogloszenia = ?;"; //dla id chetnego daje mi wszystkie ogloszenia do których sie zgłosił
         $param = $id_ogl;
     }
     
-    echo json_encode([$sqlquery, $param]);
+    // echo json_encode([$sqlquery, $param]);
     $stmt = $conn->prepare($sqlquery);
     $stmt->bind_param("i", $param);
 

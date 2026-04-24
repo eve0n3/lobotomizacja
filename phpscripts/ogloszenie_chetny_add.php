@@ -18,7 +18,7 @@
     $id_chetnego = $data["id_chetnego"];
 
     $sqlquery = "INSERT INTO chetny 
-                (id_ogloszenia, id_chetnego, data)
+                (id_ogloszenia, id_chetnego, zgloszenie)
                 VALUES (?,?,CURRENT_TIMESTAMP);";
     
     $stmt = $conn->prepare($sqlquery);

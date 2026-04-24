@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import {
@@ -28,11 +28,14 @@ import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 
 import {
+  AP_USER_ID,
+  LOGIN_LOCATION,
   OF_ADRESS,
   OF_CITY,
   OF_CREATOR_ID,
   OF_DATE,
   OF_DESCRIPTION,
+  OF_ID,
   OF_PRICE,
   OF_TITLE,
   OF_TYPE,
@@ -42,26 +45,41 @@ import { getLoggedUserId } from "../../../utils/utilis";
 import { applyForOfferInDb } from "../../api/applyForOfferInDb";
 import ErrorAlert from "../../components/ErrorAlert";
 import SuccessAlert from "../../components/SuccessAlert";
+import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
 
 function OfferDetails() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
 
   const offer = location.state?.offer;
   if (!offer) {
-    setError("Nie znaleziono oferty.");
+    return (
+      <Container sx={{ mt: 4 }}>
+        <Typography variant="h5" color="error">
+          {error}
+        </Typography>
+      </Container>
+    );
   }
 
   const userId = getLoggedUserId();
 
   const handleApplyButtonClick = async () => {
-    // tutaj trze bedzie sprawdzac czy uzytkonik juz sie nie zglosil do tej oferty
+    userId === null && navigate(LOGIN_LOCATION);
+
     setLoading(true);
+    const isAlreadyApplied = await checkIfUserAlreadyApplied();
+    if (isAlreadyApplied) {
+      setError("Już zgłosiłeś się do tej oferty.");
+      setLoading(false);
+      return;
+    }
     const result = await applyForOfferInDb({
-      id_oferty: offer.id,
-      id_uzytkownika: userId,
+      offerId: offer[OF_ID],
+      userId: userId,
     });
 
     if (result.success) {
@@ -72,20 +90,22 @@ function OfferDetails() {
       setLoading(false);
     }
   };
+
+  const checkIfUserAlreadyApplied = async () => {
+    const result = await getOfferAppliedUserFromDb(offer.id);
+    if (result.success) {
+      const appliedUsers = result.data;
+      return appliedUsers.some((user) => user[AP_USER_ID] === userId);
+    } else {
+      setError("Nie udało się zgłosić się do wykonania ogłoszenia.");
+      setLoading(false);
+    }
+  };
+
   const handleSuccess = () => {
     setError(null);
     setMessage("Pomyślnie zgłoszono się do wykonania ogłoszenia.");
   };
-
-  if (error) {
-    return (
-      <Container sx={{ mt: 4 }}>
-        <Typography variant="h5" color="error">
-          {error}
-        </Typography>
-      </Container>
-    );
-  }
 
   return (
     <Container sx={{ mt: 4, mb: 8 }}>
@@ -185,7 +205,7 @@ function OfferDetails() {
       </Grid>
       {error && (
         <ErrorAlert
-          message={!!message}
+          message={error}
           open={error}
           onClose={() => setError(null)}
         />

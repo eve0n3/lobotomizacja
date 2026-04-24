@@ -13,7 +13,7 @@ const ErrorAlert = ({ message, open, onClose }) => {
     <Snackbar
       open={open}
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      autoHideDuration={12000}
+      autoHideDuration={6000}
       onClose={(_, reason) => {
         if (reason === "clickaway") return;
         onClose();
@@ -21,6 +21,7 @@ const ErrorAlert = ({ message, open, onClose }) => {
     >
       <Alert
         severity="error"
+        variant="filled"
         action={
           <IconButton
             aria-label="close"
