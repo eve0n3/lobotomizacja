@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 25 Kwi 2026, 12:34
+-- Czas generowania: 25 Kwi 2026, 12:52
 -- Wersja serwera: 10.4.24-MariaDB
 -- Wersja PHP: 8.1.6
 
@@ -189,7 +189,7 @@ CREATE TABLE `users` (
   `ban_end` datetime DEFAULT NULL,
   `kod` int(4) DEFAULT NULL,
   `zatwierdzony` int(11) NOT NULL,
-  `ostatnie_zlecenie` int(11) NOT NULL
+  `ostatnie_zlecenie` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -197,26 +197,26 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `photo`, `email`, `haslo`, `nazwa`, `utworzenie`, `ban`, `ban_data`, `ban_end`, `kod`, `zatwierdzony`, `ostatnie_zlecenie`) VALUES
-(1, 'user1.jpg', 'jan.kowalski@example.com', 'zaq1@WSX', 'JanKowalski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(2, 'user2.jpg', 'anna.nowak@example.com', 'zaq1@WSX', 'AnnaNowak', '2026-02-22 13:05:04', 1, '2026-02-21 09:00:00', '2026-03-01 09:00:00', NULL, 0, 0),
-(3, 'user3.jpg', 'piotr.zielinski@example.com', 'zaq1@WSX', 'PiotrZielinski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(4, 'user4.jpg', 'katarzyna.malysz@example.com', 'zaq1@WSX', 'KasiaMalysz', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(5, 'user5.jpg', 'marek.kowal@example.com', 'zaq1@WSX', 'MarekKowal', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(6, 'user6.jpg', 'magdalena.nowakowska@example.com', 'zaq1@WSX', 'MagdaNowakowska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(7, 'user7.jpg', 'tomasz.wisniewski@example.com', 'zaq1@WSX', 'TomekWisniewski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(8, 'user8.jpg', 'joanna.kaczmarek@example.com', 'zaq1@WSX', 'JoannaKaczmarek', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(9, 'user9.jpg', 'adam.kowalczyk@example.com', 'zaq1@WSX', 'AdamKowalczyk', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(10, 'user10.jpg', 'ewa.szymanska@example.com', 'zaq1@WSX', 'EwaSzymanska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(11, 'user11.jpg', 'piotr.lewandowski@example.com', 'zaq1@WSX', 'PiotrLewandowski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(12, 'user12.jpg', 'anna.wroblewska@example.com', 'zaq1@WSX', 'AnnaWroblewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(13, 'user13.jpg', 'marcin.kaminskii@example.com', 'zaq1@WSX', 'MarcinKaminski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(14, 'user14.jpg', 'agnieszka.sikora@example.com', 'zaq1@WSX', 'AgnieszkaSikora', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(15, 'user15.jpg', 'lukasz.jablonski@example.com', 'zaq1@WSX', 'LukaszJablonski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(16, 'user16.jpg', 'marta.krol@example.com', 'zaq1@WSX', 'MartaKrol', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(17, 'user17.jpg', 'pawel.dabrowski@example.com', 'zaq1@WSX', 'PawelDabrowski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(18, 'user18.jpg', 'monika.kowalska@example.com', 'zaq1@WSX', 'MonikaKowalska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(19, 'user19.jpg', 'krzysztof.nowicki@example.com', 'zaq1@WSX', 'KrzysztofNowicki', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0),
-(20, 'user20.jpg', 'ania.wisniewska@example.com', 'zaq1@WSX', 'AniaWisniewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, 0);
+(1, 'user1.jpg', 'jan.kowalski@example.com', 'zaq1@WSX', 'JanKowalski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(2, 'user2.jpg', 'anna.nowak@example.com', 'zaq1@WSX', 'AnnaNowak', '2026-02-22 13:05:04', 1, '2026-02-21 09:00:00', '2026-03-01 09:00:00', NULL, 0, NULL),
+(3, 'user3.jpg', 'piotr.zielinski@example.com', 'zaq1@WSX', 'PiotrZielinski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(4, 'user4.jpg', 'katarzyna.malysz@example.com', 'zaq1@WSX', 'KasiaMalysz', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(5, 'user5.jpg', 'marek.kowal@example.com', 'zaq1@WSX', 'MarekKowal', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(6, 'user6.jpg', 'magdalena.nowakowska@example.com', 'zaq1@WSX', 'MagdaNowakowska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(7, 'user7.jpg', 'tomasz.wisniewski@example.com', 'zaq1@WSX', 'TomekWisniewski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(8, 'user8.jpg', 'joanna.kaczmarek@example.com', 'zaq1@WSX', 'JoannaKaczmarek', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(9, 'user9.jpg', 'adam.kowalczyk@example.com', 'zaq1@WSX', 'AdamKowalczyk', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(10, 'user10.jpg', 'ewa.szymanska@example.com', 'zaq1@WSX', 'EwaSzymanska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(11, 'user11.jpg', 'piotr.lewandowski@example.com', 'zaq1@WSX', 'PiotrLewandowski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(12, 'user12.jpg', 'anna.wroblewska@example.com', 'zaq1@WSX', 'AnnaWroblewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(13, 'user13.jpg', 'marcin.kaminskii@example.com', 'zaq1@WSX', 'MarcinKaminski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(14, 'user14.jpg', 'agnieszka.sikora@example.com', 'zaq1@WSX', 'AgnieszkaSikora', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(15, 'user15.jpg', 'lukasz.jablonski@example.com', 'zaq1@WSX', 'LukaszJablonski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(16, 'user16.jpg', 'marta.krol@example.com', 'zaq1@WSX', 'MartaKrol', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(17, 'user17.jpg', 'pawel.dabrowski@example.com', 'zaq1@WSX', 'PawelDabrowski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(18, 'user18.jpg', 'monika.kowalska@example.com', 'zaq1@WSX', 'MonikaKowalska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(19, 'user19.jpg', 'krzysztof.nowicki@example.com', 'zaq1@WSX', 'KrzysztofNowicki', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(20, 'user20.jpg', 'ania.wisniewska@example.com', 'zaq1@WSX', 'AniaWisniewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL);
 
 --
 -- Indeksy dla zrzutów tabel
