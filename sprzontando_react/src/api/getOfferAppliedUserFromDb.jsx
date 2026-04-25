@@ -12,7 +12,6 @@ export const getOfferAppliedUserFromDb = async (offerId) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("Ofer Applied users:", response.data);
     return { success: true, data: response.data.data };
   } catch (error) {
     return {

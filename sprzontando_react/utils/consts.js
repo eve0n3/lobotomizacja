@@ -11,9 +11,10 @@ export const ADD_OFFER_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie.php";
 export const APPLY_FOR_OFFER_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie_chetny_add.php";
-
 export const USER_APPLIED_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie_chetny_show.php";
+export const USER_INFO_URL =
+  "http://localhost/lobotomizacja/phpscripts/user_info.php";
 export const USER_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/user_offers.php";
 
@@ -36,6 +37,13 @@ export const AP_OFFER_ID = "id_ogloszenia";
 export const US_ID = "id";
 export const US_USERNAME = "nazwa";
 
+//user info
+export const US_ID = "id";
+export const US_USERNAME = "nazwa";
+export const US_EMAIL = "email";
+export const US_RATING = "avgocena";
+export const US_LAST_OFFER = "ostatnie_zlecenie";
+
 //navigacja podstrony
 
 export const LOGIN_LOCATION = "/login";
@@ -45,3 +53,4 @@ export const SUCCESS_VERIFICATION_LOCATION = "/successVerification";
 export const HOME_LOCATION = "/";
 export const USERS_RANKING_LOCATION = "/usersRanking";
 export const ADD_OFFER_LOCATION = "/addOffer";
+export const USER_PROFILE_LOCATION = "/userProfile";
