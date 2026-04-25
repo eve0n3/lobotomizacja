@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 25 Kwi 2026, 12:52
--- Wersja serwera: 10.4.24-MariaDB
--- Wersja PHP: 8.1.6
+-- Generation Time: Apr 25, 2026 at 01:21 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `sprzontando`
+-- Database: `sprzontando`
 --
 
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `chetny`
+-- Table structure for table `chetny`
 --
 
 CREATE TABLE `chetny` (
@@ -32,33 +32,12 @@ CREATE TABLE `chetny` (
   `id_ogloszenia` int(11) DEFAULT NULL,
   `id_chetnego` int(11) DEFAULT NULL,
   `zgloszenie` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `oceny`
---
-
-CREATE TABLE `oceny` (
-  `id` int(11) NOT NULL,
-  `ocena` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
-
---
--- Zrzut danych tabeli `oceny`
---
-
-INSERT INTO `oceny` (`id`, `ocena`) VALUES
-(1, 5),
-(2, 4),
-(3, 3),
-(4, 3);
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `ogloszenia_oferty`
+-- Table structure for table `ogloszenia_oferty`
 --
 
 CREATE TABLE `ogloszenia_oferty` (
@@ -72,87 +51,88 @@ CREATE TABLE `ogloszenia_oferty` (
   `utworzenie` datetime DEFAULT NULL,
   `waznosc` datetime DEFAULT NULL,
   `id_zglasz` int(11) DEFAULT NULL,
-  `ban` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `ban` int(11) DEFAULT 0,
+  `report_count` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `ogloszenia_oferty`
+-- Dumping data for table `ogloszenia_oferty`
 --
 
-INSERT INTO `ogloszenia_oferty` (`id`, `tytul`, `kategoria`, `miasto`, `adres`, `cena`, `opis`, `utworzenie`, `waznosc`, `id_zglasz`, `ban`) VALUES
-(1, 'Apartament z widokiem na park', 'Mieszkania', 'Warszawa', 'ul. Parkowa 12', 850, 'Nowoczesny apartament 75m2 z balkonem', '2025-01-01 10:00:00', '2025-06-01 10:00:00', 1, 0),
-(2, 'Kawalerka inwestycyjna', 'Mieszkania', 'Kraków', 'ul. Szkolna 8', 1000, 'Idealne pod wynajem 28m2', '2025-01-02 10:00:00', '2025-06-02 10:00:00', 2, 0),
-(3, 'Lokal biurowy 120m2', 'Biura', 'Wrocław', 'ul. Biznesowa 5', 1500, 'Biuro w centrum miasta', '2025-01-03 09:00:00', '2025-06-03 09:00:00', 3, 0),
-(4, 'Nowoczesne biuro open space', 'Biura', 'Poznań', 'ul. Nowa 4', 1120, 'Powierzchnia 95m2', '2025-01-04 09:00:00', '2025-06-04 09:00:00', 4, 0),
-(5, 'Garaż podziemny monitorowany', 'Garaże', 'Gdańsk', 'ul. Morska 11', 17, 'Bezpieczny garaż z monitoringiem', '2025-01-05 11:00:00', '2025-06-05 11:00:00', 5, 0),
-(6, 'Garaż przy osiedlu zamkniętym', 'Garaże', 'Łódź', 'ul. Wspólna 3', 225, 'Murowany garaż 18m2', '2025-01-06 11:00:00', '2025-06-06 11:00:00', 6, 0),
-(7, 'Piwnica 20m2 sucha', 'Piwnice', 'Lublin', 'ul. Zielona 9', 170, 'Piwnica w bloku mieszkalnym', '2025-01-07 08:00:00', '2025-06-07 08:00:00', 7, 0),
-(8, 'Piwnica magazynowa 15m2', 'Piwnice', 'Szczecin', 'ul. Jasna 6', 140, 'Dodatkowa przestrzeń', '2025-01-08 08:00:00', '2025-06-08 08:00:00', 8, 0),
-(9, 'Ogród działkowy ROD', 'Ogrody', 'Bydgoszcz', 'ul. Kwiatowa 20', 920, 'Działka 400m2 z altaną', '2025-01-09 14:00:00', '2025-06-09 14:00:00', 9, 0),
-(10, 'Ogród rekreacyjny z domkiem', 'Ogrody', 'Białystok', 'ul. Polna 18', 1050, 'Zadbany ogród z mediami', '2025-01-10 14:00:00', '2025-06-10 14:00:00', 10, 0),
-(11, 'Magazyn wysokiego składowania', 'Magazyny', 'Katowice', 'ul. Przemysłowa 7', 3200, 'Hala 500m2', '2025-01-11 12:00:00', '2025-06-11 12:00:00', 1, 0),
-(12, 'Magazyn z rampą załadunkową', 'Magazyny', 'Rzeszów', 'ul. Handlowa 15', 2100, 'Powierzchnia 350m2', '2025-01-12 12:00:00', '2025-06-12 12:00:00', 2, 0),
-(13, 'Mieszkanie 3 pokoje', 'Mieszkania', 'Opole', 'ul. Słoneczna 2', 560, 'Rodzinne mieszkanie 60m2', '2025-01-13 10:00:00', '2025-06-13 10:00:00', 3, 0),
-(14, 'Apartament premium 100m2', 'Mieszkania', 'Gdynia', 'ul. Klifowa 1', 2137, 'Widok na morze', '2025-01-14 10:00:00', '2025-06-14 10:00:00', 4, 0),
-(15, 'Biuro 80m2 centrum', 'Biura', 'Warszawa', 'ul. Marszałkowska 10', 1340, 'Doskonała lokalizacja', '2025-01-15 09:00:00', '2025-06-15 09:00:00', 5, 0),
-(16, 'Lokal biurowy 60m2', 'Biura', 'Kraków', 'ul. Długa 14', 890, 'Idealny dla startupu', '2025-01-16 09:00:00', '2025-06-16 09:00:00', 6, 0),
-(17, 'Garaż jednostanowiskowy', 'Garaże', 'Wrocław', 'ul. Leśna 12', 470, 'Blisko centrum', '2025-01-17 11:00:00', '2025-06-17 11:00:00', 7, 0),
-(18, 'Garaż dwustanowiskowy', 'Garaże', 'Poznań', 'ul. Brzozowa 4', 990, 'Duży garaż 30m2', '2025-01-18 11:00:00', '2025-06-18 11:00:00', 8, 0),
-(19, 'Piwnica 10m2', 'Piwnice', 'Gdańsk', 'ul. Różana 5', 90, 'Mała komórka lokatorska', '2025-01-19 08:00:00', '2025-06-19 08:00:00', 9, 0),
-(20, 'Piwnica 25m2', 'Piwnice', 'Łódź', 'ul. Wiosenna 9', 220, 'Duża piwnica z wentylacją', '2025-01-20 08:00:00', '2025-06-20 08:00:00', 10, 0),
-(21, 'Ogród 500m2', 'Ogrody', 'Lublin', 'ul. Letnia 6', 1150, 'Duża działka rekreacyjna', '2025-01-21 14:00:00', '2025-06-21 14:00:00', 1, 0),
-(22, 'Ogród z altaną', 'Ogrody', 'Szczecin', 'ul. Spacerowa 7', 980, 'Altana i prąd', '2025-01-22 14:00:00', '2025-06-22 14:00:00', 2, 0),
-(23, 'Magazyn 200m2', 'Magazyny', 'Bydgoszcz', 'ul. Składowa 3', 1850, 'Suchy magazyn', '2025-01-23 12:00:00', '2025-06-23 12:00:00', 3, 0),
-(24, 'Magazyn 150m2', 'Magazyny', 'Białystok', 'ul. Towarowa 8', 1420, 'Dobry do logistyki', '2025-01-24 12:00:00', '2025-06-24 12:00:00', 4, 0),
-(25, 'Mieszkanie 2 pokoje', 'Mieszkania', 'Katowice', 'ul. Graniczna 9', 430, 'Blisko uczelni', '2025-01-25 10:00:00', '2025-06-25 10:00:00', 5, 0),
-(26, 'Mieszkanie loftowe', 'Mieszkania', 'Rzeszów', 'ul. Fabryczna 4', 610, 'Styl industrialny', '2025-01-26 10:00:00', '2025-06-26 10:00:00', 6, 0),
-(27, 'Biuro 150m2', 'Biura', 'Opole', 'ul. Centrum 1', 1750, 'Duża przestrzeń', '2025-01-27 09:00:00', '2025-06-27 09:00:00', 7, 0),
-(28, 'Biuro 45m2', 'Biura', 'Gdynia', 'ul. Portowa 12', 620, 'Małe biuro', '2025-01-28 09:00:00', '2025-06-28 09:00:00', 8, 0),
-(29, 'Garaż w centrum', 'Garaże', 'Warszawa', 'ul. Krótka 3', 300, 'Świetna lokalizacja', '2025-01-29 11:00:00', '2025-06-29 11:00:00', 9, 0),
-(30, 'Garaż osiedlowy', 'Garaże', 'Kraków', 'ul. Piastowska 6', 130, 'Blisko bloku', '2025-01-30 11:00:00', '2025-06-30 11:00:00', 10, 0),
-(31, 'Piwnica 12m2', 'Piwnice', 'Wrocław', 'ul. Śląska 5', 110, 'Sucha i bezpieczna', '2025-02-01 08:00:00', '2025-07-01 08:00:00', 1, 0),
-(32, 'Piwnica 18m2', 'Piwnice', 'Poznań', 'ul. Dębowa 8', 160, 'Dodatkowa przestrzeń', '2025-02-02 08:00:00', '2025-07-02 08:00:00', 2, 0),
-(33, 'Ogród rodzinny', 'Ogrody', 'Gdańsk', 'ul. Ogrodowa 4', 990, 'Spokojna okolica', '2025-02-03 14:00:00', '2025-07-03 14:00:00', 3, 0),
-(34, 'Ogród 300m2', 'Ogrody', 'Łódź', 'ul. Kwiatowa 9', 870, 'Idealny na weekend', '2025-02-04 14:00:00', '2025-07-04 14:00:00', 4, 0),
-(35, 'Magazyn 600m2', 'Magazyny', 'Lublin', 'ul. Produkcyjna 2', 5200, 'Duża hala', '2025-02-05 12:00:00', '2025-07-05 12:00:00', 5, 0),
-(36, 'Magazyn 100m2', 'Magazyny', 'Szczecin', 'ul. Magazynowa 7', 990, 'Mały magazyn', '2025-02-06 12:00:00', '2025-07-06 12:00:00', 6, 0),
-(37, 'Apartament 4 pokoje', 'Mieszkania', 'Bydgoszcz', 'ul. Szeroka 11', 780, 'Duże mieszkanie rodzinne', '2025-02-07 10:00:00', '2025-07-07 10:00:00', 7, 0),
-(38, 'Mieszkanie przy lesie', 'Mieszkania', 'Białystok', 'ul. Leśna 10', 520, 'Cicha okolica', '2025-02-08 10:00:00', '2025-07-08 10:00:00', 8, 0),
-(39, 'Biuro w kamienicy', 'Biura', 'Katowice', 'ul. Rynek 3', 9700, 'Stylowe wnętrze', '2025-02-09 09:00:00', '2025-07-09 09:00:00', 9, 0),
-(40, 'Biuro 200m2', 'Biura', 'Rzeszów', 'ul. Plac 1', 2200, 'Duża przestrzeń biurowa', '2025-02-10 09:00:00', '2025-07-10 09:00:00', 10, 0),
-(41, 'Garaż 25m2', 'Garaże', 'Opole', 'ul. Garażowa 4', 213, 'Duży garaż', '2025-02-11 11:00:00', '2025-07-11 11:00:00', 1, 0),
-(42, 'Garaż z prądem', 'Garaże', 'Gdynia', 'ul. Elektryczna 5', 475, 'Podłączony prąd', '2025-02-12 11:00:00', '2025-07-12 11:00:00', 2, 0),
-(43, 'Piwnica 14m2', 'Piwnice', 'Warszawa', 'ul. Dolna 8', 130, 'Wysoki sufit', '2025-02-13 08:00:00', '2025-07-13 08:00:00', 3, 0),
-(44, 'Piwnica 30m2', 'Piwnice', 'Kraków', 'ul. Górna 6', 260, 'Duża powierzchnia', '2025-02-14 08:00:00', '2025-07-14 08:00:00', 4, 0),
-(45, 'Ogród z domkiem murowanym', 'Ogrody', 'Wrocław', 'ul. Zielna 5', 1200, 'Domek całoroczny', '2025-02-15 14:00:00', '2025-07-15 14:00:00', 5, 0),
-(46, 'Ogród blisko jeziora', 'Ogrody', 'Poznań', 'ul. Wodna 2', 108, 'Malownicza lokalizacja', '2025-02-16 14:00:00', '2025-07-16 14:00:00', 6, 0),
-(47, 'Magazyn z biurem', 'Magazyny', 'Gdańsk', 'ul. Logistyczna 3', 3400, 'Magazyn + zaplecze biurowe', '2025-02-17 12:00:00', '2025-07-17 12:00:00', 7, 0),
-(48, 'Magazyn ogrzewany', 'Magazyny', 'Łódź', 'ul. Ciepła 6', 2750, 'Ogrzewany obiekt', '2025-02-18 12:00:00', '2025-07-18 12:00:00', 8, 0),
-(49, 'Studio 35m2', 'Mieszkania', 'Lublin', 'ul. Akademicka 9', 410, 'Idealne dla studenta', '2025-02-19 10:00:00', '2025-07-19 10:00:00', 9, 0),
-(50, 'Penthouse z tarasem', 'Mieszkania', 'Szczecin', 'ul. Panorama 1', 1490, 'Taras 80m2', '2025-02-20 10:00:00', '2025-07-20 10:00:00', 10, 0),
-(51, 'Biuro przy rynku', 'Biura', 'Bydgoszcz', 'ul. Rynek 8', 1030, 'Ścisłe centrum', '2025-02-21 09:00:00', '2025-07-21 09:00:00', 1, 0),
-(52, 'Biuro 70m2', 'Biura', 'Białystok', 'ul. Centralna 4', 600, 'Nowoczesne wnętrze', '2025-02-22 09:00:00', '2025-07-22 09:00:00', 2, 0),
-(53, 'Garaż pod blokiem', 'Garaże', 'Katowice', 'ul. Blokowa 7', 199, 'Wygodny dojazd', '2025-02-23 11:00:00', '2025-07-23 11:00:00', 3, 0),
-(54, 'Garaż murowany 20m2', 'Garaże', 'Rzeszów', 'ul. Solidna 3', 200, 'Trwała konstrukcja', '2025-02-24 11:00:00', '2025-07-24 11:00:00', 4, 0),
-(55, 'Piwnica z regałami', 'Piwnice', 'Opole', 'ul. Niska 2', 150, 'Gotowa do użytku', '2025-02-25 08:00:00', '2025-07-25 08:00:00', 5, 0),
-(56, 'Piwnica klimatyzowana', 'Piwnice', 'Gdynia', 'ul. Chłodna 4', 200, 'Stała temperatura', '2025-02-26 08:00:00', '2025-07-26 08:00:00', 6, 0),
-(57, 'Ogród 450m2', 'Ogrody', 'Warszawa', 'ul. Relaksowa 5', 118, 'Blisko miasta', '2025-02-27 14:00:00', '2025-07-27 14:00:00', 7, 0),
-(58, 'Magazyn logistyczny 800m2', 'Magazyny', 'Kraków', 'ul. Transportowa 9', 750, 'Nowoczesny obiekt logistyczny', '2025-02-28 12:00:00', '2025-07-28 12:00:00', 8, 0),
-(59, 'Duże mieszkanie 5m2', 'Mieszkania', 'Warszawa', 'ul. Szósta 7', 250, 'Największe mieszkanie w Warszawie', '2025-02-28 12:00:00', '2025-07-28 12:00:00', 1, 0),
-(60, 'Garaż na osiedlu', 'Garaże', 'Kraków', 'ul. Kirkowa 2', 150, 'Mała powierzchnia', '2025-02-28 12:00:00', '2025-07-28 12:00:00', 3, 0),
-(61, 'Sprzątanie Stajni', 'inne', 'Opole', 'Oleska 45b', 1000, 'Stajnia jest brudna i trzeba ją posprzątać', '2026-04-23 19:08:28', '2026-04-23 19:10:00', 22, 0),
-(62, 'Nie dbają moje papiery o przeważne bohatery nic u nich Mars choc', 'ogrody', 'Warszawa', 'Wilanów 123h', 1000000000, ' Duży drogi ogród wymaga sprzątania w tym: przycięcia wszytskich krzewów, wyplenienie wszystkich chwastów, wybicie wszystkich kretów, zbudowanie stajni dla kucyków, skoszenie trawyDuży drogi ogród wymaga sprzątania w tym: przycięcia wszytskich krzewów, wyplenienie wszystkich chwastów, wybicie wszystkich kretów, zbudowanie stajni dla kucyków, skoszenie trawyDuży drogi ogród wymaga sprzątania w tym: przycięcia wszytskich krzewów, wyplenienie wszystkich chwastów, wybicie wszystkich kretów, zbudowan', '2026-04-23 19:12:02', '2026-04-23 19:15:00', 22, 0),
-(63, 'scscsc', 'dc', 'dc', NULL, 999, NULL, NULL, NULL, NULL, 0),
-(64, NULL, NULL, NULL, NULL, 999999, NULL, NULL, NULL, NULL, 0),
-(65, NULL, NULL, NULL, NULL, 1000000000, NULL, NULL, NULL, NULL, 0),
-(66, NULL, NULL, NULL, NULL, 100000000, NULL, NULL, NULL, NULL, 0),
-(67, NULL, NULL, NULL, NULL, 10000000, NULL, NULL, NULL, NULL, 0),
-(68, NULL, NULL, NULL, NULL, 9, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `ogloszenia_oferty` (`id`, `tytul`, `kategoria`, `miasto`, `adres`, `cena`, `opis`, `utworzenie`, `waznosc`, `id_zglasz`, `ban`, `report_count`) VALUES
+(1, 'Apartament z widokiem na park', 'Mieszkania', 'Warszawa', 'ul. Parkowa 12', 850, 'Nowoczesny apartament 75m2 z balkonem', '2025-01-01 10:00:00', '2025-06-01 10:00:00', 1, 0, 0),
+(2, 'Kawalerka inwestycyjna', 'Mieszkania', 'Kraków', 'ul. Szkolna 8', 1000, 'Idealne pod wynajem 28m2', '2025-01-02 10:00:00', '2025-06-02 10:00:00', 2, 0, 0),
+(3, 'Lokal biurowy 120m2', 'Biura', 'Wrocław', 'ul. Biznesowa 5', 1500, 'Biuro w centrum miasta', '2025-01-03 09:00:00', '2025-06-03 09:00:00', 3, 0, 0),
+(4, 'Nowoczesne biuro open space', 'Biura', 'Poznań', 'ul. Nowa 4', 1120, 'Powierzchnia 95m2', '2025-01-04 09:00:00', '2025-06-04 09:00:00', 4, 0, 0),
+(5, 'Garaż podziemny monitorowany', 'Garaże', 'Gdańsk', 'ul. Morska 11', 17, 'Bezpieczny garaż z monitoringiem', '2025-01-05 11:00:00', '2025-06-05 11:00:00', 5, 0, 0),
+(6, 'Garaż przy osiedlu zamkniętym', 'Garaże', 'Łódź', 'ul. Wspólna 3', 225, 'Murowany garaż 18m2', '2025-01-06 11:00:00', '2025-06-06 11:00:00', 6, 0, 0),
+(7, 'Piwnica 20m2 sucha', 'Piwnice', 'Lublin', 'ul. Zielona 9', 170, 'Piwnica w bloku mieszkalnym', '2025-01-07 08:00:00', '2025-06-07 08:00:00', 7, 0, 0),
+(8, 'Piwnica magazynowa 15m2', 'Piwnice', 'Szczecin', 'ul. Jasna 6', 140, 'Dodatkowa przestrzeń', '2025-01-08 08:00:00', '2025-06-08 08:00:00', 8, 0, 0),
+(9, 'Ogród działkowy ROD', 'Ogrody', 'Bydgoszcz', 'ul. Kwiatowa 20', 920, 'Działka 400m2 z altaną', '2025-01-09 14:00:00', '2025-06-09 14:00:00', 9, 0, 0),
+(10, 'Ogród rekreacyjny z domkiem', 'Ogrody', 'Białystok', 'ul. Polna 18', 1050, 'Zadbany ogród z mediami', '2025-01-10 14:00:00', '2025-06-10 14:00:00', 10, 0, 0),
+(11, 'Magazyn wysokiego składowania', 'Magazyny', 'Katowice', 'ul. Przemysłowa 7', 3200, 'Hala 500m2', '2025-01-11 12:00:00', '2025-06-11 12:00:00', 1, 0, 0),
+(12, 'Magazyn z rampą załadunkową', 'Magazyny', 'Rzeszów', 'ul. Handlowa 15', 2100, 'Powierzchnia 350m2', '2025-01-12 12:00:00', '2025-06-12 12:00:00', 2, 0, 0),
+(13, 'Mieszkanie 3 pokoje', 'Mieszkania', 'Opole', 'ul. Słoneczna 2', 560, 'Rodzinne mieszkanie 60m2', '2025-01-13 10:00:00', '2025-06-13 10:00:00', 3, 0, 0),
+(14, 'Apartament premium 100m2', 'Mieszkania', 'Gdynia', 'ul. Klifowa 1', 2137, 'Widok na morze', '2025-01-14 10:00:00', '2025-06-14 10:00:00', 4, 0, 0),
+(15, 'Biuro 80m2 centrum', 'Biura', 'Warszawa', 'ul. Marszałkowska 10', 1340, 'Doskonała lokalizacja', '2025-01-15 09:00:00', '2025-06-15 09:00:00', 5, 0, 0),
+(16, 'Lokal biurowy 60m2', 'Biura', 'Kraków', 'ul. Długa 14', 890, 'Idealny dla startupu', '2025-01-16 09:00:00', '2025-06-16 09:00:00', 6, 0, 0),
+(17, 'Garaż jednostanowiskowy', 'Garaże', 'Wrocław', 'ul. Leśna 12', 470, 'Blisko centrum', '2025-01-17 11:00:00', '2025-06-17 11:00:00', 7, 0, 0),
+(18, 'Garaż dwustanowiskowy', 'Garaże', 'Poznań', 'ul. Brzozowa 4', 990, 'Duży garaż 30m2', '2025-01-18 11:00:00', '2025-06-18 11:00:00', 8, 0, 0),
+(19, 'Piwnica 10m2', 'Piwnice', 'Gdańsk', 'ul. Różana 5', 90, 'Mała komórka lokatorska', '2025-01-19 08:00:00', '2025-06-19 08:00:00', 9, 0, 0),
+(20, 'Piwnica 25m2', 'Piwnice', 'Łódź', 'ul. Wiosenna 9', 220, 'Duża piwnica z wentylacją', '2025-01-20 08:00:00', '2025-06-20 08:00:00', 10, 0, 0),
+(21, 'Ogród 500m2', 'Ogrody', 'Lublin', 'ul. Letnia 6', 1150, 'Duża działka rekreacyjna', '2025-01-21 14:00:00', '2025-06-21 14:00:00', 1, 0, 0),
+(22, 'Ogród z altaną', 'Ogrody', 'Szczecin', 'ul. Spacerowa 7', 980, 'Altana i prąd', '2025-01-22 14:00:00', '2025-06-22 14:00:00', 2, 0, 0),
+(23, 'Magazyn 200m2', 'Magazyny', 'Bydgoszcz', 'ul. Składowa 3', 1850, 'Suchy magazyn', '2025-01-23 12:00:00', '2025-06-23 12:00:00', 3, 0, 0),
+(24, 'Magazyn 150m2', 'Magazyny', 'Białystok', 'ul. Towarowa 8', 1420, 'Dobry do logistyki', '2025-01-24 12:00:00', '2025-06-24 12:00:00', 4, 0, 0),
+(25, 'Mieszkanie 2 pokoje', 'Mieszkania', 'Katowice', 'ul. Graniczna 9', 430, 'Blisko uczelni', '2025-01-25 10:00:00', '2025-06-25 10:00:00', 5, 0, 0),
+(26, 'Mieszkanie loftowe', 'Mieszkania', 'Rzeszów', 'ul. Fabryczna 4', 610, 'Styl industrialny', '2025-01-26 10:00:00', '2025-06-26 10:00:00', 6, 0, 0),
+(27, 'Biuro 150m2', 'Biura', 'Opole', 'ul. Centrum 1', 1750, 'Duża przestrzeń', '2025-01-27 09:00:00', '2025-06-27 09:00:00', 7, 0, 0),
+(28, 'Biuro 45m2', 'Biura', 'Gdynia', 'ul. Portowa 12', 620, 'Małe biuro', '2025-01-28 09:00:00', '2025-06-28 09:00:00', 8, 0, 0),
+(29, 'Garaż w centrum', 'Garaże', 'Warszawa', 'ul. Krótka 3', 300, 'Świetna lokalizacja', '2025-01-29 11:00:00', '2025-06-29 11:00:00', 9, 0, 0),
+(30, 'Garaż osiedlowy', 'Garaże', 'Kraków', 'ul. Piastowska 6', 130, 'Blisko bloku', '2025-01-30 11:00:00', '2025-06-30 11:00:00', 10, 0, 0),
+(31, 'Piwnica 12m2', 'Piwnice', 'Wrocław', 'ul. Śląska 5', 110, 'Sucha i bezpieczna', '2025-02-01 08:00:00', '2025-07-01 08:00:00', 1, 0, 0),
+(32, 'Piwnica 18m2', 'Piwnice', 'Poznań', 'ul. Dębowa 8', 160, 'Dodatkowa przestrzeń', '2025-02-02 08:00:00', '2025-07-02 08:00:00', 2, 0, 0),
+(33, 'Ogród rodzinny', 'Ogrody', 'Gdańsk', 'ul. Ogrodowa 4', 990, 'Spokojna okolica', '2025-02-03 14:00:00', '2025-07-03 14:00:00', 3, 0, 0),
+(34, 'Ogród 300m2', 'Ogrody', 'Łódź', 'ul. Kwiatowa 9', 870, 'Idealny na weekend', '2025-02-04 14:00:00', '2025-07-04 14:00:00', 4, 0, 0),
+(35, 'Magazyn 600m2', 'Magazyny', 'Lublin', 'ul. Produkcyjna 2', 5200, 'Duża hala', '2025-02-05 12:00:00', '2025-07-05 12:00:00', 5, 0, 0),
+(36, 'Magazyn 100m2', 'Magazyny', 'Szczecin', 'ul. Magazynowa 7', 990, 'Mały magazyn', '2025-02-06 12:00:00', '2025-07-06 12:00:00', 6, 0, 0),
+(37, 'Apartament 4 pokoje', 'Mieszkania', 'Bydgoszcz', 'ul. Szeroka 11', 780, 'Duże mieszkanie rodzinne', '2025-02-07 10:00:00', '2025-07-07 10:00:00', 7, 0, 0),
+(38, 'Mieszkanie przy lesie', 'Mieszkania', 'Białystok', 'ul. Leśna 10', 520, 'Cicha okolica', '2025-02-08 10:00:00', '2025-07-08 10:00:00', 8, 0, 0),
+(39, 'Biuro w kamienicy', 'Biura', 'Katowice', 'ul. Rynek 3', 9700, 'Stylowe wnętrze', '2025-02-09 09:00:00', '2025-07-09 09:00:00', 9, 0, 0),
+(40, 'Biuro 200m2', 'Biura', 'Rzeszów', 'ul. Plac 1', 2200, 'Duża przestrzeń biurowa', '2025-02-10 09:00:00', '2025-07-10 09:00:00', 10, 0, 0),
+(41, 'Garaż 25m2', 'Garaże', 'Opole', 'ul. Garażowa 4', 213, 'Duży garaż', '2025-02-11 11:00:00', '2025-07-11 11:00:00', 1, 0, 0),
+(42, 'Garaż z prądem', 'Garaże', 'Gdynia', 'ul. Elektryczna 5', 475, 'Podłączony prąd', '2025-02-12 11:00:00', '2025-07-12 11:00:00', 2, 0, 0),
+(43, 'Piwnica 14m2', 'Piwnice', 'Warszawa', 'ul. Dolna 8', 130, 'Wysoki sufit', '2025-02-13 08:00:00', '2025-07-13 08:00:00', 3, 0, 0),
+(44, 'Piwnica 30m2', 'Piwnice', 'Kraków', 'ul. Górna 6', 260, 'Duża powierzchnia', '2025-02-14 08:00:00', '2025-07-14 08:00:00', 4, 0, 0),
+(45, 'Ogród z domkiem murowanym', 'Ogrody', 'Wrocław', 'ul. Zielna 5', 1200, 'Domek całoroczny', '2025-02-15 14:00:00', '2025-07-15 14:00:00', 5, 0, 0),
+(46, 'Ogród blisko jeziora', 'Ogrody', 'Poznań', 'ul. Wodna 2', 108, 'Malownicza lokalizacja', '2025-02-16 14:00:00', '2025-07-16 14:00:00', 6, 0, 0),
+(47, 'Magazyn z biurem', 'Magazyny', 'Gdańsk', 'ul. Logistyczna 3', 3400, 'Magazyn + zaplecze biurowe', '2025-02-17 12:00:00', '2025-07-17 12:00:00', 7, 0, 0),
+(48, 'Magazyn ogrzewany', 'Magazyny', 'Łódź', 'ul. Ciepła 6', 2750, 'Ogrzewany obiekt', '2025-02-18 12:00:00', '2025-07-18 12:00:00', 8, 0, 0),
+(49, 'Studio 35m2', 'Mieszkania', 'Lublin', 'ul. Akademicka 9', 410, 'Idealne dla studenta', '2025-02-19 10:00:00', '2025-07-19 10:00:00', 9, 0, 0),
+(50, 'Penthouse z tarasem', 'Mieszkania', 'Szczecin', 'ul. Panorama 1', 1490, 'Taras 80m2', '2025-02-20 10:00:00', '2025-07-20 10:00:00', 10, 0, 0),
+(51, 'Biuro przy rynku', 'Biura', 'Bydgoszcz', 'ul. Rynek 8', 1030, 'Ścisłe centrum', '2025-02-21 09:00:00', '2025-07-21 09:00:00', 1, 0, 0),
+(52, 'Biuro 70m2', 'Biura', 'Białystok', 'ul. Centralna 4', 600, 'Nowoczesne wnętrze', '2025-02-22 09:00:00', '2025-07-22 09:00:00', 2, 0, 0),
+(53, 'Garaż pod blokiem', 'Garaże', 'Katowice', 'ul. Blokowa 7', 199, 'Wygodny dojazd', '2025-02-23 11:00:00', '2025-07-23 11:00:00', 3, 0, 0),
+(54, 'Garaż murowany 20m2', 'Garaże', 'Rzeszów', 'ul. Solidna 3', 200, 'Trwała konstrukcja', '2025-02-24 11:00:00', '2025-07-24 11:00:00', 4, 0, 0),
+(55, 'Piwnica z regałami', 'Piwnice', 'Opole', 'ul. Niska 2', 150, 'Gotowa do użytku', '2025-02-25 08:00:00', '2025-07-25 08:00:00', 5, 0, 0),
+(56, 'Piwnica klimatyzowana', 'Piwnice', 'Gdynia', 'ul. Chłodna 4', 200, 'Stała temperatura', '2025-02-26 08:00:00', '2025-07-26 08:00:00', 6, 0, 0),
+(57, 'Ogród 450m2', 'Ogrody', 'Warszawa', 'ul. Relaksowa 5', 118, 'Blisko miasta', '2025-02-27 14:00:00', '2025-07-27 14:00:00', 7, 0, 0),
+(58, 'Magazyn logistyczny 800m2', 'Magazyny', 'Kraków', 'ul. Transportowa 9', 750, 'Nowoczesny obiekt logistyczny', '2025-02-28 12:00:00', '2025-07-28 12:00:00', 8, 0, 0),
+(59, 'Duże mieszkanie 5m2', 'Mieszkania', 'Warszawa', 'ul. Szósta 7', 250, 'Największe mieszkanie w Warszawie', '2025-02-28 12:00:00', '2025-07-28 12:00:00', 1, 0, 0),
+(60, 'Garaż na osiedlu', 'Garaże', 'Kraków', 'ul. Kirkowa 2', 150, 'Mała powierzchnia', '2025-02-28 12:00:00', '2025-07-28 12:00:00', 3, 0, 0),
+(61, 'Sprzątanie Stajni', 'inne', 'Opole', 'Oleska 45b', 1000, 'Stajnia jest brudna i trzeba ją posprzątać', '2026-04-23 19:08:28', '2026-04-23 19:10:00', 22, 0, 0),
+(62, 'Nie dbają moje papiery o przeważne bohatery nic u nich Mars choc', 'ogrody', 'Warszawa', 'Wilanów 123h', 1000000000, ' Duży drogi ogród wymaga sprzątania w tym: przycięcia wszytskich krzewów, wyplenienie wszystkich chwastów, wybicie wszystkich kretów, zbudowanie stajni dla kucyków, skoszenie trawyDuży drogi ogród wymaga sprzątania w tym: przycięcia wszytskich krzewów, wyplenienie wszystkich chwastów, wybicie wszystkich kretów, zbudowanie stajni dla kucyków, skoszenie trawyDuży drogi ogród wymaga sprzątania w tym: przycięcia wszytskich krzewów, wyplenienie wszystkich chwastów, wybicie wszystkich kretów, zbudowan', '2026-04-23 19:12:02', '2026-04-23 19:15:00', 22, 0, 0),
+(63, 'scscsc', 'dc', 'dc', NULL, 999, NULL, NULL, NULL, NULL, 0, 0),
+(64, NULL, NULL, NULL, NULL, 999999, NULL, NULL, NULL, NULL, 0, 0),
+(65, NULL, NULL, NULL, NULL, 1000000000, NULL, NULL, NULL, NULL, 0, 0),
+(66, NULL, NULL, NULL, NULL, 100000000, NULL, NULL, NULL, NULL, 0, 0),
+(67, NULL, NULL, NULL, NULL, 10000000, NULL, NULL, NULL, NULL, 0, 0),
+(68, NULL, NULL, NULL, NULL, 9, NULL, NULL, NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `ogloszenia_zrobione`
+-- Table structure for table `ogloszenia_zrobione`
 --
 
 CREATE TABLE `ogloszenia_zrobione` (
@@ -163,7 +143,7 @@ CREATE TABLE `ogloszenia_zrobione` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
--- Zrzut danych tabeli `ogloszenia_zrobione`
+-- Dumping data for table `ogloszenia_zrobione`
 --
 
 INSERT INTO `ogloszenia_zrobione` (`id`, `id_ogl`, `id_wykon`, `ocena`) VALUES
@@ -174,7 +154,7 @@ INSERT INTO `ogloszenia_zrobione` (`id`, `id_ogl`, `id_wykon`, `ocena`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -190,10 +170,10 @@ CREATE TABLE `users` (
   `kod` int(4) DEFAULT NULL,
   `zatwierdzony` int(11) NOT NULL,
   `ostatnie_zlecenie` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `photo`, `email`, `haslo`, `nazwa`, `utworzenie`, `ban`, `ban_data`, `ban_end`, `kod`, `zatwierdzony`, `ostatnie_zlecenie`) VALUES
@@ -219,70 +199,58 @@ INSERT INTO `users` (`id`, `photo`, `email`, `haslo`, `nazwa`, `utworzenie`, `ba
 (20, 'user20.jpg', 'ania.wisniewska@example.com', 'zaq1@WSX', 'AniaWisniewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL);
 
 --
--- Indeksy dla zrzutów tabel
+-- Indexes for dumped tables
 --
 
 --
--- Indeksy dla tabeli `chetny`
+-- Indexes for table `chetny`
 --
 ALTER TABLE `chetny`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeksy dla tabeli `oceny`
---
-ALTER TABLE `oceny`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeksy dla tabeli `ogloszenia_oferty`
+-- Indexes for table `ogloszenia_oferty`
 --
 ALTER TABLE `ogloszenia_oferty`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeksy dla tabeli `ogloszenia_zrobione`
+-- Indexes for table `ogloszenia_zrobione`
 --
 ALTER TABLE `ogloszenia_zrobione`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id_ogl` (`id_ogl`);
 
 --
--- Indeksy dla tabeli `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT dla zrzuconych tabel
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT dla tabeli `chetny`
+-- AUTO_INCREMENT for table `chetny`
 --
 ALTER TABLE `chetny`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT dla tabeli `oceny`
---
-ALTER TABLE `oceny`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT dla tabeli `ogloszenia_oferty`
+-- AUTO_INCREMENT for table `ogloszenia_oferty`
 --
 ALTER TABLE `ogloszenia_oferty`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
--- AUTO_INCREMENT dla tabeli `ogloszenia_zrobione`
+-- AUTO_INCREMENT for table `ogloszenia_zrobione`
 --
 ALTER TABLE `ogloszenia_zrobione`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT dla tabeli `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
