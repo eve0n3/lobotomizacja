@@ -82,7 +82,7 @@
     $sqlQueryEnd = " WHERE id = ?";
     $sqlQuery = $sqlQueryStart.$sqlQueryEnd;
 
-    echo json_encode($sqlQuery);
+    //echo json_encode($sqlQuery);
     $stmt = $conn->prepare($sqlQuery);
     $stmt->bind_param($paramTypes, ...$params);
 
