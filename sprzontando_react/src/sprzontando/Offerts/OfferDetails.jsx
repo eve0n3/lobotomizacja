@@ -46,6 +46,7 @@ import { applyForOfferInDb } from "../../api/applyForOfferInDb";
 import ErrorAlert from "../../components/ErrorAlert";
 import SuccessAlert from "../../components/SuccessAlert";
 import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
+import MyOfferAppliedUsers from "../MyOffers/MyOfferAppliedUsers";
 
 function OfferDetails() {
   const location = useLocation();
@@ -66,6 +67,7 @@ function OfferDetails() {
   }
 
   const userId = getLoggedUserId();
+  const isCreator = userId === offer[OF_CREATOR_ID];
 
   const handleApplyButtonClick = async () => {
     userId === null && navigate(LOGIN_LOCATION);
@@ -170,7 +172,7 @@ function OfferDetails() {
                 </Typography>
               </Box>
             </Stack>
-            {userId !== offer[OF_CREATOR_ID] && (
+            {!isCreator && (
               <Button
                 variant="contained"
                 onClick={async () => handleApplyButtonClick()}
@@ -202,6 +204,20 @@ function OfferDetails() {
             {offer[OF_DESCRIPTION]}
           </Typography>
         </Grid>
+        <Grid size={12} item>
+          <Divider sx={{ my: 4 }} />
+        </Grid>
+        {isCreator && (
+          <Grid size={12} item>
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
+              Chętni
+            </Typography>
+            <MyOfferAppliedUsers
+              offerUsers={offer?.appliedUsers || null}
+              offerId={offer[OF_ID]}
+            />
+          </Grid>
+        )}
       </Grid>
       {error && (
         <ErrorAlert

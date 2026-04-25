@@ -27,6 +27,7 @@ import {
   USERS_RANKING_LOCATION,
 } from "../utils/consts";
 import UserProfile from "./sprzontando/UserProfile/UserProfile";
+import MyOffers from "./sprzontando/MyOffers/MyOffers";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: USER_PROFILE_LOCATION,
         element: <UserProfile />,
+      },
+      {
+        path: "/myOffers",
+        element: <MyOffers />,
       },
     ],
   },
