@@ -9,37 +9,24 @@ import {
   US_RATING,
   US_USERNAME,
 } from "../../../utils/consts";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, LinearProgress, Rating } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getUserInfoFromDb } from "../../api/getUserInfoFromDb";
 import OtherUserAvatar from "../../components/OtherUserAvatar";
 
-const OtherUserProfile = (userId) => {
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
+const OtherUserProfile = () => {
+  const location = useLocation();
 
-  useEffect(() => {
-    const loadUser = async () => {
-      const result = await getUserInfoFromDb(userId);
-      setLoading(false);
-
-      if (result.success) {
-        setUser(result.data);
-      } else {
-        setError("Nie udało się załadować danych użytkownika.");
-      }
-    };
-
-    loadUser();
-  }, [userId]);
-
-  if (isLoading) {
-    return <LinearProgress />;
-  }
-  if (error) {
-    return <Typography color="error">{error}</Typography>;
+  const user = location.state?.user;
+  if (!user) {
+    return (
+      <Container sx={{ mt: 4 }}>
+        <Typography variant="h5" color="error">
+          Błąd: Nie można wyświetlić szczegółów użytkownika.
+        </Typography>
+      </Container>
+    );
   }
 
   return (
@@ -58,7 +45,9 @@ const OtherUserProfile = (userId) => {
         readOnly
       />
       <Typography>Ostanie zlecenie: </Typography>
-      <Typography>{user[US_LAST_OFFER]}</Typography>
+      <Typography>
+        {user[US_LAST_OFFER] || "Brak ostaniego zlecenia"}
+      </Typography>
     </Container>
   );
 };

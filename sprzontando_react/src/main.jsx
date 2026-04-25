@@ -20,6 +20,7 @@ import {
   ADD_OFFER_LOCATION,
   HOME_LOCATION,
   LOGIN_LOCATION,
+  OTHER_USER_PROFILE_LOCATION,
   REGISTER_LOCATION,
   SUCCESS_REGISTER_LOCATION,
   SUCCESS_VERIFICATION_LOCATION,
@@ -28,6 +29,7 @@ import {
 } from "../utils/consts";
 import UserProfile from "./sprzontando/UserProfile/UserProfile";
 import MyOffers from "./sprzontando/MyOffers/MyOffers";
+import OtherUserProfile from "./sprzontando/UserProfile/OtherUserProfile";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "/myOffers",
         element: <MyOffers />,
+      },
+      {
+        path: OTHER_USER_PROFILE_LOCATION,
+        element: <OtherUserProfile />,
       },
     ],
   },

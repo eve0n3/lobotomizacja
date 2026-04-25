@@ -1,10 +1,25 @@
-import { Grid, LinearProgress, Typography } from "@mui/material";
+import {
+  Grid,
+  LinearProgress,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
 import { useState, useEffect } from "react";
-import { US_USERNAME } from "../../../utils/consts";
+import {
+  OTHER_USER_PROFILE_LOCATION,
+  US_USERNAME,
+} from "../../../utils/consts";
+import OtherUserAvatar from "../../components/OtherUserAvatar";
+import { useNavigate } from "react-router-dom";
 
 const MyOfferAppliedUsers = ({ offerUsers, offerId }) => {
+  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [users, setUsers] = useState(null);
@@ -46,16 +61,30 @@ const MyOfferAppliedUsers = ({ offerUsers, offerId }) => {
       </Typography>
     );
   }
+  const handleClick = (user) => {
+    navigate(OTHER_USER_PROFILE_LOCATION, { state: { user: user } });
+  };
 
   return (
-    <Grid container spacing={2}>
+    <List>
       {users?.map((user) => (
-        <Grid item key={user.id}>
-          <Typography variant="h6">{user[US_USERNAME]}</Typography>
-          <Button variant="contained">Wybierz</Button>
-        </Grid>
+        <ListItem
+          disablePadding
+          secondaryAction={<Button variant="contained">Wybierz</Button>}
+        >
+          <ListItemButton
+            onClick={() => {
+              handleClick(user);
+            }}
+          >
+            <ListItemAvatar>
+              <OtherUserAvatar username={user[US_USERNAME]} />
+            </ListItemAvatar>
+            <ListItemText primary={user[US_USERNAME]} />
+          </ListItemButton>
+        </ListItem>
       ))}
-    </Grid>
+    </List>
   );
 };
 

@@ -20,6 +20,11 @@ export const getUserInfoFromDb = async (userId) => {
     });
     if (response.data.success) {
       return { success: true, data: handleSuccess(response.data.data) };
+    } else {
+      throw new Error(
+        response.data.message ||
+          "Nie udało się pobrać informacji o użytkowniku.",
+      );
     }
   } catch (error) {
     return {

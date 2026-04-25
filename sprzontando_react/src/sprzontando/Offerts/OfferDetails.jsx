@@ -60,7 +60,7 @@ function OfferDetails() {
     return (
       <Container sx={{ mt: 4 }}>
         <Typography variant="h5" color="error">
-          {error}
+          Błąd: Nie można wyświetlić szczegółów oferty. Brak danych oferty.
         </Typography>
       </Container>
     );
