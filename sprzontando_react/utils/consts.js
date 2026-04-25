@@ -11,9 +11,10 @@ export const ADD_OFFER_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie.php";
 export const APPLY_FOR_OFFER_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie_chetny_add.php";
-
 export const USER_APPLIED_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie_chetny_show.php";
+export const USER_INFO_URL =
+  "http://localhost/lobotomizacja/phpscripts/user_info.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";
@@ -30,6 +31,13 @@ export const OF_CREATOR_ID = "id_zglasz";
 //applied offers
 export const AP_USER_ID = "id_chetnego";
 export const AP_OFFER_ID = "id_ogloszenia";
+
+//user info
+export const US_ID = "id";
+export const US_USERNAME = "nazwa";
+export const US_EMAIL = "email";
+export const US_RATING = "avgocena";
+export const US_LAST_OFFER = "ostatnie_zlecenie";
 
 //navigacja podstrony
 

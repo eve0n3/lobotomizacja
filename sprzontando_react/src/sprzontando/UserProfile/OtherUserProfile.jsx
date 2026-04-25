@@ -13,25 +13,16 @@ import { useNavigate } from "react-router-dom";
 import { Button, LinearProgress, Rating } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getUserInfoFromDb } from "../../api/getUserInfoFromDb";
+import OtherUserAvatar from "../../components/OtherUserAvatar";
 
-const UserProfile = () => {
-  const navigate = useNavigate();
+const OtherUserProfile = (userId) => {
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
 
-  const loggedUserId = getLoggedUserId();
-  const loggedUser = getLoggedUser();
-
-  console.log(loggedUser);
-
   useEffect(() => {
-    if (loggedUserId === null) {
-      navigate(LOGIN_LOCATION);
-      return;
-    }
     const loadUser = async () => {
-      const result = await getUserInfoFromDb(loggedUserId);
+      const result = await getUserInfoFromDb(userId);
       setLoading(false);
 
       if (result.success) {
@@ -42,9 +33,8 @@ const UserProfile = () => {
     };
 
     loadUser();
-  }, [loggedUserId]);
+  }, [userId]);
 
-  if (loggedUserId === null) return null;
   if (isLoading) {
     return <LinearProgress />;
   }
@@ -54,7 +44,7 @@ const UserProfile = () => {
 
   return (
     <Container>
-      <UserAvatar loggedUser={loggedUser} />
+      <OtherUserAvatar username={user[US_USERNAME]} />
       <Typography>Nazwa: </Typography>
       <Typography>{user[US_USERNAME]}</Typography>
       <Typography>Email: </Typography>
@@ -69,8 +59,7 @@ const UserProfile = () => {
       />
       <Typography>Ostanie zlecenie: </Typography>
       <Typography>{user[US_LAST_OFFER]}</Typography>
-      <Button variant="contained">wyloguj się</Button>
     </Container>
   );
 };
-export default UserProfile;
+export default OtherUserProfile;

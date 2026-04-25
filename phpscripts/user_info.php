@@ -19,7 +19,9 @@
     //połączenie z bazą danych
     include 'dbconnect.php';
 
-$stmt = $conn->prepare('SELECT nazwa, email,ostatnie_zlecenie FROM users WHERE id = ?');
+$stmt = $conn->prepare('SELECT users.*, ROUND(CAST(AVG(ocena) AS DECIMAL(4,2)),2) AS avgocena FROM ogloszenia_zrobione
+RIGHT JOIN users ON ogloszenia_zrobione.id_wykon=users.id
+WHERE users.id = ?');
 $stmt->bind_param('i', $user_id);
 
 
