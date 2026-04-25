@@ -14,6 +14,7 @@ import NoOffers from "../Offerts/NoOffers";
 import { getLoggedUserId } from "../../../utils/utilis";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_LOCATION } from "../../../utils/consts";
+import NoMyOffers from "./NoMyOffers";
 
 function MyOffers() {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ function MyOffers() {
         <LinearProgress />
       ) : (
         <>
-          {offers.length > 0 ? <OffersList offers={offers} /> : <NoOffers />}
+          {offers.length > 0 ? <OffersList offers={offers} /> : <NoMyOffers />}
           <AddOffertButton />
         </>
       )}

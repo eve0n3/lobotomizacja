@@ -19,10 +19,10 @@
     $id_chetnego = $data["id_chetnego"] ?? null;
 
     if(!is_null($id_chetnego)){
-        $sqlquery = "SELECT id_ogloszenia FROM chetny WHERE id_chetnego = ?;"; //dla id ogl daje mi wszystkich chetnych
+        $sqlquery = "SELECT * FROM chetny JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia WHERE id_chetnego = ?;"; //dla id ogl daje mi wszystkich chetnych
         $param = $id_chetnego;
     }elseif(!is_null($id_ogl)){
-        $sqlquery = "SELECT id_chetnego FROM chetny WHERE id_ogloszenia = ?;"; //dla id chetnego daje mi wszystkie ogloszenia do których sie zgłosił
+        $sqlquery = "SELECT * FROM chetny JOIN users ON users.id=chetny.id_chetnego WHERE id_ogloszenia = ?;"; //dla id chetnego daje mi wszystkie ogloszenia do których sie zgłosił
         $param = $id_ogl;
     }
     
