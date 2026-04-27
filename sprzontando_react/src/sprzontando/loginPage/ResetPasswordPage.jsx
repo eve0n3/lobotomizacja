@@ -49,7 +49,7 @@ function ResetPasswordPage() {
             <TextField
               className="login-input"
               onChange={(e) => setPassword(e.target.value)}
-              label="hasło"
+              label="nowe hasło"
               type="password"
             ></TextField>
           </div>

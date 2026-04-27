@@ -17,6 +17,7 @@
 
     $sqlQuery = "SELECT users.nazwa, ROUND(CAST(AVG(ocena) AS DECIMAL(4,2)), 2) AS avgocena FROM `ogloszenia_zrobione` 
     JOIN users ON ogloszenia_zrobione.id_wykon=users.id 
+    WHERE NOT isnull(ocena)
     GROUP BY users.nazwa 
     ORDER BY avgocena DESC
     LIMIT 10";
