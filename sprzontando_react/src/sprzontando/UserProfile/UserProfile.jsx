@@ -28,8 +28,6 @@ import { flexCentered, flexCenteredColumn } from "../../styles/AppStyle";
 import ChangeEmailPopup from "./ChangeEmailPopup";
 import ChangeUsernamePopup from "./ChangeUsernamePopup";
 import ChangePasswordPopup from "./ChangePasswordPopup";
-import { Button, LinearProgress, Rating } from "@mui/material";
-
 
 const UserProfile = () => {
   const navigate = useNavigate();

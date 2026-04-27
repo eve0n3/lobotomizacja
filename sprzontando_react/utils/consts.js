@@ -51,13 +51,6 @@ export const US_EMAIL = "email";
 export const US_RATING = "avgocena";
 export const US_LAST_OFFER = "ostatnie_zlecenie";
 
-//user info
-export const US_ID = "id";
-export const US_USERNAME = "nazwa";
-export const US_EMAIL = "email";
-export const US_RATING = "avgocena";
-export const US_LAST_OFFER = "ostatnie_zlecenie";
-
 //navigacja podstrony
 
 export const LOGIN_LOCATION = "/login";

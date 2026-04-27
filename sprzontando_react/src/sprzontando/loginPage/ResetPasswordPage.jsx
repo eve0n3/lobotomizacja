@@ -6,9 +6,10 @@ import "../../styles/App.css";
 import Button from "@mui/material/Button";
 
 import { useState } from "react";
-import { CircularProgress, TextField } from "@mui/material";
+import { Box, CircularProgress, Stack, TextField } from "@mui/material";
 import ResetPasswordPopup from "./ResetPasswordPopup";
 import { sendResetPasswordEmail } from "../../api/sendResetPasswordEmail";
+import BackButton from "../../components/BackButton";
 
 function ResetPasswordPage() {
   const [email, setEmail] = useState("");
@@ -33,44 +34,54 @@ function ResetPasswordPage() {
     setLoading(false);
   };
   return (
-    <div className="login-page">
-      <Container maxWidth="sm" className="login-container">
-        <Typography variant="h4">Zmiana hasła</Typography>
-        <form onSubmit={handleSubmit} className="login-form">
-          <div>
-            <TextField
-              className="login-input"
-              onChange={(e) => setEmail(e.target.value)}
-              label="email"
-              type="email"
-            ></TextField>
-          </div>
-          <div>
-            <TextField
-              className="login-input"
-              onChange={(e) => setPassword(e.target.value)}
-              label="nowe hasło"
-              type="password"
-            ></TextField>
-          </div>
-          <Typography color="error">{message}</Typography>
-          <Button
-            className="login-button"
-            type="submit"
-            variant="contained"
-            disabled={loading || !email || !password}
-            startIcon={loading && <CircularProgress size={20} />}
-          >
-            Zmień hasło
-          </Button>
-        </form>
-      </Container>
-      <ResetPasswordPopup
-        isPopupOpen={isPopupOpen}
-        email={email}
-        password={password}
-      />
-    </div>
+    <>
+      <div className="login-page">
+        <Container maxWidth="sm" className="login-container">
+          <Box sx={{ width: "100%", height: "100%" }}>
+            <BackButton />
+            <Stack
+              spacing={2}
+              sx={{ width: "100%", height: "100%", my: "30px" }}
+            >
+              <Typography variant="h4">Zmiana hasła</Typography>
+              <form onSubmit={handleSubmit} className="login-form">
+                <div>
+                  <TextField
+                    className="login-input"
+                    onChange={(e) => setEmail(e.target.value)}
+                    label="email"
+                    type="email"
+                  ></TextField>
+                </div>
+                <div>
+                  <TextField
+                    className="login-input"
+                    onChange={(e) => setPassword(e.target.value)}
+                    label="nowe hasło"
+                    type="password"
+                  ></TextField>
+                </div>
+                <Typography color="error">{message}</Typography>
+                <Button
+                  className="login-button"
+                  type="submit"
+                  variant="contained"
+                  disabled={loading || !email || !password}
+                  startIcon={loading && <CircularProgress size={20} />}
+                >
+                  Zmień hasło
+                </Button>
+              </form>
+            </Stack>
+          </Box>
+        </Container>
+        <ResetPasswordPopup
+          isPopupOpen={isPopupOpen}
+          email={email}
+          password={password}
+        />
+      </div>
+    </>
   );
 }
 
