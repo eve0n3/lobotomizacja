@@ -121,12 +121,7 @@ function RegisterForm() {
               helperText={repeatPasswordHelper}
             ></TextField>
             {message && <Typography>{message}</Typography>}
-            <Typography
-              className="login-text"
-              onClick={() => navigate("/login")}
-            >
-              Zaloguj się
-            </Typography>
+
             <Button
               className="login-button"
               type="submit"
@@ -137,6 +132,9 @@ function RegisterForm() {
               startIcon={loading && <CircularProgress size={20} />}
             >
               Zatwierdź
+            </Button>
+            <Button variant="outlined" onClick={() => navigate("/login")}>
+              Masz już konto? Zaloguj się
             </Button>
           </form>
         </Grid>

@@ -19,6 +19,13 @@ export const USER_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/user_offers.php";
 export const CHANGE_USER_INFO_URL =
   "http://localhost/lobotomizacja/phpscripts/username_email_change.php";
+export const CHOSE_USER_URL =
+  "http://localhost/lobotomizacja/phpscripts/ogloszenie_wybrany_add.php";
+
+export const RESET_PASSWORD_EMAIL_URL =
+  "http://localhost/lobotomizacja/phpscripts/passwd_reset.php";
+export const RESET_PASSWORD_VERIFY_URL =
+  "http://localhost/lobotomizacja/phpscripts/passwd_check.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";
@@ -35,6 +42,14 @@ export const OF_CREATOR_ID = "id_zglasz";
 //applied offers
 export const AP_USER_ID = "id_chetnego";
 export const AP_OFFER_ID = "id_ogloszenia";
+export const AP_CHOSEN_USER = "wybrany";
+
+//user info
+export const US_ID = "id";
+export const US_USERNAME = "nazwa";
+export const US_EMAIL = "email";
+export const US_RATING = "avgocena";
+export const US_LAST_OFFER = "ostatnie_zlecenie";
 
 //user info
 export const US_ID = "id";
@@ -46,6 +61,7 @@ export const US_LAST_OFFER = "ostatnie_zlecenie";
 //navigacja podstrony
 
 export const LOGIN_LOCATION = "/login";
+export const LOGIN_RESET_LOCATION = "/login/passwordReset";
 export const REGISTER_LOCATION = "/register";
 export const SUCCESS_REGISTER_LOCATION = "/successRegister";
 export const SUCCESS_VERIFICATION_LOCATION = "/successVerification";
@@ -53,3 +69,5 @@ export const HOME_LOCATION = "/";
 export const USERS_RANKING_LOCATION = "/usersRanking";
 export const ADD_OFFER_LOCATION = "/addOffer";
 export const USER_PROFILE_LOCATION = "/userProfile";
+export const OTHER_USER_PROFILE_LOCATION = "/OtherUserProfile";
+export const SUCCESS_PASSWORD_RESET_LOCATION = "/successPasswordReset";

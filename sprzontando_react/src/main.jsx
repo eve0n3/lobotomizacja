@@ -20,7 +20,10 @@ import {
   ADD_OFFER_LOCATION,
   HOME_LOCATION,
   LOGIN_LOCATION,
+  LOGIN_RESET_LOCATION,
+  OTHER_USER_PROFILE_LOCATION,
   REGISTER_LOCATION,
+  SUCCESS_PASSWORD_RESET_LOCATION,
   SUCCESS_REGISTER_LOCATION,
   SUCCESS_VERIFICATION_LOCATION,
   USER_PROFILE_LOCATION,
@@ -28,11 +31,18 @@ import {
 } from "../utils/consts";
 import UserProfile from "./sprzontando/UserProfile/UserProfile";
 import MyOffers from "./sprzontando/MyOffers/MyOffers";
+import OtherUserProfile from "./sprzontando/UserProfile/OtherUserProfile";
+import ResetPasswordPage from "./sprzontando/loginPage/ResetPasswordPage";
+import SuccessPasswordReset from "./sprzontando/loginPage/SuccessPasswordReset";
 
 const router = createBrowserRouter([
   {
     path: LOGIN_LOCATION,
     element: <LoginPage />,
+  },
+  {
+    path: LOGIN_RESET_LOCATION,
+    element: <ResetPasswordPage />,
   },
   {
     path: REGISTER_LOCATION,
@@ -41,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: SUCCESS_REGISTER_LOCATION,
     element: <SuccessRegister />,
+  },
+  {
+    path: SUCCESS_PASSWORD_RESET_LOCATION,
+    element: <SuccessPasswordReset />,
   },
   {
     path: SUCCESS_VERIFICATION_LOCATION,
@@ -73,6 +87,10 @@ const router = createBrowserRouter([
       {
         path: "/myOffers",
         element: <MyOffers />,
+      },
+      {
+        path: OTHER_USER_PROFILE_LOCATION,
+        element: <OtherUserProfile />,
       },
     ],
   },

@@ -8,6 +8,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
 import VerificationPopup from "../registerPage/VerificationPopup";
+import { LOGIN_RESET_LOCATION } from "../../../utils/consts";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -35,6 +36,10 @@ function LoginForm() {
     }
     setLoading(false);
   };
+  const handlePasswordReset = () => {
+    navigate(LOGIN_RESET_LOCATION);
+    return;
+  };
 
   return (
     <>
@@ -58,11 +63,13 @@ function LoginForm() {
               ></TextField>
             </div>
             {message && <Typography>{message}</Typography>}
+
             <Typography
               className="login-text"
-              onClick={() => navigate("/register")}
+              onClick={() => handlePasswordReset()}
+              textAlign={"right"}
             >
-              Załóż konto
+              Zapomniałeś hasła?
             </Typography>
             <Button
               className="login-button"
@@ -72,6 +79,14 @@ function LoginForm() {
               startIcon={loading && <CircularProgress size={20} />}
             >
               Zatwierdź
+            </Button>
+            <Button
+              variant="outlined"
+              className="login-text"
+              onClick={() => navigate("/register")}
+              textalign={"right"}
+            >
+              Nie masz konta? Załóż je!
             </Button>
           </form>
         </Grid>

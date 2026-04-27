@@ -13,33 +13,24 @@
     $dataJSON = file_get_contents('php://input');
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
 
+    $id = $data['id'];
+
     include 'dbconnect.php';
 
-    $sqlQuery = "SELECT users.nazwa, ROUND(CAST(AVG(ocena) AS DECIMAL(4,2)), 2) AS avgocena FROM `ogloszenia_zrobione` 
-    JOIN users ON ogloszenia_zrobione.id_wykon=users.id 
-    WHERE NOT isnull(ocena)
-    GROUP BY users.nazwa 
-    ORDER BY avgocena DESC
-    LIMIT 10";
+    $sqlquery = "UPDATE ogloszenia_oferty SET report_count = report_count + 1 WHERE id = ?";
+    $stmt = $conn->prepare($sqlquery);
 
-   
-
-    $stmt = $conn->prepare($sqlQuery);
+    $stmt->bind_param("i",$id);
 
     if($stmt->execute()){
-        $res = $stmt->get_result();
-        $rows = $res->fetch_all(MYSQLI_ASSOC);
-
         echo json_encode([
-            "success" => true,
-            "data" => $rows
+            "succes" => true,
+            "message" => "Pomyślnie zgłoszono"
         ]);
-        http_response_code(200);
     }else{
         echo json_encode([
-            "success" => false,
-            "message" => "Tymczasowy Błąd, prosze spróbować póxniej"
+            "succes" => false,
+            "message" => "Wystąpił błąd, prosze spróbować później"
         ]);
         http_response_code(503);
     }
-?>

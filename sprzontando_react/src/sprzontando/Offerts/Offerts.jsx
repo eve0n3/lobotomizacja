@@ -48,7 +48,7 @@ function Offerts() {
     setIsLoading(true);
 
     const fetchData = async () => {
-      const response = await getOffersFromDb({});
+      const response = await getOffersFromDb({ limit: 10000 });
 
       if (!response.success && retryCount < maxRetries) {
         retryCount++;
