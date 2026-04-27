@@ -14,6 +14,7 @@ import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { useNavigate } from "react-router-dom";
+import { USER_PROFILE_LOCATION } from "../../../utils/consts";
 
 const SideBarList = () => {
   const navigate = useNavigate();
@@ -31,7 +32,11 @@ const SideBarList = () => {
 
         <Divider />
 
-        <ListItem key={2} disablePadding>
+        <ListItem
+          key={2}
+          onClick={() => navigate(USER_PROFILE_LOCATION)}
+          disablePadding
+        >
           <ListItemButton>
             <ListItemIcon>
               <PersonOutlineOutlinedIcon />
@@ -40,7 +45,7 @@ const SideBarList = () => {
           </ListItemButton>
         </ListItem>
 
-        <ListItem key={3} disablePadding>
+        <ListItem key={3} onClick={() => navigate("/myOffers")} disablePadding>
           <ListItemButton>
             <ListItemIcon>
               <ChairOutlinedIcon />

@@ -9,12 +9,13 @@ export const submitLogin = async (data) => {
       },
       withCredentials: true,
     });
-    console.log(response);
-    return { success: true, message: "Logged successfully" };
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || error.message,
+      type: error.response?.data?.type || "",
     };
   }
 };

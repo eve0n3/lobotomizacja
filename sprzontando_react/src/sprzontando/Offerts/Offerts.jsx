@@ -48,7 +48,7 @@ function Offerts() {
     setIsLoading(true);
 
     const fetchData = async () => {
-      const response = await getOffersFromDb({});
+      const response = await getOffersFromDb({ limit: 10000 });
 
       if (!response.success && retryCount < maxRetries) {
         retryCount++;
@@ -88,7 +88,7 @@ function Offerts() {
       ) : (
         <>
           <OffertsSearch searchProps={searchProps} />
-          {console.log(offers)}
+
           {offers.length > 0 ? <OffersList offers={offers} /> : <NoOffers />}
           <AddOffertButton />
         </>

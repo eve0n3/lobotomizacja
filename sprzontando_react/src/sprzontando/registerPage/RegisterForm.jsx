@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import { registerUser } from "../../api/registerUser";
 import "../../styles/App.css";
 import { useNavigate } from "react-router-dom";
+import VerificationPopup from "./VerificationPopup";
 
 function RegisterForm() {
   const [email, setEmail] = useState("");
@@ -19,6 +20,7 @@ function RegisterForm() {
   const [usernameHelper, setUsernameHelper] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate = useNavigate();
   const validateData = (password, repeat) => {
     if (password === repeat) {
@@ -70,71 +72,79 @@ function RegisterForm() {
     }
   };
   const handleSuccessRegister = () => {
-    navigate("/successRegister");
+    setIsPopupOpen(true);
   };
 
   return (
-    <Container>
-      <Grid>
-        <form onSubmit={handleSubmit} className="login-form">
-          <TextField
-            className="login-input"
-            onChange={(e) => {
-              setEmail(e.target.value);
-              setEmailHelper("");
-            }}
-            label="email"
-            type="email"
-            helperText={emailHelper}
-            required
-          ></TextField>
-          <TextField
-            className="login-input"
-            onChange={(e) => {
-              setUsername(e.target.value);
-              setUsernameHelper("");
-            }}
-            label="nazwa użytkownika"
-            type="username"
-            helperText={usernameHelper}
-            required
-          ></TextField>
-          <TextField
-            className="login-input"
-            onChange={(e) => setPassword(e.target.value)}
-            label="hasło"
-            type="password"
-            required
-          ></TextField>
-          <TextField
-            className="login-input"
-            onChange={(e) => {
-              setRepeatPassword(e.target.value);
-              setRepeatPasswordHelper("");
-            }}
-            label="powtórz hasło"
-            type="password"
-            required
-            helperText={repeatPasswordHelper}
-          ></TextField>
-          {message && <Typography>{message}</Typography>}
-          <Typography className="login-text" onClick={() => navigate("/login")}>
-            Zaloguj się
-          </Typography>
-          <Button
-            className="login-button"
-            type="submit"
-            variant="contained"
-            disabled={
-              loading || !email || !password || !repeatPassword || !username
-            }
-            startIcon={loading && <CircularProgress size={20} />}
-          >
-            Zatwierdź
-          </Button>
-        </form>
-      </Grid>
-    </Container>
+    <>
+      <Container>
+        <Grid>
+          <form onSubmit={handleSubmit} className="login-form">
+            <TextField
+              className="login-input"
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailHelper("");
+              }}
+              label="email"
+              type="email"
+              helperText={emailHelper}
+              required
+            ></TextField>
+            <TextField
+              className="login-input"
+              onChange={(e) => {
+                setUsername(e.target.value);
+                setUsernameHelper("");
+              }}
+              label="nazwa użytkownika"
+              type="username"
+              helperText={usernameHelper}
+              required
+            ></TextField>
+            <TextField
+              className="login-input"
+              onChange={(e) => setPassword(e.target.value)}
+              label="hasło"
+              type="password"
+              required
+            ></TextField>
+            <TextField
+              className="login-input"
+              onChange={(e) => {
+                setRepeatPassword(e.target.value);
+                setRepeatPasswordHelper("");
+              }}
+              label="powtórz hasło"
+              type="password"
+              required
+              helperText={repeatPasswordHelper}
+            ></TextField>
+            {message && <Typography>{message}</Typography>}
+
+            <Button
+              className="login-button"
+              type="submit"
+              variant="contained"
+              disabled={
+                loading || !email || !password || !repeatPassword || !username
+              }
+              startIcon={loading && <CircularProgress size={20} />}
+            >
+              Zatwierdź
+            </Button>
+            <Button variant="outlined" onClick={() => navigate("/login")}>
+              Masz już konto? Zaloguj się
+            </Button>
+          </form>
+        </Grid>
+      </Container>
+      <VerificationPopup
+        isPopupOpen={isPopupOpen}
+        email={email}
+        navigateLocation={"/successRegister"}
+      />
+    </>
   );
 }
 

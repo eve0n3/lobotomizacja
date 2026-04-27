@@ -13,30 +13,84 @@ import Offerts from "./sprzontando/Offerts/Offerts";
 import SuccessRegister from "./sprzontando/registerPage/SuccessRegister";
 import PageLayout from "./sprzontando/PageLayout";
 import UsersRanking from "./sprzontando/usersRanking/UsersRanking";
+import SuccessVerification from "./sprzontando/registerPage/SuccessVerification";
+import OfferDetails from "./sprzontando/Offerts/OfferDetails";
+import AddOffer from "./sprzontando/AddOffer/AddOffer";
+import {
+  ADD_OFFER_LOCATION,
+  HOME_LOCATION,
+  LOGIN_LOCATION,
+  LOGIN_RESET_LOCATION,
+  OTHER_USER_PROFILE_LOCATION,
+  REGISTER_LOCATION,
+  SUCCESS_PASSWORD_RESET_LOCATION,
+  SUCCESS_REGISTER_LOCATION,
+  SUCCESS_VERIFICATION_LOCATION,
+  USER_PROFILE_LOCATION,
+  USERS_RANKING_LOCATION,
+} from "../utils/consts";
+import UserProfile from "./sprzontando/UserProfile/UserProfile";
+import MyOffers from "./sprzontando/MyOffers/MyOffers";
+import OtherUserProfile from "./sprzontando/UserProfile/OtherUserProfile";
+import ResetPasswordPage from "./sprzontando/loginPage/ResetPasswordPage";
+import SuccessPasswordReset from "./sprzontando/loginPage/SuccessPasswordReset";
+
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: LOGIN_LOCATION,
     element: <LoginPage />,
   },
   {
-    path: "/register",
+    path: LOGIN_RESET_LOCATION,
+    element: <ResetPasswordPage />,
+  },
+  {
+    path: REGISTER_LOCATION,
     element: <RegisterPage />,
   },
   {
-    path: "/successRegister",
+    path: SUCCESS_REGISTER_LOCATION,
     element: <SuccessRegister />,
   },
   {
-    path: "/",
-    element: <PageLayout />,
+    path: SUCCESS_PASSWORD_RESET_LOCATION,
+    element: <SuccessPasswordReset />,
+  },
+  {
+    path: SUCCESS_VERIFICATION_LOCATION,
+    element: <SuccessVerification />,
+  },
+  {
+    path: HOME_LOCATION,
+    element: <App />,
     children: [
       {
         index: true,
         element: <Offerts />,
       },
       {
-        path: "/usersRanking",
+        path: USERS_RANKING_LOCATION,
         element: <UsersRanking />,
+      },
+      {
+        path: "/offer",
+        element: <OfferDetails />,
+      },
+      {
+        path: ADD_OFFER_LOCATION,
+        element: <AddOffer />,
+      },
+      {
+        path: USER_PROFILE_LOCATION,
+        element: <UserProfile />,
+      },
+      {
+        path: "/myOffers",
+        element: <MyOffers />,
+      },
+      {
+        path: OTHER_USER_PROFILE_LOCATION,
+        element: <OtherUserProfile />,
       },
     ],
   },
@@ -44,8 +98,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+    <RouterProvider router={router}></RouterProvider>
   </StrictMode>,
 );

@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
     header('Access-Control-Allow-Origin: *'); 
     header('Access-Control-Allow-Methods: POST,OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, Authorization');
@@ -12,6 +8,7 @@ error_reporting(E_ALL);
     http_response_code(200);
     exit(0);
     }
+
 
     //dane z react
     $dataJSON = file_get_contents('php://input');
@@ -25,7 +22,7 @@ error_reporting(E_ALL);
     include 'dbconnect.php';
 
     
-    $stmt = $conn->prepare('SELECT kod, kod_wygasniecie, zatwierdzony FROM users WHERE email = ?');
+    $stmt = $conn->prepare('SELECT kod, zatwierdzony FROM users WHERE email = ?');
     $stmt->bind_param('s',$email);
     $stmt->execute();   
 
@@ -33,26 +30,26 @@ error_reporting(E_ALL);
     $odp_kod = $res->fetch_assoc();
 
     if ($odp_kod["zatwierdzony"] == null){
-        $mysql_date = $odp_kod["kod_wygasniecie"];
-        $expire_data= new DateTime($mysql_date);
-        $teraz = new DateTime();
+        
 
-
-        if ($expire_data<=$teraz){
-            echo json_encode([               
-            "succes" => "false",
-            "message" => "Kod wygasł, wygeneruj nowy"
-            ]);
-        } else{
             if ($kod == $odp_kod["kod"]){
+                $stmt = $conn->prepare('UPDATE users SET zatwierdzony = TRUE WHERE email = ?');
+                $stmt->bind_param('s',$email);
+                $stmt->execute(); 
+                
+                $stmt = $conn->prepare('UPDATE users SET kod=NULL WHERE email = ?');
+                $stmt->bind_param('s',$email);
+                $stmt->execute();
+
                 echo json_encode([
-                    "succes" => "true",
+                    "success" => true,
                     "message" => "Poprawny kod!! Proces rejestracji zakończony sukcesem"
+                        
                 ]);
 
             } else{
                 echo json_encode([
-                    "succes" => "false",
+                    "success" => false,
                     "message" => "Kod niepoprawny!!"
                 ]);
             }
@@ -60,9 +57,9 @@ error_reporting(E_ALL);
     
 
 
-        } else{
+         else{
         echo json_encode([
-            "succes" => "false",
+            "success" => false,
             "message" => "Ten użytkownik jest już zatwierdzony"
         ]);
         }

@@ -28,15 +28,18 @@
 
     include 'dbconnect.php';
 
-    $sqlQueryStart = "SELECT * FROM ogloszenia_oferty";
+    $sqlQueryStart = "SELECT ogloszenia_oferty.*, users.nazwa FROM ogloszenia_oferty LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl = ogloszenia_oferty.id JOIN users ON users.id = ogloszenia_oferty.id_zglasz";
 
     $criteria = [];
 
     $params = [];
     $paramTypes = "";
 
+     $sqlQueryStart .= " WHERE ";
+     array_push($criteria, "isnull(id_wykon)");
+
     if(!is_null($tytul) || !is_null($miasto) || !is_null($kategoria) || !is_null($minCena) || !is_null($maxCena)){
-        $sqlQueryStart .= " WHERE ";
+       
 
         if(!is_null($tytul)){
             array_push($criteria, "tytul LIKE ?");
@@ -63,10 +66,8 @@
             array_push($params, $maxCena);
             $paramTypes .= "s";
         }
-        $sqlQueryStart .= join(" AND ", $criteria);
-        
-
     }
+    $sqlQueryStart .= join(" AND ", $criteria);
 
     array_push($params, $limit);
     $paramTypes .= "s";
@@ -75,6 +76,12 @@
 
     $sqlQueryEnd = " ORDER BY utworzenie DESC LIMIT ? OFFSET ?";
     $sqlQuery = $sqlQueryStart.$sqlQueryEnd;
+
+    // echo json_encode([
+    //     "sqlQuery" => $sqlQuery,
+    //     "params" => $params,
+    //     "paramTypes" => $paramTypes
+    // ]);
 
     $stmt = $conn->prepare($sqlQuery);
     $stmt->bind_param($paramTypes, ...$params);
@@ -93,7 +100,6 @@
                 "data" => [],
                 "message" => "Żadne ogłoszenie nie spełnia kryterii"
             ]);
-           
         }
     }else{
         echo json_encode([

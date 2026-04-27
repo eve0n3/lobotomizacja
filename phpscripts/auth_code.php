@@ -1,18 +1,10 @@
 <?php
-    header('Access-Control-Allow-Origin: *'); 
-    header('Access-Control-Allow-Methods: POST,OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type, Authorization');
-    header('Content-type: application/json');
 
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { //wazne bez tego bledy nie dzialaja
-    http_response_code(200);
-    exit(0);
-    }
 
     //dane z react
-    $dataJSON = file_get_contents('php://input');
-    $data = json_decode( $dataJSON, true ); //convert JSON into array
-    $email = trim($data['email']); 
+//    $dataJSON = file_get_contents('php://input');   
+//    $data = json_decode( $dataJSON, true ); //convert JSON into array
+//    $auth_email = trim($data['email']); 
     
 
     //połączenie z bazą danych
@@ -21,7 +13,7 @@
 
     $kod= random_int(1000, 9999);
 
-    $kod_zapisywanie = $conn->prepare('UPDATE users SET kod = ?, kod_wygasniecie = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE email = ?');
+    $kod_zapisywanie = $conn->prepare('UPDATE users SET kod = ? WHERE email = ?');
     $kod_zapisywanie->bind_param('is', $kod, $email);
     $kod_zapisywanie->execute();   
     
@@ -63,14 +55,14 @@ $httpCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
 
 if ($httpCode != 200) {
     echo json_encode([
-        "success" => "false",
+        "success" => false,
         "message" => "Nie udało się wysłać wiadomości. Błąd: ".$httpCode, //jeśli problem po stronie curl a nie serwera, zwraca 0
-        //"response" => json_decode($response)
+        "response" => json_decode($response)
         
     ]);
 } else {
     echo json_encode([
-        "succes" => "true",
+        "success" => true,
         "message" => "Wiadomość została wysłana na podany adres e-mail",
         //"response" => json_decode($response)
         

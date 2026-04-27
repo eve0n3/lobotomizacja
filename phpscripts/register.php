@@ -68,6 +68,7 @@
                 "status" => 201,
                 "message" => "Użytkownik stworzony"
             ]);
+            include 'auth_code.php';
         }else{
             http_response_code(503);
             echo json_encode([
