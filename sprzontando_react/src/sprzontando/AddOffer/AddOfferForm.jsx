@@ -27,8 +27,10 @@ function AddOfferForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    !getLoggedUserId() && navigate(LOGIN_LOCATION);
-  }, []);
+    if (!getLoggedUserId()) {
+      navigate(LOGIN_LOCATION);
+    }
+  }, [navigate]);
 
   const handleFieldChange = (field) => (event) => {
     setForm((prev) => ({ ...prev, [field]: event.target.value }));
@@ -66,43 +68,54 @@ function AddOfferForm() {
         waznosc: form.date,
         id_tworca: getLoggedUserId(),
       };
-      console.log("Submitting offer:", offerData);
+      
       const result = await addOffer(offerData);
       if (result.success) {
         handleSuccess();
       } else {
         setSubmitError("Nie można dodać ogłoszenia. Spróbuj ponownie później.");
+        setLoading(false);
       }
     }
   };
+
   const handleSuccess = () => {
-    // tutaj dałabym przekierowanie na strone tego nowego ogłoszenia ale narazie bedzie na listę moich ogłoszeń
-    console.log("Oferta została dodana pomyślnie!");
     navigate("/");
     setLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Typography variant="h4" sx={{ mb: 3 }}>
-        Dodaj nowe ogłoszenie
-      </Typography>
-      {submitError && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {submitError}
-        </Alert>
-      )}
-      <AddOfferFormFields fieldProps={fieldProps} />
-      <Button
-        fullWidth
-        type="submit"
-        variant="contained"
-        disabled={loading}
-        startIcon={loading && <CircularProgress size={20} />}
-      >
-        Zatwierdź
-      </Button>
-    </form>
+    <div className="add-offer-page">
+      <div className="login-container" style={{ maxWidth: '500px', width: '100%', padding: '40px 30px' }}>
+      
+        <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>
+          Dodaj nowe ogłoszenie
+        </Typography>
+
+        {submitError && (
+          <Alert severity="error" sx={{ mb: 2, width: '100%' }}>
+            {submitError}
+          </Alert>
+        )}
+
+        <form onSubmit={handleSubmit} className="login-form">
+          <AddOfferFormFields fieldProps={fieldProps} />
+          
+          <Button
+            className="login-button"
+            fullWidth
+            type="submit"
+            variant="contained"
+            disabled={loading}
+            size="large"
+            startIcon={loading && <CircularProgress size={20} color="inherit" />}
+            sx={{ mt: 2 }}
+          >
+            {loading ? "Wysyłanie..." : "Zatwierdź"}
+          </Button>
+        </form>
+      </div>
+    </div>
   );
 }
 

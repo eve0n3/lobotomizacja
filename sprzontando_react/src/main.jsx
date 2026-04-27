@@ -16,6 +16,7 @@ import UsersRanking from "./sprzontando/usersRanking/UsersRanking";
 import SuccessVerification from "./sprzontando/registerPage/SuccessVerification";
 import OfferDetails from "./sprzontando/Offerts/OfferDetails";
 import AddOffer from "./sprzontando/AddOffer/AddOffer";
+import Settings from "./sprzontando/settings/Settings";
 import {
   ADD_OFFER_LOCATION,
   HOME_LOCATION,
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
       {
         path: OTHER_USER_PROFILE_LOCATION,
         element: <OtherUserProfile />,
+      },
+      {
+        path: "/settings", 
+        element: <Settings />,
       },
     ],
   },

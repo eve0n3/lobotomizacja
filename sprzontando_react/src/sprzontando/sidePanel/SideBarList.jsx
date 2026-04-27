@@ -76,7 +76,7 @@ const SideBarList = () => {
         <Divider />
 
         <ListItem key={6} disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => navigate("/settings")}>
             <ListItemIcon>
               <SettingsOutlinedIcon />
             </ListItemIcon>

@@ -6,14 +6,15 @@ import FormHelperText from "@mui/material/FormHelperText";
 
 function OffertTypeSelect({ type, setType, error, helperText }) {
   return (
-    <FormControl variant="standard" fullWidth error={error}>
+    <FormControl variant="outlined" fullWidth error={error}>
       <InputLabel id="type-select-label">Kategoria</InputLabel>
       <Select
         labelId="type-select-label"
         id="type-select"
         value={type}
-        label="Typ"
+        label="Kategoria"
         onChange={(e) => setType(e.target.value)}
+        sx={{textAlign: "left",}}
       >
         <MenuItem value={null}>----</MenuItem>
         <MenuItem value={"mieszkania"}>mieszkanie</MenuItem>

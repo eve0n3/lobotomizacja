@@ -4,6 +4,7 @@ import OffertTypeSelect from "../Offerts/OffertTypeSelect";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import React from "react";
 import Grid from "@mui/material/Grid";
+import { Box, Stack } from "@mui/material";
 
 const AddOfferFormFields = ({ fieldProps }) => {
   const {
@@ -77,7 +78,8 @@ const AddOfferFormFields = ({ fieldProps }) => {
           helperText={errors.type}
         />
       </Grid>
-
+<Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+         
       <TextField
         label="Cena (zł)"
         fullWidth
@@ -91,31 +93,6 @@ const AddOfferFormFields = ({ fieldProps }) => {
         onKeyPress={handlePriceKeyPress}
         sx={{ mb: 2 }}
       />
-
-      <TextField
-        label="Miasto"
-        fullWidth
-        value={form.city}
-        error={!!errors.city}
-        helperText={errors.city}
-        onChange={handleFieldChange("city")}
-        onKeyPress={handleCityKeyPress}
-        inputProps={{ maxLength: 64 }}
-        sx={{ mb: 2 }}
-      />
-
-      <TextField
-        label="Adres"
-        fullWidth
-        value={form.address}
-        error={!!errors.address}
-        helperText={errors.address}
-        onChange={handleFieldChange("address")}
-        onKeyPress={handleAddressKeyPress}
-        inputProps={{ maxLength: 255 }}
-        sx={{ mb: 2 }}
-      />
-
       <DateTimePicker
         label="Wybierz datę i godzinę"
         value={form.date ? moment(form.date) : null}
@@ -139,6 +116,33 @@ const AddOfferFormFields = ({ fieldProps }) => {
           },
         }}
       />
+</Stack>
+<Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+      <TextField
+        label="Miasto"
+        fullWidth
+        value={form.city}
+        error={!!errors.city}
+        helperText={errors.city}
+        onChange={handleFieldChange("city")}
+        onKeyPress={handleCityKeyPress}
+        inputProps={{ maxLength: 64 }}
+        sx={{ mb: 2 }}
+      />
+
+      <TextField
+        label="Adres"
+        fullWidth
+        value={form.address}
+        error={!!errors.address}
+        helperText={errors.address}
+        onChange={handleFieldChange("address")}
+        onKeyPress={handleAddressKeyPress}
+        inputProps={{ maxLength: 255 }}
+        sx={{ mb: 2 }}
+      />
+</Stack>
+      
 
       <TextField
         label="Opis"
