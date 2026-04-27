@@ -16,11 +16,21 @@ export const sendResetPasswordEmail = async (email) => {
         },
       },
     );
-    return response.data;
+    if (response.data.success) {
+      return response.data;
+    } else {
+      console.error("Błąd. ResetPasswordEmail");
+      console.error(response);
+      throw new Error("Błąd. ResetPasswordEmail");
+    }
   } catch (error) {
+    console.log(error);
     return {
       success: false,
-      message: error.response?.data?.message || error.message,
+      message:
+        error.message ||
+        error.response?.data?.message ||
+        "Błąd. ResetPasswordEmail",
     };
   }
 };

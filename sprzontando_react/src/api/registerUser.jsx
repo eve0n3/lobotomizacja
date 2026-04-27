@@ -9,9 +9,13 @@ export const registerUser = async (data) => {
       },
     });
 
-    console.log(response.data);
-
-    return { success: true, message: "Pomyslnie utworzono użytkonika." };
+    if (response.data.success) {
+      console.log("Pomyślnie utworzono użytkonika.");
+      return { success: true, message: "Pomyślnie utworzono użytkonika." };
+    } else {
+      console.error(response);
+      throw new Error(response.message || "Wystąpił błąd. registeruser");
+    }
   } catch (error) {
     return {
       success: false,

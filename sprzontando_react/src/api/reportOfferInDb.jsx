@@ -16,7 +16,7 @@ export const reportOfferInDb = async (id) => {
     if (response.data.success === true) {
       return { success: true, message: "Pomyślnie zgłoszono ogłoszenie." };
     } else {
-      throw new Error({ message: "Wystąpił błąd" });
+      throw new Error("Wystąpił błąd");
     }
   } catch (error) {
     return {

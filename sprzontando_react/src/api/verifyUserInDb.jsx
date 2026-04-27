@@ -8,8 +8,11 @@ export const verifyUserInDb = async (data) => {
         "Content-Type": "application/json",
       },
     });
-
-    return response.data;
+    if (response.data.success !== false) {
+      return response.data;
+    } else {
+      throw new Error("Wystąpił błąd. Verify user in db");
+    }
   } catch (error) {
     return {
       success: false,
