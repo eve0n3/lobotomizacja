@@ -70,7 +70,7 @@ function ChangePasswordPopup({ isPassPopupOpen, setIsPassPopupOpen }) {
           </IconButton>
 
           <Stack spacing={2} sx={flexCenteredColumn}>
-            <Typography variant="h5">Zmiana adresu email</Typography>
+            <Typography variant="h5">Zmiana hasła</Typography>
 
             <TextField
               onChange={(e) => setOldPassword(e.target.value)}
