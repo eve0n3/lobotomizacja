@@ -17,6 +17,8 @@ export const USER_INFO_URL =
   "http://localhost/lobotomizacja/phpscripts/user_info.php";
 export const USER_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/user_offers.php";
+export const CHANGE_USER_INFO_URL =
+  "http://localhost/lobotomizacja/phpscripts/username_email_change.php";
 export const CHOSE_USER_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie_wybrany_add.php";
 
@@ -41,6 +43,13 @@ export const OF_CREATOR_ID = "id_zglasz";
 export const AP_USER_ID = "id_chetnego";
 export const AP_OFFER_ID = "id_ogloszenia";
 export const AP_CHOSEN_USER = "wybrany";
+
+//user info
+export const US_ID = "id";
+export const US_USERNAME = "nazwa";
+export const US_EMAIL = "email";
+export const US_RATING = "avgocena";
+export const US_LAST_OFFER = "ostatnie_zlecenie";
 
 //user info
 export const US_ID = "id";

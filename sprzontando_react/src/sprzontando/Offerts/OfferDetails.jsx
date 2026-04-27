@@ -116,19 +116,29 @@ function OfferDetails() {
   };
 
   return (
-    <Container sx={{ mt: 4, mb: 8 }}>
-      {/* NAGŁÓWEK NAD ZDJĘCIEM */}
-      <Box sx={{ mb: 3 }}>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography
-            variant="h3"
-            sx={{
-              whiteSpace: "normal",
-              overflowWrap: "anywhere",
-            }}
-          >
-            {offer[OF_TITLE]}
-          </Typography>
+    <>
+      <BackButton />
+      <Container sx={{ pt: 8, pr: 8 }}>
+        {/* NAGŁÓWEK NAD ZDJĘCIEM */}
+
+        <Box sx={{ mb: 3 }}>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                whiteSpace: "normal",
+                overflowWrap: "anywhere",
+              }}
+            >
+              {offer[OF_TITLE]}
+            </Typography>
+          </Box>
+          <Stack direction={"row"}>
+            <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />
+            <Typography variant="h4" color="text.primary">
+              {offer[OF_PRICE]} zł
+            </Typography>
+          </Stack>
         </Box>
         <Stack direction={"row"}>
           <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />

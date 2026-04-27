@@ -2,7 +2,10 @@ import Container from "@mui/material/Container";
 import UserAvatar from "../../components/UserAvatar";
 import { getLoggedUser, getLoggedUserId } from "../../../utils/utilis";
 import Typography from "@mui/material/Typography";
+import Cookies from "js-cookie";
+
 import {
+  HOME_LOCATION,
   LOGIN_LOCATION,
   US_EMAIL,
   US_LAST_OFFER,
@@ -10,9 +13,23 @@ import {
   US_USERNAME,
 } from "../../../utils/consts";
 import { useNavigate } from "react-router-dom";
-import { Button, LinearProgress, Rating } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  LinearProgress,
+  Rating,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { getUserInfoFromDb } from "../../api/getUserInfoFromDb";
+import EditIcon from "@mui/icons-material/Edit";
+import { flexCentered, flexCenteredColumn } from "../../styles/AppStyle";
+import ChangeEmailPopup from "./ChangeEmailPopup";
+import ChangeUsernamePopup from "./ChangeUsernamePopup";
+import ChangePasswordPopup from "./ChangePasswordPopup";
+import { Button, LinearProgress, Rating } from "@mui/material";
+
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -20,10 +37,12 @@ const UserProfile = () => {
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
 
+  const [isEmailPopupOpen, setIsEmialPopupOpen] = useState(false);
+  const [isPassPopupOpen, setIsPassPopupOpen] = useState(false);
+  const [isUsernamePopupOpen, setIsUsernamePopupOpen] = useState(false);
+
   const loggedUserId = getLoggedUserId();
   const loggedUser = getLoggedUser();
-
-  console.log(loggedUser);
 
   useEffect(() => {
     if (loggedUserId === null) {
@@ -51,26 +70,67 @@ const UserProfile = () => {
   if (error) {
     return <Typography color="error">{error}</Typography>;
   }
+  const handleLogout = () => {
+    Cookies.remove("loggedas");
+    navigate(HOME_LOCATION);
+    return;
+  };
 
   return (
-    <Container>
-      <UserAvatar loggedUser={loggedUser} />
-      <Typography>Nazwa: </Typography>
-      <Typography>{user[US_USERNAME]}</Typography>
-      <Typography>Email: </Typography>
-      <Typography>{user[US_EMAIL]}</Typography>
-      <Typography>Ocena: </Typography>
+    <>
+      <Container sx={flexCenteredColumn}>
+        <UserAvatar loggedUser={loggedUser} />
+        <Box sx={flexCentered}>
+          <Typography variant="h4">{user[US_USERNAME]} </Typography>
+          <IconButton
+            onClick={() => setIsUsernamePopupOpen(true)}
+            aria-label="edit"
+          >
+            <EditIcon />
+          </IconButton>
+        </Box>
+        <Box sx={flexCentered}>
+          <Typography variant="h5" color="text.secondary">
+            {user[US_EMAIL]}
+          </Typography>
+          <IconButton
+            onClick={() => setIsEmialPopupOpen(true)}
+            aria-label="edit"
+          >
+            <EditIcon />
+          </IconButton>
+        </Box>
 
-      <Rating
-        name="read-only"
-        value={user[US_RATING]}
-        precision={0.1}
-        readOnly
+        <Typography>Ocena: </Typography>
+        <Rating
+          name="read-only"
+          value={user[US_RATING]}
+          precision={0.1}
+          readOnly
+        />
+        <Typography>Ostanie zlecenie: </Typography>
+        <Typography>{user[US_LAST_OFFER]}</Typography>
+        <Divider sx={{ width: "100%", my: 2 }} />
+        <Button onClick={() => setIsPassPopupOpen(true)} variant="outlined">
+          zmień hasło
+        </Button>
+        <Button onClick={handleLogout} variant="outlined" color="error">
+          wyloguj się
+        </Button>
+      </Container>
+      <ChangeEmailPopup
+        isEmailPopupOpen={isEmailPopupOpen}
+        setIsEmialPopupOpen={setIsEmialPopupOpen}
       />
-      <Typography>Ostanie zlecenie: </Typography>
-      <Typography>{user[US_LAST_OFFER]}</Typography>
-      <Button variant="contained">wyloguj się</Button>
-    </Container>
+      <ChangeUsernamePopup
+        isUsernamePopupOpen={isUsernamePopupOpen}
+        setIsUsernamePopupOpen={setIsUsernamePopupOpen}
+      />
+      <ChangePasswordPopup
+        isPassPopupOpen={isPassPopupOpen}
+        setIsPassPopupOpen={setIsPassPopupOpen}
+      />
+    </>
   );
 };
 export default UserProfile;
