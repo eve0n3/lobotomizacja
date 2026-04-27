@@ -18,6 +18,11 @@ export const USER_INFO_URL =
 export const USER_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/user_offers.php";
 
+export const RESET_PASSWORD_EMAIL_URL =
+  "http://localhost/lobotomizacja/phpscripts/passwd_reset.php";
+export const RESET_PASSWORD_VERIFY_URL =
+  "http://localhost/lobotomizacja/phpscripts/passwd_check.php";
+
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";
 export const OF_MAX_PRICE = "maxCena";
@@ -44,6 +49,7 @@ export const US_LAST_OFFER = "ostatnie_zlecenie";
 //navigacja podstrony
 
 export const LOGIN_LOCATION = "/login";
+export const LOGIN_RESET_LOCATION = "/login/passwordReset";
 export const REGISTER_LOCATION = "/register";
 export const SUCCESS_REGISTER_LOCATION = "/successRegister";
 export const SUCCESS_VERIFICATION_LOCATION = "/successVerification";
@@ -52,3 +58,4 @@ export const USERS_RANKING_LOCATION = "/usersRanking";
 export const ADD_OFFER_LOCATION = "/addOffer";
 export const USER_PROFILE_LOCATION = "/userProfile";
 export const OTHER_USER_PROFILE_LOCATION = "/OtherUserProfile";
+export const SUCCESS_PASSWORD_RESET_LOCATION = "/successPasswordReset";

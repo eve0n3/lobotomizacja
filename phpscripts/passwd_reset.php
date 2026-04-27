@@ -13,7 +13,7 @@
     //dane z react
     $dataJSON = file_get_contents('php://input');
     $data = json_decode( $dataJSON, true ); //convert JSON into array
-    $email = trim($data['email']);
+    $email = $data['email'];
     
 
     //połączenie z bazą danych
@@ -23,63 +23,77 @@
 
     $stmt = $conn->prepare('UPDATE users SET kod = ? WHERE email = ?');
     $stmt->bind_param('is', $kod, $email);
-    $stmt->execute();   
 
-    
+    if($stmt->execute()){ 
+        if($stmt->affected_rows === 0){
+            echo json_encode([
+                "success" => false,
+                "message" => "Nie znaleziono użytkownika z podanym adresem e-mail"
+            ]);
+           
+        }else{
+             $apiUrl = "https://smtp.maileroo.com/api/v2/emails";
+        $env = parse_ini_file('.env');
+        $apiKey = $env["API_KEY"];
+
+        $request_body = [
+            "from" => [
+                "address" => "sender@ew0r.cc" //tu możemy dać cokolwiek byle się domena zgadzała
+            ],
+            "to" => [
+                [
+                    "address" => $email
+                ]
+            ],
+            "subject" => "Reset hasła na sprzontando",
+            "html" =>"
+            <p>Aby dokończyć proces resetowania hasła prosimy wspisać poniższy kod na naszej stronie:</p>
+                        <h1>$kod</h1>",
+            "plain" => "Aby dokończyć proces resetowania hasła prosimy wspisać poniższy kod na naszej stronie: $kod"
+        ];
+
+
+        $request = curl_init($apiUrl);
+
+        curl_setopt($request, CURLOPT_POST, true); #metoda = POST
+        curl_setopt($request, CURLOPT_POSTFIELDS, json_encode($request_body)); #tego jsona podpinamy
+        curl_setopt($request, CURLOPT_RETURNTRANSFER, true); #można przypisać response do zmiennej
+        curl_setopt($request, CURLOPT_HTTPHEADER, [  #ustawiamy nagłówki
+            "Content-Type: application/json",
+            "x-api-key: " . $apiKey
+        ]);
+
+        $response = curl_exec($request);
+        $httpCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
+
+        if ($httpCode != 200) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Nie udało się wysłać wiadomości. Błąd: ".$httpCode, //jeśli problem po stronie curl a nie serwera, zwraca 0
+                //"response" => json_decode($response)
+                
+            ]);
+        } else {
+            echo json_encode([
+                "success" => true,
+                "message" => "Wiadomość została wysłana na podany adres e-mail",
+                //"response" => json_decode($response)
+                
+            ]);
+        }
+
+        curl_close($request);
+        }
+       
         
-$apiUrl = "https://smtp.maileroo.com/api/v2/emails";
-$env = parse_ini_file('.env');
-$apiKey = $env["API_KEY"];
+}else {
 
-$request_body = [
-    "from" => [
-        "address" => "sender@ew0r.cc" //tu możemy dać cokolwiek byle się domena zgadzała
-    ],
-    "to" => [
-        [
-            "address" => $email
-        ]
-    ],
-    "subject" => "Reset hasła na sprzontando",
-    "html" =>"
-    <p>Aby dokończyć proces resetowania hasła prosimy wspisać poniższy kod na naszej stronie:</p>
-                <h1>$kod</h1>",
-    "plain" => "Aby dokończyć proces resetowania hasła prosimy wspisać poniższy kod na naszej stronie: $kod"
-];
-
-
-$request = curl_init($apiUrl);
-
-curl_setopt($request, CURLOPT_POST, true); #metoda = POST
-curl_setopt($request, CURLOPT_POSTFIELDS, json_encode($request_body)); #tego jsona podpinamy
-curl_setopt($request, CURLOPT_RETURNTRANSFER, true); #można przypisać response do zmiennej
-curl_setopt($request, CURLOPT_HTTPHEADER, [  #ustawiamy nagłówki
-    "Content-Type: application/json",
-    "x-api-key: " . $apiKey
-]);
-
-$response = curl_exec($request);
-$httpCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
-
-if ($httpCode != 200) {
     echo json_encode([
         "success" => false,
-        "message" => "Nie udało się wysłać wiadomości. Błąd: ".$httpCode, //jeśli problem po stronie curl a nie serwera, zwraca 0
-        //"response" => json_decode($response)
-        
+        "message" => "Wystąpił błąd. Proszę spróbować ponownie później."
     ]);
-} else {
-    echo json_encode([
-        "success" => true,
-        "message" => "Wiadomość została wysłana na podany adres e-mail",
-        //"response" => json_decode($response)
-        
-    ]);
+
 }
-
-curl_close($request);
-        
-
 
 
 ?>
