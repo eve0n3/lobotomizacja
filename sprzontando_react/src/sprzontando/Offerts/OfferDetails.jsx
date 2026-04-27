@@ -26,6 +26,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
+import PersonIcon from "@mui/icons-material/Person";
 
 import {
   AP_USER_ID,
@@ -39,6 +40,7 @@ import {
   OF_PRICE,
   OF_TITLE,
   OF_TYPE,
+  US_USERNAME,
 } from "../../../utils/consts";
 import ImagePlaceHolder from "../../components/ImagePlaceHolder";
 import { getLoggedUserId } from "../../../utils/utilis";
@@ -46,6 +48,7 @@ import { applyForOfferInDb } from "../../api/applyForOfferInDb";
 import ErrorAlert from "../../components/ErrorAlert";
 import SuccessAlert from "../../components/SuccessAlert";
 import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import MyOfferAppliedUsers from "../MyOffers/MyOfferAppliedUsers";
 
 function OfferDetails() {
@@ -147,15 +150,15 @@ function OfferDetails() {
           {/* detale */}
 
           <Stack spacing={3}>
-            <Stack direction="row" spacing={2} alignItems="center"></Stack>
             <Stack direction="row" spacing={2} alignItems="center">
-              <PinDropOutlinedIcon sx={{ fontSize: 32 }} color="action" />
+              <PermIdentityIcon sx={{ fontSize: 32 }} color="action" />
               <Box>
-                <Typography sx={{ fontWeight: 600 }}>Lokalizacja</Typography>
+                <Typography sx={{ fontWeight: 600 }}>Twórca</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {`${offer[OF_CITY]}, ${offer[OF_ADRESS]}`}
+                  {offer[US_USERNAME]}
                 </Typography>
               </Box>
+
               <CategoryOutlinedIcon sx={{ fontSize: 32 }} color="action" />
               <Box>
                 <Typography sx={{ fontWeight: 600 }}>Typ usługi</Typography>
@@ -164,6 +167,7 @@ function OfferDetails() {
                 </Typography>
               </Box>
             </Stack>
+
             <Stack direction="row" spacing={2} alignItems="center">
               <TodayOutlinedIcon sx={{ fontSize: 32 }} color="action" />
               <Box>
@@ -174,7 +178,16 @@ function OfferDetails() {
                   {offer[OF_DATE]}
                 </Typography>
               </Box>
+
+              <PinDropOutlinedIcon sx={{ fontSize: 32 }} color="action" />
+              <Box>
+                <Typography sx={{ fontWeight: 600 }}>Lokalizacja</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {`${offer[OF_CITY]}, ${offer[OF_ADRESS]}`}
+                </Typography>
+              </Box>
             </Stack>
+
             {!isCreator && (
               <Button
                 variant="contained"

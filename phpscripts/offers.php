@@ -28,7 +28,7 @@
 
     include 'dbconnect.php';
 
-    $sqlQueryStart = "SELECT ogloszenia_oferty.* FROM ogloszenia_oferty LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl = ogloszenia_oferty.id";
+    $sqlQueryStart = "SELECT ogloszenia_oferty.*, users.nazwa FROM ogloszenia_oferty LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl = ogloszenia_oferty.id JOIN users ON users.id = ogloszenia_oferty.id_zglasz";
 
     $criteria = [];
 
