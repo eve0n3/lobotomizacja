@@ -2,7 +2,10 @@ import Container from "@mui/material/Container";
 import UserAvatar from "../../components/UserAvatar";
 import { getLoggedUser, getLoggedUserId } from "../../../utils/utilis";
 import Typography from "@mui/material/Typography";
+import Cookies from "js-cookie";
+
 import {
+  HOME_LOCATION,
   LOGIN_LOCATION,
   US_EMAIL,
   US_LAST_OFFER,
@@ -10,9 +13,18 @@ import {
   US_USERNAME,
 } from "../../../utils/consts";
 import { useNavigate } from "react-router-dom";
-import { Button, LinearProgress, Rating } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  LinearProgress,
+  Rating,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { getUserInfoFromDb } from "../../api/getUserInfoFromDb";
+import EditIcon from "@mui/icons-material/Edit";
+import { flexCentered, flexCenteredColumn } from "../../styles/AppStyle";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -51,16 +63,32 @@ const UserProfile = () => {
   if (error) {
     return <Typography color="error">{error}</Typography>;
   }
+  const handleLogout = () => {
+    Cookies.remove("loggedas");
+    navigate(HOME_LOCATION);
+    return;
+  };
+  const handleChangePassword = () => {};
 
   return (
-    <Container>
+    <Container sx={flexCenteredColumn}>
       <UserAvatar loggedUser={loggedUser} />
-      <Typography>Nazwa: </Typography>
-      <Typography>{user[US_USERNAME]}</Typography>
-      <Typography>Email: </Typography>
-      <Typography>{user[US_EMAIL]}</Typography>
-      <Typography>Ocena: </Typography>
+      <Box sx={flexCentered}>
+        <Typography variant="h4">{user[US_USERNAME]} </Typography>
+        <IconButton aria-label="edit">
+          <EditIcon />
+        </IconButton>
+      </Box>
+      <Box sx={flexCentered}>
+        <Typography variant="h5" color="text.secondary">
+          {user[US_EMAIL]}
+        </Typography>
+        <IconButton aria-label="edit">
+          <EditIcon />
+        </IconButton>
+      </Box>
 
+      <Typography>Ocena: </Typography>
       <Rating
         name="read-only"
         value={user[US_RATING]}
@@ -69,7 +97,13 @@ const UserProfile = () => {
       />
       <Typography>Ostanie zlecenie: </Typography>
       <Typography>{user[US_LAST_OFFER]}</Typography>
-      <Button variant="contained">wyloguj się</Button>
+      <Divider sx={{ width: "100%", my: 2 }} />
+      <Button onClick={handleLogout} variant="outlined">
+        zmień hasło
+      </Button>
+      <Button onClick={handleLogout} variant="outlined" color="error">
+        wyloguj się
+      </Button>
     </Container>
   );
 };

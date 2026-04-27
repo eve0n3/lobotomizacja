@@ -47,6 +47,7 @@ import ErrorAlert from "../../components/ErrorAlert";
 import SuccessAlert from "../../components/SuccessAlert";
 import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
 import MyOfferAppliedUsers from "../MyOffers/MyOfferAppliedUsers";
+import BackButton from "../../components/BackButton";
 
 function OfferDetails() {
   const location = useLocation();
@@ -110,130 +111,134 @@ function OfferDetails() {
   };
 
   return (
-    <Container sx={{ mt: 4, mb: 8 }}>
-      {/* NAGŁÓWEK NAD ZDJĘCIEM */}
-      <Box sx={{ mb: 3 }}>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography
-            variant="h3"
-            sx={{
-              whiteSpace: "normal",
-              overflowWrap: "anywhere",
-            }}
-          >
-            {offer[OF_TITLE]}
-          </Typography>
-        </Box>
-        <Stack direction={"row"}>
-          <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />
-          <Typography variant="h4" color="text.primary">
-            {offer[OF_PRICE]} zł
-          </Typography>
-        </Stack>
-      </Box>
-      {/* GŁÓWNY UKŁAD STRONY */}
-      <Grid container spacing={2}>
-        {/* LEWA KOLUMNA: Zdjęcie + Informacje szczegółowe */}
+    <>
+      <BackButton />
+      <Container sx={{ pt: 8, pr: 8 }}>
+        {/* NAGŁÓWEK NAD ZDJĘCIEM */}
 
-        {/* ZDJĘCIE (PLACEHOLDER) */}
-        <Grid size={6} item>
-          <ImagePlaceHolder />
-        </Grid>
-
-        <Grid size={6} item>
-          {/* detale */}
-
-          <Stack spacing={3}>
-            <Stack direction="row" spacing={2} alignItems="center"></Stack>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <PinDropOutlinedIcon sx={{ fontSize: 32 }} color="action" />
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>Lokalizacja</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {`${offer[OF_CITY]}, ${offer[OF_ADRESS]}`}
-                </Typography>
-              </Box>
-              <CategoryOutlinedIcon sx={{ fontSize: 32 }} color="action" />
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>Typ usługi</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {offer[OF_TYPE]}
-                </Typography>
-              </Box>
-            </Stack>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <TodayOutlinedIcon sx={{ fontSize: 32 }} color="action" />
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>
-                  Data ważności ogłoszenia
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {offer[OF_DATE]}
-                </Typography>
-              </Box>
-            </Stack>
-            {!isCreator && (
-              <Button
-                variant="contained"
-                onClick={async () => handleApplyButtonClick()}
-                disabled={loading}
-                startIcon={loading && <CircularProgress size={20} />}
-              >
-                Zgłoś się
-              </Button>
-            )}
-          </Stack>
-        </Grid>
-
-        <Grid size={12} item>
-          <Divider sx={{ my: 4 }} />
-        </Grid>
-        <Grid size={12} item>
-          {/* OPIS */}
-          <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
-            Opis oferty
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              color: "text.primary",
-              lineHeight: 1.8,
-              whiteSpace: "pre-line",
-            }}
-          >
-            {offer[OF_DESCRIPTION]}
-          </Typography>
-        </Grid>
-        <Grid size={12} item>
-          <Divider sx={{ my: 4 }} />
-        </Grid>
-        {isCreator && (
-          <Grid size={12} item>
-            <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
-              Chętni
+        <Box sx={{ mb: 3 }}>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                whiteSpace: "normal",
+                overflowWrap: "anywhere",
+              }}
+            >
+              {offer[OF_TITLE]}
             </Typography>
-            <MyOfferAppliedUsers
-              offerUsers={offer?.appliedUsers || null}
-              offerId={offer[OF_ID]}
-            />
+          </Box>
+          <Stack direction={"row"}>
+            <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />
+            <Typography variant="h4" color="text.primary">
+              {offer[OF_PRICE]} zł
+            </Typography>
+          </Stack>
+        </Box>
+        {/* GŁÓWNY UKŁAD STRONY */}
+        <Grid container spacing={2}>
+          {/* LEWA KOLUMNA: Zdjęcie + Informacje szczegółowe */}
+
+          {/* ZDJĘCIE (PLACEHOLDER) */}
+          <Grid size={6} item>
+            <ImagePlaceHolder />
           </Grid>
+
+          <Grid size={6} item>
+            {/* detale */}
+
+            <Stack spacing={3}>
+              <Stack direction="row" spacing={2} alignItems="center"></Stack>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <PinDropOutlinedIcon sx={{ fontSize: 32 }} color="action" />
+                <Box>
+                  <Typography sx={{ fontWeight: 600 }}>Lokalizacja</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {`${offer[OF_CITY]}, ${offer[OF_ADRESS]}`}
+                  </Typography>
+                </Box>
+                <CategoryOutlinedIcon sx={{ fontSize: 32 }} color="action" />
+                <Box>
+                  <Typography sx={{ fontWeight: 600 }}>Typ usługi</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {offer[OF_TYPE]}
+                  </Typography>
+                </Box>
+              </Stack>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <TodayOutlinedIcon sx={{ fontSize: 32 }} color="action" />
+                <Box>
+                  <Typography sx={{ fontWeight: 600 }}>
+                    Data ważności ogłoszenia
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {offer[OF_DATE]}
+                  </Typography>
+                </Box>
+              </Stack>
+              {!isCreator && (
+                <Button
+                  variant="contained"
+                  onClick={async () => handleApplyButtonClick()}
+                  disabled={loading}
+                  startIcon={loading && <CircularProgress size={20} />}
+                >
+                  Zgłoś się
+                </Button>
+              )}
+            </Stack>
+          </Grid>
+
+          <Grid size={12} item>
+            <Divider sx={{ my: 4 }} />
+          </Grid>
+          <Grid size={12} item>
+            {/* OPIS */}
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
+              Opis oferty
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "text.primary",
+                lineHeight: 1.8,
+                whiteSpace: "pre-line",
+              }}
+            >
+              {offer[OF_DESCRIPTION]}
+            </Typography>
+          </Grid>
+          <Grid size={12} item>
+            <Divider sx={{ my: 4 }} />
+          </Grid>
+          {isCreator && (
+            <Grid size={12} item>
+              <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
+                Chętni
+              </Typography>
+              <MyOfferAppliedUsers
+                offerUsers={offer?.appliedUsers || null}
+                offerId={offer[OF_ID]}
+              />
+            </Grid>
+          )}
+        </Grid>
+        {error && (
+          <ErrorAlert
+            message={error}
+            open={error}
+            onClose={() => setError(null)}
+          />
         )}
-      </Grid>
-      {error && (
-        <ErrorAlert
-          message={error}
-          open={error}
-          onClose={() => setError(null)}
-        />
-      )}
-      {!error && message && (
-        <SuccessAlert
-          message={message}
-          open={!!message}
-          onClose={() => setMessage("")}
-        />
-      )}
-    </Container>
+        {!error && message && (
+          <SuccessAlert
+            message={message}
+            open={!!message}
+            onClose={() => setMessage("")}
+          />
+        )}
+      </Container>
+    </>
   );
 }
 

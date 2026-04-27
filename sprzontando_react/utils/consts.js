@@ -33,9 +33,6 @@ export const OF_CREATOR_ID = "id_zglasz";
 //applied offers
 export const AP_USER_ID = "id_chetnego";
 export const AP_OFFER_ID = "id_ogloszenia";
-//users
-export const US_ID = "id";
-export const US_USERNAME = "nazwa";
 
 //user info
 export const US_ID = "id";
