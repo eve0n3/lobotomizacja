@@ -17,6 +17,8 @@ export const USER_INFO_URL =
   "http://localhost/lobotomizacja/phpscripts/user_info.php";
 export const USER_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/user_offers.php";
+export const CHOSE_USER_URL =
+  "http://localhost/lobotomizacja/phpscripts/ogloszenie_wybrany_add.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";
@@ -33,6 +35,7 @@ export const OF_CREATOR_ID = "id_zglasz";
 //applied offers
 export const AP_USER_ID = "id_chetnego";
 export const AP_OFFER_ID = "id_ogloszenia";
+export const AP_CHOSEN_USER = "wybrany";
 
 //user info
 export const US_ID = "id";

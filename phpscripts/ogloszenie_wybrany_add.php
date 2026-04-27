@@ -26,7 +26,7 @@
     if($stmt->execute()){
         echo json_encode([
             "success" => true,
-            "message" => "pomyślnie wybrano wykonawcę"
+            "message" => "Pomyślnie wybrano wykonawcę"
         ]);
     }else{
         echo json_encode([
