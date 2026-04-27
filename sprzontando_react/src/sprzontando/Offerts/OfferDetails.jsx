@@ -70,7 +70,10 @@ function OfferDetails() {
   const isCreator = userId === offer[OF_CREATOR_ID];
 
   const handleApplyButtonClick = async () => {
-    userId === null && navigate(LOGIN_LOCATION);
+    if (userId === null) {
+      navigate(LOGIN_LOCATION);
+      return;
+    }
 
     setLoading(true);
     const isAlreadyApplied = await checkIfUserAlreadyApplied();
