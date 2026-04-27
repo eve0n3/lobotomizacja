@@ -22,7 +22,15 @@
         $sqlquery = "SELECT * FROM chetny JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia WHERE id_chetnego = ?;"; //dla id ogl daje mi wszystkich chetnych
         $param = $id_chetnego;
     }elseif(!is_null($id_ogl)){
-        $sqlquery = "SELECT * FROM chetny JOIN users ON users.id=chetny.id_chetnego WHERE id_ogloszenia = ?;"; //dla id chetnego daje mi wszystkie ogloszenia do których sie zgłosił
+        $sqlquery = "SELECT 
+                    chetny.*,
+                    users.*,
+                    ROUND(CAST(AVG(ocena) AS DECIMAL(4,2)),2) AS avgocena
+                    FROM chetny 
+                    JOIN users ON users.id=chetny.id_chetnego
+                    LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_wykon=users.id
+                    WHERE id_ogloszenia = ?
+                    GROUP BY users.id;"; //dla id chetnego daje mi wszystkie ogloszenia do których sie zgłosił
         $param = $id_ogl;
     }
     
