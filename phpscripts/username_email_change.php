@@ -13,12 +13,21 @@
     $dataJSON = file_get_contents('php://input');
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
 
-    $user_id = $data["user_id"];
+    $id = $data["id"];
     $username = $data['username'] ?? null;
     $email = $data['email'] ?? null;
+    $oldpass = $data['oldpass'] ?? null;
+    $newpass = $data['newpass'] ?? null;
 
     //połączenie z bazą danych
     include 'dbconnect.php';
+
+    $mailExist = false;
+    $userExist = false;
+
+    echo json_encode(["debug1"=>[
+        $id,$username,$email,$oldpass,$newpass,$mailExist,$userExist
+    ]]);
 
     //robimy template i podstawiamy  email
     if(!is_null($email)){  
@@ -66,13 +75,14 @@
             "message" => $messages
         ]);
     }else{
-        if(!is_null($username)){
-            $stmt = $conn->prepare('SELECT nazwa FROM users WHERE id = ?');
-            $stmt->bind_param("s", $user_id);
-            $stmt->execute();
+        $stmt = $conn->prepare('SELECT * FROM users WHERE id = ?');
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
 
-            $res = $stmt->get_result();
-            $user = $res->fetch_assoc();
+        $res = $stmt->get_result();
+        $user = $res->fetch_assoc();
+
+        if(!is_null($username)){
             if($username == $user['nazwa']){
                 http_response_code(401);
                 echo json_encode([
@@ -87,12 +97,6 @@
         }
 
         if(!is_null($email)){
-            $stmt = $conn->prepare('SELECT email FROM users WHERE id = ?');
-            $stmt->bind_param("s", $user_id);
-            $stmt->execute();
-
-            $res = $stmt->get_result();
-            $user = $res->fetch_assoc();
             if($email == $user['email']){
                  http_response_code(401);
                 echo json_encode([
@@ -107,10 +111,31 @@
             }
         }
 
+        if(!is_null($newpass)){
+            if($oldpass == $user['haslo']){
+                if($newpass == $user['haslo']){
+                echo json_encode([
+                    'success' => false, 
+                    'message' => 'Nowe haslo nie może być takie samo jak stare'
+                ]);
+                http_response_code(401);
+                }else{
+                    array_push($criteria, "haslo = ?");
+                    array_push($params, $newpass);
+                    $paramTypes .= "s";
+                }
+            }else{
+                echo json_encode([
+                    'success' => false, 
+                    'message' => 'Stare hasło jest niepoprawne'
+                ]);
+                http_response_code(401);
+            }
+        }
         if(!empty($criteria)){
             $sqlQueryStart .= join(", ", $criteria);
 
-            array_push($params, $user_id);
+            array_push($params, $id);
             $paramTypes .= "i";
             $sqlQueryEnd = " WHERE id = ?";
             $sqlQuery = $sqlQueryStart.$sqlQueryEnd;
