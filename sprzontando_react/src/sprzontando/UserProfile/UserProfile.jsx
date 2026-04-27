@@ -99,7 +99,7 @@ const UserProfile = () => {
           </IconButton>
         </Box>
 
-        <Typography>Ocena: </Typography>
+        <Typography>Ocena </Typography>
         <Rating
           name="read-only"
           value={user[US_RATING]}

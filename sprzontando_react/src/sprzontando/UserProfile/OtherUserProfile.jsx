@@ -10,10 +10,11 @@ import {
   US_USERNAME,
 } from "../../../utils/consts";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button, LinearProgress, Rating } from "@mui/material";
+import { Box, Button, LinearProgress, Rating } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getUserInfoFromDb } from "../../api/getUserInfoFromDb";
 import OtherUserAvatar from "../../components/OtherUserAvatar";
+import { flexCentered, flexCenteredColumn } from "../../styles/AppStyle";
 
 const OtherUserProfile = () => {
   const location = useLocation();
@@ -30,14 +31,18 @@ const OtherUserProfile = () => {
   }
 
   return (
-    <Container>
+    <Container sx={flexCenteredColumn}>
       <OtherUserAvatar username={user[US_USERNAME]} />
-      <Typography>Nazwa: </Typography>
-      <Typography>{user[US_USERNAME]}</Typography>
-      <Typography>Email: </Typography>
-      <Typography>{user[US_EMAIL]}</Typography>
-      <Typography>Ocena: </Typography>
+      <Box sx={flexCentered}>
+        <Typography variant="h4">{user[US_USERNAME]} </Typography>
+      </Box>
+      <Box sx={flexCentered}>
+        <Typography variant="h5" color="text.secondary">
+          {user[US_EMAIL]}
+        </Typography>
+      </Box>
 
+      <Typography>Ocena </Typography>
       <Rating
         name="read-only"
         value={user[US_RATING]}
@@ -45,9 +50,7 @@ const OtherUserProfile = () => {
         readOnly
       />
       <Typography>Ostanie zlecenie: </Typography>
-      <Typography>
-        {user[US_LAST_OFFER] || "Brak ostaniego zlecenia"}
-      </Typography>
+      <Typography>{user[US_LAST_OFFER] || "Brak ostaniego zlecnia"}</Typography>
     </Container>
   );
 };
