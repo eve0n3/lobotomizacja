@@ -24,12 +24,12 @@
 
     if($stmt->execute()){
         echo json_encode([
-            "succes" => true,
+            "success" => true,
             "message" => "Pomyślnie zgłoszono"
         ]);
     }else{
         echo json_encode([
-            "succes" => false,
+            "success" => false,
             "message" => "Wystąpił błąd, prosze spróbować później"
         ]);
         http_response_code(503);

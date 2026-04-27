@@ -51,6 +51,8 @@ import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import MyOfferAppliedUsers from "../MyOffers/MyOfferAppliedUsers";
 import BackButton from "../../components/BackButton";
+import FlagIcon from "@mui/icons-material/Flag";
+import { reportOfferInDb } from "../../api/reportOfferInDb";
 
 function OfferDetails() {
   const location = useLocation();
@@ -58,6 +60,7 @@ function OfferDetails() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
+  const [isReported, setIsReported] = useState(false);
 
   const offer = location.state?.offer;
   if (!offer) {
@@ -115,6 +118,20 @@ function OfferDetails() {
     setError(null);
     setMessage("Pomyślnie zgłoszono się do wykonania ogłoszenia.");
   };
+  const handleReportClick = async () => {
+    if (userId == null) {
+      navigate(LOGIN_LOCATION);
+      return;
+    }
+    const response = await reportOfferInDb(offer[OF_ID]);
+    if (response.success === true) {
+      setIsReported(true);
+      setMessage(response.message);
+    } else {
+      setIsReported(false);
+      setError("Nie udało się zgłosić ogłoszenia.");
+    }
+  };
 
   return (
     <>
@@ -123,8 +140,9 @@ function OfferDetails() {
         {/* NAGŁÓWEK NAD ZDJĘCIEM */}
 
         <Box sx={{ mb: 3 }}>
-          <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography
+              sx={{ flexGrow: 1 }}
               variant="h3"
               sx={{
                 whiteSpace: "normal",
@@ -133,6 +151,13 @@ function OfferDetails() {
             >
               {offer[OF_TITLE]}
             </Typography>
+            <IconButton
+              disabled={isReported}
+              onClick={handleReportClick}
+              sx={{ p: 0 }}
+            >
+              <FlagIcon sx={{ fontSize: 48 }} />
+            </IconButton>
           </Box>
           <Stack direction={"row"}>
             <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />

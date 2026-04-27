@@ -21,11 +21,12 @@ export const CHANGE_USER_INFO_URL =
   "http://localhost/lobotomizacja/phpscripts/username_email_change.php";
 export const CHOSE_USER_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie_wybrany_add.php";
-
 export const RESET_PASSWORD_EMAIL_URL =
   "http://localhost/lobotomizacja/phpscripts/passwd_reset.php";
 export const RESET_PASSWORD_VERIFY_URL =
   "http://localhost/lobotomizacja/phpscripts/passwd_check.php";
+export const REPORT_OFFER_URL =
+  "http://localhost/lobotomizacja/phpscripts/report.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";
