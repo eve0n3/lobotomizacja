@@ -17,6 +17,8 @@ export const USER_INFO_URL =
   "http://localhost/lobotomizacja/phpscripts/user_info.php";
 export const USER_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/user_offers.php";
+export const CHANGE_USER_INFO_URL =
+  "http://localhost/lobotomizacja/phpscripts/username_email_change.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";

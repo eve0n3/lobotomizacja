@@ -13,9 +13,10 @@
     $dataJSON = file_get_contents('php://input');
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
 
-    $id = $data["id"];
+    $id = $data["id"];//to zawsze dac
     $username = $data['username'] ?? null;
     $email = $data['email'] ?? null;
+
     $oldpass = $data['oldpass'] ?? null;
     $newpass = $data['newpass'] ?? null;
 
@@ -24,10 +25,6 @@
 
     $mailExist = false;
     $userExist = false;
-
-    echo json_encode(["debug1"=>[
-        $id,$username,$email,$oldpass,$newpass,$mailExist,$userExist
-    ]]);
 
     //robimy template i podstawiamy  email
     if(!is_null($email)){  
@@ -112,13 +109,14 @@
         }
 
         if(!is_null($newpass)){
-            if($oldpass == $user['haslo']){
+            if($oldpass == $user['haslo'] ){
                 if($newpass == $user['haslo']){
                 echo json_encode([
                     'success' => false, 
                     'message' => 'Nowe haslo nie może być takie samo jak stare'
                 ]);
                 http_response_code(401);
+                exit(0);
                 }else{
                     array_push($criteria, "haslo = ?");
                     array_push($params, $newpass);
@@ -130,6 +128,7 @@
                     'message' => 'Stare hasło jest niepoprawne'
                 ]);
                 http_response_code(401);
+                exit(0);
             }
         }
         if(!empty($criteria)){
