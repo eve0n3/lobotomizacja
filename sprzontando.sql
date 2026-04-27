@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2026 at 01:21 PM
+-- Generation Time: Apr 27, 2026 at 09:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,8 +31,42 @@ CREATE TABLE `chetny` (
   `id` int(11) NOT NULL,
   `id_ogloszenia` int(11) DEFAULT NULL,
   `id_chetnego` int(11) DEFAULT NULL,
-  `zgloszenie` datetime DEFAULT NULL
+  `zgloszenie` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chetny`
+--
+
+INSERT INTO `chetny` (`id`, `id_ogloszenia`, `id_chetnego`, `zgloszenie`) VALUES
+(1, 44, 1, '2026-04-27 18:49:49'),
+(2, 44, 7, '2026-04-27 18:49:49'),
+(3, 44, 4, '2026-04-27 18:49:49'),
+(4, 44, 3, '2026-04-27 18:49:49'),
+(5, 10, 2, '2026-04-27 18:49:49'),
+(6, 10, 4, '2026-04-27 18:49:49'),
+(7, 10, 1, '2026-04-27 18:49:49'),
+(8, 10, 15, '2026-04-27 18:49:49'),
+(9, 10, 13, '2026-04-27 18:49:49'),
+(10, 12, 1, '2026-04-27 18:49:49'),
+(11, 18, 1, '2026-04-27 18:49:49'),
+(12, 43, 1, '2026-04-27 18:49:49'),
+(13, 55, 1, '2026-04-27 18:49:49'),
+(14, 55, 12, '2026-04-27 18:49:49'),
+(15, 55, 2, '2026-04-27 18:49:49'),
+(16, 55, 6, '2026-04-27 18:49:49'),
+(17, 25, 2, '2026-04-27 18:49:49'),
+(18, 34, 3, '2026-04-27 18:49:49'),
+(19, 32, 2, '2026-04-27 18:49:49'),
+(20, 19, 2, '2026-04-27 18:49:49'),
+(21, 60, 2, '2026-04-27 18:49:49'),
+(22, 60, 1, '2026-04-27 18:49:49'),
+(23, 60, 5, '2026-04-27 18:49:49'),
+(24, 60, 7, '2026-04-27 18:49:49'),
+(25, 61, 1, '2026-04-27 18:49:49'),
+(26, 61, 6, '2026-04-27 18:49:49'),
+(27, 61, 12, '2026-04-27 18:49:49'),
+(28, 61, 17, '2026-04-27 18:49:49');
 
 -- --------------------------------------------------------
 
@@ -48,10 +82,10 @@ CREATE TABLE `ogloszenia_oferty` (
   `adres` varchar(255) DEFAULT NULL,
   `cena` float DEFAULT NULL,
   `opis` varchar(500) DEFAULT NULL,
-  `utworzenie` datetime DEFAULT NULL,
+  `utworzenie` timestamp NOT NULL DEFAULT current_timestamp(),
   `waznosc` datetime DEFAULT NULL,
   `id_zglasz` int(11) DEFAULT NULL,
-  `ban` int(11) DEFAULT 0,
+  `ban` int(11) NOT NULL DEFAULT 0,
   `report_count` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -120,14 +154,7 @@ INSERT INTO `ogloszenia_oferty` (`id`, `tytul`, `kategoria`, `miasto`, `adres`, 
 (58, 'Magazyn logistyczny 800m2', 'Magazyny', 'Kraków', 'ul. Transportowa 9', 750, 'Nowoczesny obiekt logistyczny', '2025-02-28 12:00:00', '2025-07-28 12:00:00', 8, 0, 0),
 (59, 'Duże mieszkanie 5m2', 'Mieszkania', 'Warszawa', 'ul. Szósta 7', 250, 'Największe mieszkanie w Warszawie', '2025-02-28 12:00:00', '2025-07-28 12:00:00', 1, 0, 0),
 (60, 'Garaż na osiedlu', 'Garaże', 'Kraków', 'ul. Kirkowa 2', 150, 'Mała powierzchnia', '2025-02-28 12:00:00', '2025-07-28 12:00:00', 3, 0, 0),
-(61, 'Sprzątanie Stajni', 'inne', 'Opole', 'Oleska 45b', 1000, 'Stajnia jest brudna i trzeba ją posprzątać', '2026-04-23 19:08:28', '2026-04-23 19:10:00', 22, 0, 0),
-(62, 'Nie dbają moje papiery o przeważne bohatery nic u nich Mars choc', 'ogrody', 'Warszawa', 'Wilanów 123h', 1000000000, ' Duży drogi ogród wymaga sprzątania w tym: przycięcia wszytskich krzewów, wyplenienie wszystkich chwastów, wybicie wszystkich kretów, zbudowanie stajni dla kucyków, skoszenie trawyDuży drogi ogród wymaga sprzątania w tym: przycięcia wszytskich krzewów, wyplenienie wszystkich chwastów, wybicie wszystkich kretów, zbudowanie stajni dla kucyków, skoszenie trawyDuży drogi ogród wymaga sprzątania w tym: przycięcia wszytskich krzewów, wyplenienie wszystkich chwastów, wybicie wszystkich kretów, zbudowan', '2026-04-23 19:12:02', '2026-04-23 19:15:00', 22, 0, 0),
-(63, 'scscsc', 'dc', 'dc', NULL, 999, NULL, NULL, NULL, NULL, 0, 0),
-(64, NULL, NULL, NULL, NULL, 999999, NULL, NULL, NULL, NULL, 0, 0),
-(65, NULL, NULL, NULL, NULL, 1000000000, NULL, NULL, NULL, NULL, 0, 0),
-(66, NULL, NULL, NULL, NULL, 100000000, NULL, NULL, NULL, NULL, 0, 0),
-(67, NULL, NULL, NULL, NULL, 10000000, NULL, NULL, NULL, NULL, 0, 0),
-(68, NULL, NULL, NULL, NULL, 9, NULL, NULL, NULL, NULL, 0, 0);
+(61, 'Sprzątanie Stajni', 'inne', 'Opole', 'Oleska 45b', 1000, 'Stajnia jest brudna i trzeba ją posprzątać', '2026-04-23 19:08:28', '2026-04-23 19:10:00', 22, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -139,7 +166,7 @@ CREATE TABLE `ogloszenia_zrobione` (
   `id` int(11) NOT NULL,
   `id_ogl` int(11) NOT NULL,
   `id_wykon` int(11) NOT NULL,
-  `ocena` int(11) NOT NULL
+  `ocena` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
@@ -147,9 +174,16 @@ CREATE TABLE `ogloszenia_zrobione` (
 --
 
 INSERT INTO `ogloszenia_zrobione` (`id`, `id_ogl`, `id_wykon`, `ocena`) VALUES
-(1, 2, 1, 1),
+(1, 44, 1, 4),
 (2, 10, 2, 2),
-(3, 12, 1, 3);
+(3, 12, 1, 3),
+(4, 18, 1, 5),
+(5, 43, 1, 4),
+(6, 55, 1, 5),
+(7, 25, 2, 2),
+(8, 34, 3, 4),
+(9, 32, 2, 1),
+(10, 19, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -159,11 +193,10 @@ INSERT INTO `ogloszenia_zrobione` (`id`, `id_ogl`, `id_wykon`, `ocena`) VALUES
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `photo` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `haslo` varchar(255) DEFAULT NULL,
   `nazwa` varchar(255) DEFAULT NULL,
-  `utworzenie` datetime DEFAULT NULL,
+  `utworzenie` timestamp NOT NULL DEFAULT current_timestamp(),
   `ban` int(11) DEFAULT NULL,
   `ban_data` datetime DEFAULT NULL,
   `ban_end` datetime DEFAULT NULL,
@@ -176,27 +209,27 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `photo`, `email`, `haslo`, `nazwa`, `utworzenie`, `ban`, `ban_data`, `ban_end`, `kod`, `zatwierdzony`, `ostatnie_zlecenie`) VALUES
-(1, 'user1.jpg', 'jan.kowalski@example.com', 'zaq1@WSX', 'JanKowalski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(2, 'user2.jpg', 'anna.nowak@example.com', 'zaq1@WSX', 'AnnaNowak', '2026-02-22 13:05:04', 1, '2026-02-21 09:00:00', '2026-03-01 09:00:00', NULL, 0, NULL),
-(3, 'user3.jpg', 'piotr.zielinski@example.com', 'zaq1@WSX', 'PiotrZielinski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(4, 'user4.jpg', 'katarzyna.malysz@example.com', 'zaq1@WSX', 'KasiaMalysz', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(5, 'user5.jpg', 'marek.kowal@example.com', 'zaq1@WSX', 'MarekKowal', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(6, 'user6.jpg', 'magdalena.nowakowska@example.com', 'zaq1@WSX', 'MagdaNowakowska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(7, 'user7.jpg', 'tomasz.wisniewski@example.com', 'zaq1@WSX', 'TomekWisniewski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(8, 'user8.jpg', 'joanna.kaczmarek@example.com', 'zaq1@WSX', 'JoannaKaczmarek', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(9, 'user9.jpg', 'adam.kowalczyk@example.com', 'zaq1@WSX', 'AdamKowalczyk', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(10, 'user10.jpg', 'ewa.szymanska@example.com', 'zaq1@WSX', 'EwaSzymanska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(11, 'user11.jpg', 'piotr.lewandowski@example.com', 'zaq1@WSX', 'PiotrLewandowski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(12, 'user12.jpg', 'anna.wroblewska@example.com', 'zaq1@WSX', 'AnnaWroblewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(13, 'user13.jpg', 'marcin.kaminskii@example.com', 'zaq1@WSX', 'MarcinKaminski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(14, 'user14.jpg', 'agnieszka.sikora@example.com', 'zaq1@WSX', 'AgnieszkaSikora', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(15, 'user15.jpg', 'lukasz.jablonski@example.com', 'zaq1@WSX', 'LukaszJablonski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(16, 'user16.jpg', 'marta.krol@example.com', 'zaq1@WSX', 'MartaKrol', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(17, 'user17.jpg', 'pawel.dabrowski@example.com', 'zaq1@WSX', 'PawelDabrowski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(18, 'user18.jpg', 'monika.kowalska@example.com', 'zaq1@WSX', 'MonikaKowalska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(19, 'user19.jpg', 'krzysztof.nowicki@example.com', 'zaq1@WSX', 'KrzysztofNowicki', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
-(20, 'user20.jpg', 'ania.wisniewska@example.com', 'zaq1@WSX', 'AniaWisniewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL);
+INSERT INTO `users` (`id`, `email`, `haslo`, `nazwa`, `utworzenie`, `ban`, `ban_data`, `ban_end`, `kod`, `zatwierdzony`, `ostatnie_zlecenie`) VALUES
+(1, 'jan.kowalski@example.com', 'zaq1@WSX', 'JanKowalski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(2, 'anna.nowak@example.com', 'zaq1@WSX', 'AnnaNowak', '2026-02-22 13:05:04', 1, '2026-02-21 09:00:00', '2026-03-01 09:00:00', NULL, 0, NULL),
+(3, 'piotr.zielinski@example.com', 'zaq1@WSX', 'PiotrZielinski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(4, 'katarzyna.malysz@example.com', 'zaq1@WSX', 'KasiaMalysz', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(5, 'marek.kowal@example.com', 'zaq1@WSX', 'MarekKowal', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(6, 'magdalena.nowakowska@example.com', 'zaq1@WSX', 'MagdaNowakowska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(7, 'tomasz.wisniewski@example.com', 'zaq1@WSX', 'TomekWisniewski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(8, 'joanna.kaczmarek@example.com', 'zaq1@WSX', 'JoannaKaczmarek', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(9, 'adam.kowalczyk@example.com', 'zaq1@WSX', 'AdamKowalczyk', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(10, 'ewa.szymanska@example.com', 'zaq1@WSX', 'EwaSzymanska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(11, 'piotr.lewandowski@example.com', 'zaq1@WSX', 'PiotrLewandowski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(12, 'anna.wroblewska@example.com', 'zaq1@WSX', 'AnnaWroblewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(13, 'marcin.kaminskii@example.com', 'zaq1@WSX', 'MarcinKaminski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(14, 'agnieszka.sikora@example.com', 'zaq1@WSX', 'AgnieszkaSikora', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(15, 'lukasz.jablonski@example.com', 'zaq1@WSX', 'LukaszJablonski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(16, 'marta.krol@example.com', 'zaq1@WSX', 'MartaKrol', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(17, 'pawel.dabrowski@example.com', 'zaq1@WSX', 'PawelDabrowski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(18, 'monika.kowalska@example.com', 'zaq1@WSX', 'MonikaKowalska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(19, 'krzysztof.nowicki@example.com', 'zaq1@WSX', 'KrzysztofNowicki', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL),
+(20, 'ania.wisniewska@example.com', 'zaq1@WSX', 'AniaWisniewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -225,7 +258,8 @@ ALTER TABLE `ogloszenia_zrobione`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`,`nazwa`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -235,25 +269,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `chetny`
 --
 ALTER TABLE `chetny`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `ogloszenia_oferty`
 --
 ALTER TABLE `ogloszenia_oferty`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `ogloszenia_zrobione`
 --
 ALTER TABLE `ogloszenia_zrobione`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
