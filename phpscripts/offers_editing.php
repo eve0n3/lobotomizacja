@@ -87,6 +87,10 @@
     $stmt->bind_param($paramTypes, ...$params);
 
     if($stmt->execute()){
+        $kod_zapisywanie = $conn->prepare('DELETE FROM chetny WHERE id_ogloszenia = ?');
+        $kod_zapisywanie->bind_param('i', $ogloszenie_id, );
+        $kod_zapisywanie->execute();   
+
         echo json_encode([
             "success" => true,
             "message" => "Dane ogloszenie zostaly zmienione"
