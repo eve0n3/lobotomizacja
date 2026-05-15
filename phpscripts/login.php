@@ -30,7 +30,7 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Nie poprawne hasło lub email', 'type' => 'password']);
 } else {
-    if ($user["zatwierdzony"] == null){
+    if ($user["zatwierdzony"] == 0){
         echo json_encode([
         'success' => false,
         'message' => 'Weryfikacja wymagana', 
@@ -39,24 +39,41 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
     ]);
     }
     else{
-      setcookie("loggedas", json_encode([
-        "id"=>$user['id'],
-        "username"=>$user['nazwa']]),
-        [
-        'expires'  => time() + 3600,
-        'path'     => '/',
-        'secure'   => true,        // true in production (HTTPS)
-        'httponly' => false,        // must be false so JS can read it
-        'samesite' => 'None',       // required for cross-origin
-    ]);
-        echo json_encode([
-        'success' => true,
-        'message' => 'Login successful', 
-        
-    ]);
+
+        $stmt1 = $conn->prepare("SELECT IF(ban_end>NOW(), true, false) AS czy_ban FROM users WHERE id = ?;");
+        $stmt1->bind_param("i", $user['id']);
+
+        if($stmt1->execute()){
+            $res = $stmt1->get_result();
+            $rows = $res->fetch_assoc();
+
+            if($rows["czy_ban"]==1){
+                echo json_encode([
+                "success"=>false,
+                "message"=>"użytkownik zbanowany"
+                ]);
+            }else{
+                setcookie("loggedas", 
+                json_encode([
+                "id"=>$user['id'],
+                "username"=>$user['nazwa']
+                ]),
+                [
+                'expires'  => time() + 3600,
+                'path'     => '/',
+                'secure'   => true,        // true in production (HTTPS)
+                'httponly' => false,        // must be false so JS can read it
+                'samesite' => 'None',       // required for cross-origin
+                ]);
+
+                echo json_encode([
+                'success' => true,
+                'message' => 'Login successful', 
+                ]);
+            }
+                
+        }  
     }
-    
-    
 }
 
 $stmt->close();

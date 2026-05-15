@@ -14,30 +14,27 @@
     //dane z react
     $dataJSON = file_get_contents('php://input');
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
-
-    $sqlQuery = "SELECT * FROM `ogloszenia_oferty` ORDER BY report_count DESC
-                JOIN users ON users.id=ogloszenia_oferty.id_zglasz;";
-
-    $stmt = $conn->prepare($sqlQuery);
     
-    if($stmt->execute()){
-        $res = $stmt->get_result();
-        $rows = $res->fetch_all(MYSQLI_ASSOC);
+    $id = $data["id"];
+    $date_end = $data["date_end"];
 
-        if($rows){
-            echo json_encode([
-                "data"=>$rows
-            ]);
-        }else{
-            echo json_encode([
-                "success"=>true,
-                "data"=>[]
-            ]);
-        }
+    $sqlquery = "UPDATE users
+                SET ban = 1, ban_data=NOW(), ban_end=?
+                WHERE id = ?";
+    
+    $stmt=$conn->prepare($sqlquery);
+    $stmt->bind_param("si", $date_end, $id);
+
+    if($stmt->execute()){
+        echo json_encode([
+            "success"=>true,
+            "message"=>"Wykonano pomyślnie"
+        ]);
     }else{
         echo json_encode([
             "success"=>false,
             "message"=>"Wystąpił błąd"
         ]);
+        http_response_code(503);
     }
 ?>
