@@ -47,10 +47,6 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
             $res = $stmt1->get_result();
             $rows = $res->fetch_assoc();
 
-            echo json_encode([
-                $rows
-            ]);
-
             if($rows["czy_ban"]==1){
                 echo json_encode([
                 "success"=>false,
