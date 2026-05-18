@@ -40,7 +40,7 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
     }
     else{
 
-        $stmt1 = $conn->prepare("SELECT IF(ban_end>NOW(), true, false) AS czy_ban FROM users WHERE id = ?;");
+        $stmt1 = $conn->prepare("SELECT IF(ban_end>NOW(), true, false) AS czy_ban, ban_end, id FROM users WHERE id = ?;");
         $stmt1->bind_param("i", $user['id']);
 
         if($stmt1->execute()){
@@ -48,10 +48,35 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
             $rows = $res->fetch_assoc();
 
             if($rows["czy_ban"]==1){
-                echo json_encode([
-                "success"=>false,
-                "message"=>"użytkownik zbanowany"
-                ]);
+                if($rows["ban_data"] < date("Y-m-d H:i:s")){
+                    $stmt2 = $conn->prepare("UPDATE users SET ban_data = null, ban_end = null, ban = 0 WHERE id = ?;");
+                    $stmt2->bind_param($rows["id"]);
+
+                    if($stmt2->execute()){
+                        setcookie("loggedas", 
+                        json_encode([
+                        "id"=>$user['id'],
+                        "username"=>$user['nazwa']
+                        ]),
+                        [
+                        'expires'  => time() + 3600,
+                        'path'     => '/',
+                        'secure'   => true,        // true in production (HTTPS)
+                        'httponly' => false,        // must be false so JS can read it
+                        'samesite' => 'None',       // required for cross-origin
+                        ]);
+
+                        echo json_encode([
+                        'success' => true,
+                        'message' => 'Zalogowano pomyślnie i użytkownik odbanowany', 
+                        ]);
+                    }
+                }else{
+                    echo json_encode([
+                    "success"=>false,
+                    "message"=>"użytkownik zbanowany"
+                    ]);
+                }
             }else{
                 setcookie("loggedas", 
                 json_encode([
@@ -68,7 +93,7 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
 
                 echo json_encode([
                 'success' => true,
-                'message' => 'Login successful', 
+                'message' => 'Pomyślnie zalogowano', 
                 ]);
             }
                 
