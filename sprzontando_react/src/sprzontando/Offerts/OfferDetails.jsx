@@ -27,10 +27,14 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import PersonIcon from "@mui/icons-material/Person";
+import EditIcon from "@mui/icons-material/Edit";
 
 import {
   AP_USER_ID,
+  EDIT_OFFER_LOCATION,
+  HOME_LOCATION,
   LOGIN_LOCATION,
+  MY_OFFERS_LOCATION,
   OF_ADRESS,
   OF_CITY,
   OF_CREATOR_ID,
@@ -64,6 +68,7 @@ function OfferDetails() {
 
   const offer = location.state?.offer;
   if (!offer) {
+    console.log("location.state", location.state);
     return (
       <Container sx={{ mt: 4 }}>
         <Typography variant="h5" color="error">
@@ -133,6 +138,25 @@ function OfferDetails() {
     }
   };
 
+  const handleEditClick = () => {
+    navigate(EDIT_OFFER_LOCATION, { state: { offer }, replace: true });
+  };
+  const getEditOrReportIcon = () => {
+    return isCreator ? (
+      <IconButton onClick={handleEditClick} sx={{ p: 0 }}>
+        <EditIcon sx={{ fontSize: 48 }} />
+      </IconButton>
+    ) : (
+      <IconButton
+        disabled={isReported}
+        onClick={handleReportClick}
+        sx={{ p: 0 }}
+      >
+        <FlagIcon sx={{ fontSize: 48 }} />
+      </IconButton>
+    );
+  };
+
   return (
     <>
       <BackButton />
@@ -142,22 +166,16 @@ function OfferDetails() {
         <Box sx={{ mb: 3 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography
-              sx={{ flexGrow: 1 }}
               variant="h3"
               sx={{
                 whiteSpace: "normal",
                 overflowWrap: "anywhere",
+                flexGrow: 1,
               }}
             >
               {offer[OF_TITLE]}
             </Typography>
-            <IconButton
-              disabled={isReported}
-              onClick={handleReportClick}
-              sx={{ p: 0 }}
-            >
-              <FlagIcon sx={{ fontSize: 48 }} />
-            </IconButton>
+            {getEditOrReportIcon()}
           </Box>
           <Stack direction={"row"}>
             <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />

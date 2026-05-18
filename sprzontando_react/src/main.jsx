@@ -18,6 +18,7 @@ import OfferDetails from "./sprzontando/Offerts/OfferDetails";
 import AddOffer from "./sprzontando/AddOffer/AddOffer";
 import {
   ADD_OFFER_LOCATION,
+  EDIT_OFFER_LOCATION,
   HOME_LOCATION,
   LOGIN_LOCATION,
   LOGIN_RESET_LOCATION,
@@ -34,6 +35,7 @@ import MyOffers from "./sprzontando/MyOffers/MyOffers";
 import OtherUserProfile from "./sprzontando/UserProfile/OtherUserProfile";
 import ResetPasswordPage from "./sprzontando/loginPage/ResetPasswordPage";
 import SuccessPasswordReset from "./sprzontando/loginPage/SuccessPasswordReset";
+import EditOffer from "./sprzontando/EditOffer/EditOffer";
 
 const router = createBrowserRouter([
   {
@@ -91,6 +93,10 @@ const router = createBrowserRouter([
       {
         path: OTHER_USER_PROFILE_LOCATION,
         element: <OtherUserProfile />,
+      },
+      {
+        path: EDIT_OFFER_LOCATION,
+        element: <EditOffer />,
       },
     ],
   },

@@ -8,7 +8,7 @@ import { popupModal } from "../../styles/popUp.styles";
 import Typography from "@mui/material/Typography";
 
 import CircularProgress from "@mui/material/CircularProgress";
-import { changeUserEmailInDb } from "../../api/changeUserEmailInDb";
+
 import { getLoggedUserId } from "../../../utils/utilis";
 import { flexCenteredColumn } from "../../styles/AppStyle";
 import { IconButton, Stack } from "@mui/material";
@@ -76,7 +76,6 @@ function ChangePasswordPopup({ isPassPopupOpen, setIsPassPopupOpen }) {
               onChange={(e) => setOldPassword(e.target.value)}
               type="password"
               label="stare hasło"
-              disabled={isLoading}
               fullWidth
               disabled={isLoading || message}
             />
@@ -84,7 +83,6 @@ function ChangePasswordPopup({ isPassPopupOpen, setIsPassPopupOpen }) {
               onChange={(e) => setNewPassword(e.target.value)}
               type="password"
               label="nowe hasło"
-              disabled={isLoading}
               fullWidth
               disabled={isLoading || message}
             />

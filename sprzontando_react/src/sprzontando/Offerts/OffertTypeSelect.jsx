@@ -16,14 +16,14 @@ function OffertTypeSelect({ type, setType, error, helperText }) {
         onChange={(e) => setType(e.target.value)}
       >
         <MenuItem value={null}>----</MenuItem>
-        <MenuItem value={"mieszkania"}>mieszkanie</MenuItem>
-        <MenuItem value={"biura"}>biuro</MenuItem>
-        <MenuItem value={"garaże"}>garaż</MenuItem>
-        <MenuItem value={"piwnice"}>piwnica</MenuItem>
-        <MenuItem value={"ogrody"}>ogród</MenuItem>
-        <MenuItem value={"magazyny "}>magazyn / przemysł </MenuItem>
-        <MenuItem value={"samochody"}>samochód</MenuItem>
-        <MenuItem value={"inne"}>inne</MenuItem>
+        <MenuItem value={"Mieszkania"}>mieszkanie</MenuItem>
+        <MenuItem value={"Biura"}>biuro</MenuItem>
+        <MenuItem value={"Garaże"}>garaż</MenuItem>
+        <MenuItem value={"Piwnice"}>piwnica</MenuItem>
+        <MenuItem value={"Ogrody"}>ogród</MenuItem>
+        <MenuItem value={"Magazyny "}>magazyn / przemysł </MenuItem>
+        <MenuItem value={"Samochody"}>samochód</MenuItem>
+        <MenuItem value={"Inne"}>inne</MenuItem>
       </Select>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>

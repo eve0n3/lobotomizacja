@@ -9,6 +9,8 @@ export const VERFY_USER_URL =
   "http://localhost/lobotomizacja/phpscripts/register_code.php";
 export const ADD_OFFER_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie.php";
+export const EDIT_OFFER_URL =
+  "http://localhost/lobotomizacja/phpscripts/offers_editing.php";
 export const APPLY_FOR_OFFER_URL =
   "http://localhost/lobotomizacja/phpscripts/ogloszenie_chetny_add.php";
 export const USER_APPLIED_OFFERS_URL =
@@ -62,6 +64,8 @@ export const SUCCESS_VERIFICATION_LOCATION = "/successVerification";
 export const HOME_LOCATION = "/";
 export const USERS_RANKING_LOCATION = "/usersRanking";
 export const ADD_OFFER_LOCATION = "/addOffer";
+export const EDIT_OFFER_LOCATION = "/editOffer";
+export const MY_OFFERS_LOCATION = "/myOffers";
 export const USER_PROFILE_LOCATION = "/userProfile";
 export const OTHER_USER_PROFILE_LOCATION = "/OtherUserProfile";
 export const SUCCESS_PASSWORD_RESET_LOCATION = "/successPasswordReset";

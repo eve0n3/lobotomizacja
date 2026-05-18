@@ -4,14 +4,27 @@ import { getLoggedUserId } from "../../../utils/utilis";
 
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import AddOfferFormFields from "./AddOfferFormFields";
-import { validateOfferForm } from "./validateOfferForm";
-import { addOffer } from "../../api/addOffer";
-import { useNavigate } from "react-router-dom";
-import { LOGIN_LOCATION } from "../../../utils/consts";
-import { Typography } from "@mui/material";
 
-function AddOfferForm() {
+import { addOffer } from "../../api/addOffer";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  LOGIN_LOCATION,
+  MY_OFFERS_LOCATION,
+  OF_ADRESS,
+  OF_CITY,
+  OF_DATE,
+  OF_DESCRIPTION,
+  OF_ID,
+  OF_PRICE,
+  OF_TITLE,
+  OF_TYPE,
+} from "../../../utils/consts";
+import { Container, Typography } from "@mui/material";
+import { validateOfferForm } from "../AddOffer/validateOfferForm";
+import EditOfferFormFields from "./EditOfferFormFields";
+import { editOfferInDb } from "../../api/editOfferInDb";
+
+function EditOfferForm() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
@@ -25,9 +38,33 @@ function AddOfferForm() {
     description: "",
   });
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const offer = location.state?.offer;
 
   useEffect(() => {
     !getLoggedUserId() && navigate(LOGIN_LOCATION);
+  }, []);
+
+  useEffect(() => {
+    if (!offer) {
+      return (
+        <Container sx={{ mt: 4 }}>
+          <Typography variant="h5" color="error">
+            Błąd: Nie można edytować oferty. Spróbuj ponownie poźniej.
+          </Typography>
+        </Container>
+      );
+    }
+    setForm({
+      title: offer[OF_TITLE],
+      city: offer[OF_CITY],
+      address: offer[OF_ADRESS],
+      price: offer[OF_PRICE],
+      type: offer[OF_TYPE],
+      date: offer[OF_DATE],
+      description: offer[OF_DESCRIPTION],
+    });
   }, []);
 
   const handleFieldChange = (field) => (event) => {
@@ -64,35 +101,46 @@ function AddOfferForm() {
         kategoria: form.type,
         opis: form.description,
         waznosc: form.date,
-        id_tworca: getLoggedUserId(),
+        ogloszenie_id: offer[OF_ID],
       };
       console.log("Submitting offer:", offerData);
-      const result = await addOffer(offerData);
+      const result = await editOfferInDb(offerData); //edit tu dac
       if (result.success) {
         handleSuccess();
       } else {
-        setSubmitError("Nie można dodać ogłoszenia. Spróbuj ponownie później.");
+        setSubmitError(
+          "Nie można edytować ogłoszenia. Spróbuj ponownie później.",
+        );
       }
     }
   };
   const handleSuccess = () => {
-    // tutaj dałabym przekierowanie na strone tego nowego ogłoszenia ale narazie bedzie na listę moich ogłoszeń
-    console.log("Oferta została dodana pomyślnie!");
-    navigate("/");
+    console.log("Oferta została edytowana pomyślnie!");
+    let newOffer = { ...offer };
+
+    newOffer[OF_TITLE] = form.title;
+    newOffer[OF_CITY] = form.city;
+    newOffer[OF_ADRESS] = form.address;
+    newOffer[OF_PRICE] = form.price;
+    newOffer[OF_TYPE] = form.type;
+    newOffer[OF_DATE] = form.date;
+    newOffer[OF_DESCRIPTION] = form.description;
+
+    navigate(`/offer`, { state: { offer: newOffer }, replace: true });
     setLoading(false);
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Dodaj nowe ogłoszenie
+        Edytuj Ogłoszenie
       </Typography>
       {submitError && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {submitError}
         </Alert>
       )}
-      <AddOfferFormFields fieldProps={fieldProps} />
+      <EditOfferFormFields fieldProps={fieldProps} />
       <Button
         fullWidth
         type="submit"
@@ -106,4 +154,4 @@ function AddOfferForm() {
   );
 }
 
-export default AddOfferForm;
+export default EditOfferForm;
