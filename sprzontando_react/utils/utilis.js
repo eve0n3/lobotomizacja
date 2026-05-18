@@ -19,3 +19,11 @@ export const getLoggedUser = () => {
     : null;
   return loggedas ? loggedas : null;
 };
+
+export const getIsLoggedUserAdmin = () => {
+  const loggedas = Cookies.get("loggedas")
+    ? JSON.parse(Cookies.get("loggedas"))
+    : null;
+
+  return loggedas ? Boolean(loggedas.admin) : null;
+};

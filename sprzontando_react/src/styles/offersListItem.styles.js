@@ -47,6 +47,34 @@ export const infoGrid = {
   alignItems: "center",
   color: "#1A759F",
 };
+export const adminBanGrid = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  color: "text.secondary",
+  "&:hover": {
+    cursor: "pointer",
+    color: "red",
+  },
+};
+export const adminOkGrid = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  color: "text.secondary",
+  "&:hover": {
+    cursor: "pointer",
+    color: "green",
+  },
+};
+export const adminGrid = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  color: "text.secondary",
+};
+
 export const priceGrid = {
   display: "flex",
   justifyContent: "center",

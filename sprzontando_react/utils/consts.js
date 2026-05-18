@@ -17,6 +17,8 @@ export const USER_INFO_URL =
   "http://localhost/lobotomizacja/phpscripts/user_info.php";
 export const USER_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/user_offers.php";
+export const REPORTED_OFFERS_URL =
+  "http://localhost/lobotomizacja/phpscripts/admin/ogloszenia.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";
@@ -29,6 +31,8 @@ export const OF_DESCRIPTION = "opis";
 export const OF_ADRESS = "adres";
 export const OF_ID = "id";
 export const OF_CREATOR_ID = "id_zglasz";
+//admin offers
+export const ROF_COUNT = "report_count";
 
 //applied offers
 export const AP_USER_ID = "id_chetnego";
@@ -52,3 +56,7 @@ export const USERS_RANKING_LOCATION = "/usersRanking";
 export const ADD_OFFER_LOCATION = "/addOffer";
 export const USER_PROFILE_LOCATION = "/userProfile";
 export const OTHER_USER_PROFILE_LOCATION = "/OtherUserProfile";
+export const REPORTED_OFFERS_LOCATION = "/reportedOffers";
+
+// feczowanko z bazy
+export const MAX_RETRIES_COUNT = 3;

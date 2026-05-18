@@ -26,6 +26,9 @@ import ShareIcon from "@mui/icons-material/Share";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
+import OutlinedFlagIcon from "@mui/icons-material/OutlinedFlag";
 
 import {
   AP_USER_ID,
@@ -39,6 +42,7 @@ import {
   OF_PRICE,
   OF_TITLE,
   OF_TYPE,
+  ROF_COUNT,
 } from "../../../utils/consts";
 import ImagePlaceHolder from "../../components/ImagePlaceHolder";
 import { getIsLoggedUserAdmin, getLoggedUserId } from "../../../utils/utilis";
@@ -47,8 +51,16 @@ import ErrorAlert from "../../components/ErrorAlert";
 import SuccessAlert from "../../components/SuccessAlert";
 import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
 import MyOfferAppliedUsers from "../MyOffers/MyOfferAppliedUsers";
+import {
+  adminBanGrid,
+  adminGrid,
+  adminOkGrid,
+  biggerIcon,
+} from "../../styles/offersListItem.styles";
+import { FONT_SIZE_XL } from "../../../utils/styleConsts";
+import { flexCentered } from "../../styles/AppStyle";
 
-function OfferDetails() {
+function ReportedOfferDetails() {
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -68,6 +80,7 @@ function OfferDetails() {
 
   const userId = getLoggedUserId();
   const isCreator = userId === offer[OF_CREATOR_ID];
+  const isAdmin = getIsLoggedUserAdmin();
 
   const handleApplyButtonClick = async () => {
     if (userId === null) {
@@ -111,12 +124,39 @@ function OfferDetails() {
     setError(null);
     setMessage("Pomyślnie zgłoszono się do wykonania ogłoszenia.");
   };
+  const getAdminButtons = () => {
+    return (
+      <Grid spacing={2} sx={flexCentered} container>
+        {" "}
+        <Grid item size={4} sx={{ pr: "5px" }}>
+          <Tooltip title="ilość zgłoszeń" arrow>
+            <Box sx={adminGrid}>
+              <OutlinedFlagIcon sx={biggerIcon} />
+              <Typography sx={{ fontSize: FONT_SIZE_XL }}>
+                {offer[ROF_COUNT]}
+              </Typography>
+            </Box>
+          </Tooltip>
+        </Grid>
+        <Grid item size={4} sx={adminOkGrid}>
+          <Tooltip title="odrzuć zgłoszenia" arrow>
+            <ThumbUpOutlinedIcon sx={biggerIcon} />
+          </Tooltip>
+        </Grid>
+        <Grid item size={4} sx={adminBanGrid}>
+          <Tooltip title="zbanuj" arrow>
+            <ThumbDownAltOutlinedIcon sx={biggerIcon} />
+          </Tooltip>
+        </Grid>
+      </Grid>
+    );
+  };
 
   return (
     <Container sx={{ mt: 4, mb: 8 }}>
       {/* NAGŁÓWEK NAD ZDJĘCIEM */}
       <Box sx={{ mb: 3 }}>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             variant="h3"
             sx={{
@@ -126,7 +166,9 @@ function OfferDetails() {
           >
             {offer[OF_TITLE]}
           </Typography>
+          {isAdmin && getAdminButtons()}
         </Box>
+
         <Stack direction={"row"}>
           <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />
           <Typography variant="h4" color="text.primary">
@@ -240,4 +282,4 @@ function OfferDetails() {
   );
 }
 
-export default OfferDetails;
+export default ReportedOfferDetails;

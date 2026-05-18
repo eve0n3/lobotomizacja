@@ -22,6 +22,7 @@ import {
   LOGIN_LOCATION,
   OTHER_USER_PROFILE_LOCATION,
   REGISTER_LOCATION,
+  REPORTED_OFFERS_LOCATION,
   SUCCESS_REGISTER_LOCATION,
   SUCCESS_VERIFICATION_LOCATION,
   USER_PROFILE_LOCATION,
@@ -30,6 +31,8 @@ import {
 import UserProfile from "./sprzontando/UserProfile/UserProfile";
 import MyOffers from "./sprzontando/MyOffers/MyOffers";
 import OtherUserProfile from "./sprzontando/UserProfile/OtherUserProfile";
+import ReportedOffers from "./sprzontando/ReportedOffers/ReportedOffers";
+import ReportedOfferDetails from "./sprzontando/ReportedOffers/ReportedOfferDetails";
 
 const router = createBrowserRouter([
   {
@@ -79,6 +82,14 @@ const router = createBrowserRouter([
       {
         path: OTHER_USER_PROFILE_LOCATION,
         element: <OtherUserProfile />,
+      },
+      {
+        path: REPORTED_OFFERS_LOCATION,
+        element: <ReportedOffers />,
+      },
+      {
+        path: "/reportedOffer",
+        element: <ReportedOfferDetails />,
       },
     ],
   },

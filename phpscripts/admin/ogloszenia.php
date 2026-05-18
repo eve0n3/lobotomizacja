@@ -15,8 +15,7 @@
     $dataJSON = file_get_contents('php://input');
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
 
-    $sqlQuery = "SELECT * FROM `ogloszenia_oferty` ORDER BY report_count DESC
-                JOIN users ON users.id=ogloszenia_oferty.id_zglasz;";
+    $sqlQuery = "SELECT * FROM `ogloszenia_oferty` JOIN users ON users.id=ogloszenia_oferty.id_zglasz WHERE report_count>0 ORDER BY report_count DESC;";
 
     $stmt = $conn->prepare($sqlQuery);
     
@@ -26,6 +25,7 @@
 
         if($rows){
             echo json_encode([
+                "success"=>true,
                 "data"=>$rows
             ]);
         }else{
