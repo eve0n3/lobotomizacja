@@ -19,7 +19,7 @@
     //połączenie z bazą danych
     include 'dbconnect.php';
 
-$stmt = $conn->prepare('SELECT id, nazwa, email, haslo,zatwierdzony FROM users WHERE email = ?');
+$stmt = $conn->prepare('SELECT id, nazwa, email, haslo, zatwierdzony, admin FROM users WHERE email = ?');
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -47,11 +47,20 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
             $res = $stmt1->get_result();
             $rows = $res->fetch_assoc();
 
-            if($rows["czy_ban"]==1){
-                if($rows["ban_data"] < date("Y-m-d H:i:s")){
-                    $stmt2 = $conn->prepare("UPDATE users SET ban_data = null, ban_end = null, ban = 0 WHERE id = ?;");
-                    $stmt2->bind_param($rows["id"]);
+            echo json_encode([
+                $rows
+            ]);
 
+            if($rows["czy_ban"]==1){
+                echo json_encode([
+                "success"=>false,
+                "message"=>"użytkownik zbanowany"
+                ]);
+            }else{
+                if(!is_null($rows["ban_end"]) && $rows["ban_end"] < date("Y-m-d H:i:s")){
+                    $stmt2 = $conn->prepare("UPDATE users SET ban_data = null, ban_end = null, ban = 0 WHERE id = ?;");
+                    $stmt2->bind_param("i", $user["id"]);
+                    
                     if($stmt2->execute()){
                         setcookie("loggedas", 
                         json_encode([
@@ -73,30 +82,25 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
                         ]);
                     }
                 }else{
-                    echo json_encode([
-                    "success"=>false,
-                    "message"=>"użytkownik zbanowany"
+                    setcookie("loggedas", 
+                    json_encode([
+                    "id"=>$user['id'],
+                    "username"=>$user['nazwa'],
+                    "admin"=>$user['admin']
+                    ]),
+                    [
+                    'expires'  => time() + 3600,
+                    'path'     => '/',
+                    'secure'   => true,        // true in production (HTTPS)
+                    'httponly' => false,        // must be false so JS can read it
+                    'samesite' => 'None',       // required for cross-origin
                     ]);
-                }
-            }else{
-                setcookie("loggedas", 
-                json_encode([
-                "id"=>$user['id'],
-                "username"=>$user['nazwa'],
-                "admin"=>$user['admin']
-                ]),
-                [
-                'expires'  => time() + 3600,
-                'path'     => '/',
-                'secure'   => true,        // true in production (HTTPS)
-                'httponly' => false,        // must be false so JS can read it
-                'samesite' => 'None',       // required for cross-origin
-                ]);
 
-                echo json_encode([
-                'success' => true,
-                'message' => 'Pomyślnie zalogowano', 
-                ]);
+                    echo json_encode([
+                    'success' => true,
+                    'message' => 'Pomyślnie zalogowano', 
+                    ]);
+                    }
             }
                 
         }  
