@@ -56,7 +56,8 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
                         setcookie("loggedas", 
                         json_encode([
                         "id"=>$user['id'],
-                        "username"=>$user['nazwa']
+                        "username"=>$user['nazwa'],
+                        "admin"=>$user['admin']
                         ]),
                         [
                         'expires'  => time() + 3600,
@@ -81,7 +82,8 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
                 setcookie("loggedas", 
                 json_encode([
                 "id"=>$user['id'],
-                "username"=>$user['nazwa']
+                "username"=>$user['nazwa'],
+                "admin"=>$user['admin']
                 ]),
                 [
                 'expires'  => time() + 3600,
