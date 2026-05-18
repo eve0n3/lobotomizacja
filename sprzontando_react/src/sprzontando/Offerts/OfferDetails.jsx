@@ -27,10 +27,14 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import PersonIcon from "@mui/icons-material/Person";
+import EditIcon from "@mui/icons-material/Edit";
 
 import {
   AP_USER_ID,
+  EDIT_OFFER_LOCATION,
+  HOME_LOCATION,
   LOGIN_LOCATION,
+  MY_OFFERS_LOCATION,
   OF_ADRESS,
   OF_CITY,
   OF_CREATOR_ID,
@@ -133,6 +137,25 @@ function OfferDetails() {
     }
   };
 
+  const handleEditClick = () => {
+    navigate(EDIT_OFFER_LOCATION, { state: { offer } });
+  };
+  const getEditOrReportIcon = () => {
+    return isCreator ? (
+      <IconButton onClick={handleEditClick} sx={{ p: 0 }}>
+        <EditIcon sx={{ fontSize: 48 }} />
+      </IconButton>
+    ) : (
+      <IconButton
+        disabled={isReported}
+        onClick={handleReportClick}
+        sx={{ p: 0 }}
+      >
+        <FlagIcon sx={{ fontSize: 48 }} />
+      </IconButton>
+    );
+  };
+
   return (
     <>
       <BackButton />
@@ -151,13 +174,7 @@ function OfferDetails() {
             >
               {offer[OF_TITLE]}
             </Typography>
-            <IconButton
-              disabled={isReported}
-              onClick={handleReportClick}
-              sx={{ p: 0 }}
-            >
-              <FlagIcon sx={{ fontSize: 48 }} />
-            </IconButton>
+            {getEditOrReportIcon()}
           </Box>
           <Stack direction={"row"}>
             <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />

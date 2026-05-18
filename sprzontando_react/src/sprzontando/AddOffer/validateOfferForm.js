@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const validateAddOfferForm = (setErrors, form) => {
+export const validateOfferForm = (setErrors, form) => {
   const newErrors = {};
 
   if (!form.title.trim()) {
