@@ -5,6 +5,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const BackButton = ({ fallback = "/", backLocation }) => {
   const navigate = useNavigate();
   const canGoBack = window.history.length > 1;
+  console.log(backLocation);
 
   return (
     <Box sx={{ position: "relative" }}>

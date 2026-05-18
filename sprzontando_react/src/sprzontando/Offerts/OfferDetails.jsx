@@ -68,6 +68,7 @@ function OfferDetails() {
 
   const offer = location.state?.offer;
   if (!offer) {
+    console.log("location.state", location.state);
     return (
       <Container sx={{ mt: 4 }}>
         <Typography variant="h5" color="error">
@@ -138,7 +139,7 @@ function OfferDetails() {
   };
 
   const handleEditClick = () => {
-    navigate(EDIT_OFFER_LOCATION, { state: { offer } });
+    navigate(EDIT_OFFER_LOCATION, { state: { offer }, replace: true });
   };
   const getEditOrReportIcon = () => {
     return isCreator ? (
@@ -165,11 +166,11 @@ function OfferDetails() {
         <Box sx={{ mb: 3 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography
-              sx={{ flexGrow: 1 }}
               variant="h3"
               sx={{
                 whiteSpace: "normal",
                 overflowWrap: "anywhere",
+                flexGrow: 1,
               }}
             >
               {offer[OF_TITLE]}

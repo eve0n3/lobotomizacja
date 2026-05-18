@@ -42,21 +42,20 @@ function EditOfferForm() {
 
   const offer = location.state?.offer;
 
-  if (!offer) {
-    return (
-      <Container sx={{ mt: 4 }}>
-        <Typography variant="h5" color="error">
-          Błąd: Nie można edytować oferty. Spróbuj ponownie poźniej.
-        </Typography>
-      </Container>
-    );
-  }
-
   useEffect(() => {
     !getLoggedUserId() && navigate(LOGIN_LOCATION);
   }, []);
+
   useEffect(() => {
-    if (!offer) return;
+    if (!offer) {
+      return (
+        <Container sx={{ mt: 4 }}>
+          <Typography variant="h5" color="error">
+            Błąd: Nie można edytować oferty. Spróbuj ponownie poźniej.
+          </Typography>
+        </Container>
+      );
+    }
     setForm({
       title: offer[OF_TITLE],
       city: offer[OF_CITY],
@@ -127,7 +126,7 @@ function EditOfferForm() {
     newOffer[OF_DATE] = form.date;
     newOffer[OF_DESCRIPTION] = form.description;
 
-    navigate(`/offer`, { state: { offer: newOffer } });
+    navigate(`/offer`, { state: { offer: newOffer }, replace: true });
     setLoading(false);
   };
 
