@@ -6,6 +6,7 @@ import Divider from "@mui/material/Divider";
 import {
   OF_CITY,
   OF_DATE,
+  OF_ID,
   OF_PRICE,
   OF_TITLE,
   OF_TYPE,
@@ -43,14 +44,31 @@ import {
 import { flexCentered } from "../../styles/AppStyle";
 
 import { useNavigate } from "react-router-dom";
-import { Tooltip } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
+import { useState } from "react";
+import { banReportedOfferInDb } from "../../api/banReportedOfferInDb";
 
-function ReportedOffersListItem({ offer }) {
+function ReportedOffersListItem({ offer, setError, setMessage }) {
+  const [banned, setBanned] = useState(false);
+  const [discarded, setDiscarded] = useState(false);
+
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate(`/reportedOffer`, { state: { offer: offer } });
   };
+  const handleBanClick = async (e, id) => {
+    e.stopPropagation();
+    const result = await banReportedOfferInDb(id);
+    if (result.success) {
+      setBanned(true);
+      setMessage(result.message);
+    } else {
+      setBanned(false);
+      setError(result.message);
+    }
+  };
+  if (banned) return null;
 
   return (
     <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
@@ -125,7 +143,12 @@ function ReportedOffersListItem({ offer }) {
               <ThumbUpOutlinedIcon sx={biggerIcon} />
             </Tooltip>
           </Grid>
-          <Grid item size={4} sx={adminBanGrid}>
+          <Grid
+            item
+            onClick={(e) => handleBanClick(e, offer[OF_ID])}
+            size={4}
+            sx={adminBanGrid}
+          >
             <Tooltip title="zbanuj" arrow>
               <ThumbDownAltOutlinedIcon sx={biggerIcon} />
             </Tooltip>

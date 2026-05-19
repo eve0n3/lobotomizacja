@@ -25,10 +25,10 @@
     $stmt->bind_param("i", $id);
     
     if($stmt->execute()){
-        echo json_encode([
-            "success"=>true,
-            "message"=>"Wykonano pomyślnie"
-        ]);
+    echo json_encode([
+        "success" => true,
+        "message" => "Wykonano pomyślnie",
+    ]);
     }else{
         echo json_encode([
             "success"=>false,

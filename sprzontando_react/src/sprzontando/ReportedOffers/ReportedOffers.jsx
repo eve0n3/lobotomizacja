@@ -42,6 +42,7 @@ function ReportedOffers() {
         } else if (response.success) {
           setOffers(response.data);
           setIsLoading(false);
+          console.log(response.data);
         } else {
           console.error("Max retries exceeded");
           setError("Ładowanie ofert nie powiodło się.");

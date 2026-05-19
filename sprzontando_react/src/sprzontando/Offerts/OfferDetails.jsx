@@ -26,9 +26,14 @@ import ShareIcon from "@mui/icons-material/Share";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
+import OutlinedFlagIcon from "@mui/icons-material/OutlinedFlag";
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
 import {
   AP_USER_ID,
+  HOME_LOCATION,
   LOGIN_LOCATION,
   OF_ADRESS,
   OF_CITY,
@@ -39,6 +44,7 @@ import {
   OF_PRICE,
   OF_TITLE,
   OF_TYPE,
+  ROF_COUNT,
 } from "../../../utils/consts";
 import ImagePlaceHolder from "../../components/ImagePlaceHolder";
 import { getIsLoggedUserAdmin, getLoggedUserId } from "../../../utils/utilis";
@@ -47,6 +53,15 @@ import ErrorAlert from "../../components/ErrorAlert";
 import SuccessAlert from "../../components/SuccessAlert";
 import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
 import MyOfferAppliedUsers from "../MyOffers/MyOfferAppliedUsers";
+import {
+  adminBanGrid,
+  adminGrid,
+  adminOkGrid,
+  biggerIcon,
+} from "../../styles/offersListItem.styles";
+import { FONT_SIZE_XL } from "../../../utils/styleConsts";
+import { flexCentered } from "../../styles/AppStyle";
+import { banReportedOfferInDb } from "../../api/banReportedOfferInDb";
 
 function OfferDetails() {
   const location = useLocation();
@@ -54,6 +69,8 @@ function OfferDetails() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
+  const [banned, setBanned] = useState(false);
+  const [discarded, setDiscarded] = useState(false);
 
   const offer = location.state?.offer;
   if (!offer) {
@@ -68,6 +85,7 @@ function OfferDetails() {
 
   const userId = getLoggedUserId();
   const isCreator = userId === offer[OF_CREATOR_ID];
+  const isAdmin = getIsLoggedUserAdmin();
 
   const handleApplyButtonClick = async () => {
     if (userId === null) {
@@ -106,17 +124,65 @@ function OfferDetails() {
       setLoading(false);
     }
   };
-
+  const handleBanClick = async (id) => {
+    const result = await banReportedOfferInDb(id);
+    if (result.success) {
+      setBanned(true);
+      setMessage(result.message);
+      navigate(HOME_LOCATION, {
+        replace: true,
+        state: { message: "Pomyślnie zbanowano ogłoszenie" },
+      });
+    } else {
+      setBanned(false);
+      setError(result.message);
+    }
+  };
   const handleSuccess = () => {
     setError(null);
     setMessage("Pomyślnie zgłoszono się do wykonania ogłoszenia.");
+  };
+  const getAdminButtons = () => {
+    return (
+      <Grid spacing={2} sx={flexCentered} container>
+        {" "}
+        <Grid item size={4} sx={{ pr: "5px" }}>
+          <Tooltip title="ilość zgłoszeń" arrow>
+            <Box sx={adminGrid}>
+              <OutlinedFlagIcon sx={biggerIcon} />
+              <Typography sx={{ fontSize: FONT_SIZE_XL }}>
+                {offer[ROF_COUNT]}
+              </Typography>
+            </Box>
+          </Tooltip>
+        </Grid>
+        <Grid item size={4} sx={adminOkGrid} disabled={banned || discarded}>
+          <Tooltip title="odrzuć zgłoszenia" arrow>
+            <ThumbUpOutlinedIcon sx={biggerIcon} />
+          </Tooltip>
+        </Grid>
+        <Grid item size={4} sx={adminBanGrid}>
+          <Tooltip title="zbanuj" arrow>
+            {banned ? (
+              <ThumbDownAltIcon sx={biggerIcon} />
+            ) : (
+              <ThumbDownAltOutlinedIcon
+                sx={biggerIcon}
+                onClick={() => handleBanClick(offer[OF_ID])}
+                disabled={banned || discarded}
+              />
+            )}
+          </Tooltip>
+        </Grid>
+      </Grid>
+    );
   };
 
   return (
     <Container sx={{ mt: 4, mb: 8 }}>
       {/* NAGŁÓWEK NAD ZDJĘCIEM */}
       <Box sx={{ mb: 3 }}>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             variant="h3"
             sx={{
@@ -126,6 +192,7 @@ function OfferDetails() {
           >
             {offer[OF_TITLE]}
           </Typography>
+          {isAdmin && getAdminButtons()}
         </Box>
         <Stack direction={"row"}>
           <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />
