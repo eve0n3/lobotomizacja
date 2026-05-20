@@ -18,7 +18,7 @@
     include 'dbconnect.php';
 
    
-    $stmt = $conn->prepare('SELECT * FROM ogloszenia_oferty WHERE id_zglasz = ?');
+    $stmt = $conn->prepare('SELECT ogloszenia_oferty.*,users.nazwa FROM ogloszenia_oferty JOIN users ON users.id = ogloszenia_oferty.id_zglasz WHERE id_zglasz = ?');
     $stmt->bind_param('i', $id_zglasz);
     $stmt->execute();
     $result = $stmt->get_result();

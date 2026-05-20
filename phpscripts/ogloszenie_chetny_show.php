@@ -19,10 +19,17 @@
     $id_chetnego = $data["id_chetnego"] ?? null;
 
     if(!is_null($id_chetnego)){
-        $sqlquery = "SELECT * FROM chetny JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia WHERE id_chetnego = ?;"; //dla id ogl daje mi wszystkich chetnych
+        $sqlquery = "SELECT *, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
+                    LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl=chetny.id_ogloszenia
+                    JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia
+                    WHERE id_chetnego = ?;"; 
         $param = $id_chetnego;
     }elseif(!is_null($id_ogl)){
-        $sqlquery = "SELECT * FROM chetny JOIN users ON users.id=chetny.id_chetnego WHERE id_ogloszenia = ?;"; //dla id chetnego daje mi wszystkie ogloszenia do których sie zgłosił
+        $sqlquery = "SELECT *,ROUND(CAST(AVG(oceny.ocena) AS DECIMAL(4,2)),2) AS avgocena, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
+                    LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl=chetny.id_ogloszenia
+                    JOIN users ON users.id=chetny.id_chetnego 
+                    LEFT JOIN ogloszenia_zrobione as oceny ON oceny.id_wykon=users.id
+                    WHERE id_ogloszenia = ? GROUP BY users.id;"; 
         $param = $id_ogl;
     }
     
