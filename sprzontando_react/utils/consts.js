@@ -21,6 +21,8 @@ export const REPORTED_OFFERS_URL =
   "http://localhost/lobotomizacja/phpscripts/admin/ogloszenia.php";
 export const BAN_OFFER_URL =
   "http://localhost/lobotomizacja/phpscripts/admin/toggle_ban_ogl.php";
+export const OK_OFFER_URL =
+  "http://localhost/lobotomizacja/phpscripts/admin/pardon_ogl.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";

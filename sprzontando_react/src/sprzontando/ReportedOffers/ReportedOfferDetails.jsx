@@ -29,7 +29,8 @@ import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
 import OutlinedFlagIcon from "@mui/icons-material/OutlinedFlag";
-import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 import {
   AP_USER_ID,
@@ -54,14 +55,17 @@ import SuccessAlert from "../../components/SuccessAlert";
 import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
 import MyOfferAppliedUsers from "../MyOffers/MyOfferAppliedUsers";
 import {
-  adminBanGrid,
   adminGrid,
   adminOkGrid,
+  banIcon,
   biggerIcon,
+  okIcon,
 } from "../../styles/offersListItem.styles";
 import { FONT_SIZE_XL } from "../../../utils/styleConsts";
 import { flexCentered } from "../../styles/AppStyle";
 import { banReportedOfferInDb } from "../../api/banReportedOfferInDb";
+import { okReportedOfferInDb } from "../../api/okReportedOfferInDb";
+import HoverFilledIconButton from "../../components/HoverFilledIconButton";
 
 function ReportedOfferDetails() {
   const location = useLocation();
@@ -128,6 +132,21 @@ function ReportedOfferDetails() {
     }
   };
 
+  const handleDiscardClick = async (id) => {
+    const result = await okReportedOfferInDb(id);
+    if (result.success) {
+      setDiscarded(true);
+      setMessage(result.message);
+      navigate(REPORTED_OFFERS_LOCATION, {
+        replace: true,
+        state: { message: "Pomyślnie odrzucono zgłoszenia" },
+      });
+    } else {
+      setDiscarded(false);
+      setError(result.message);
+    }
+  };
+
   const checkIfUserAlreadyApplied = async () => {
     const result = await getOfferAppliedUserFromDb(offer.id);
     if (result.success) {
@@ -159,20 +178,22 @@ function ReportedOfferDetails() {
         </Grid>
         <Grid item size={4} sx={adminOkGrid} disabled={banned || discarded}>
           <Tooltip title="odrzuć zgłoszenia" arrow>
-            <ThumbUpOutlinedIcon sx={biggerIcon} />
+            <HoverFilledIconButton
+              OutlineIcon={ThumbUpOutlinedIcon}
+              FilledIcon={ThumbUpIcon}
+              onClick={() => handleDiscardClick(offer[OF_ID])}
+              sx={okIcon}
+            />
           </Tooltip>
         </Grid>
-        <Grid item size={4} sx={adminBanGrid}>
+        <Grid item size={4}>
           <Tooltip title="zbanuj" arrow>
-            {banned ? (
-              <ThumbDownAltIcon sx={biggerIcon} />
-            ) : (
-              <ThumbDownAltOutlinedIcon
-                sx={biggerIcon}
-                onClick={() => handleBanClick(offer[OF_ID])}
-                disabled={banned || discarded}
-              />
-            )}
+            <HoverFilledIconButton
+              OutlineIcon={ThumbDownAltOutlinedIcon}
+              FilledIcon={ThumbDownIcon}
+              onClick={() => handleBanClick(offer[OF_ID])}
+              sx={banIcon}
+            />
           </Tooltip>
         </Grid>
       </Grid>

@@ -10,6 +10,7 @@ import {
   OF_PRICE,
   OF_TITLE,
   OF_TYPE,
+  REPORTED_OFFERS_LOCATION,
   ROF_COUNT,
 } from "../../../utils/consts";
 
@@ -18,6 +19,9 @@ import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+
 import OutlinedFlagIcon from "@mui/icons-material/OutlinedFlag";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
@@ -27,12 +31,14 @@ import {
   adminBanGrid,
   adminGrid,
   adminOkGrid,
+  banIcon,
   biggerIcon,
   icon,
   infoGrid,
   itemBox,
   itemStack,
   offerPaper,
+  okIcon,
   priceGrid,
   titleGrid,
 } from "../../styles/offersListItem.styles";
@@ -47,6 +53,8 @@ import { useNavigate } from "react-router-dom";
 import { IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { banReportedOfferInDb } from "../../api/banReportedOfferInDb";
+import { okReportedOfferInDb } from "../../api/okReportedOfferInDb";
+import HoverFilledIconButton from "../../components/HoverFilledIconButton";
 
 function ReportedOffersListItem({ offer, setError, setMessage }) {
   const [banned, setBanned] = useState(false);
@@ -68,7 +76,23 @@ function ReportedOffersListItem({ offer, setError, setMessage }) {
       setError(result.message);
     }
   };
-  if (banned) return null;
+
+  const handleDiscardClick = async (e, id) => {
+    e.stopPropagation();
+    const result = await okReportedOfferInDb(id);
+    if (result.success) {
+      setDiscarded(true);
+      setMessage(result.message);
+      navigate(REPORTED_OFFERS_LOCATION, {
+        replace: true,
+        state: { message: "Pomyślnie odrzucono zgłoszenia" },
+      });
+    } else {
+      setDiscarded(false);
+      setError(result.message);
+    }
+  };
+  if (banned || discarded) return null;
 
   return (
     <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
@@ -140,7 +164,12 @@ function ReportedOffersListItem({ offer, setError, setMessage }) {
 
           <Grid item size={4} sx={adminOkGrid}>
             <Tooltip title="odrzuć zgłoszenia" arrow>
-              <ThumbUpOutlinedIcon sx={biggerIcon} />
+              <HoverFilledIconButton
+                OutlineIcon={ThumbUpOutlinedIcon}
+                FilledIcon={ThumbUpIcon}
+                onClick={(e) => handleDiscardClick(e, offer[OF_ID])}
+                sx={okIcon}
+              />
             </Tooltip>
           </Grid>
           <Grid
@@ -150,7 +179,12 @@ function ReportedOffersListItem({ offer, setError, setMessage }) {
             sx={adminBanGrid}
           >
             <Tooltip title="zbanuj" arrow>
-              <ThumbDownAltOutlinedIcon sx={biggerIcon} />
+              <HoverFilledIconButton
+                OutlineIcon={ThumbDownAltOutlinedIcon}
+                FilledIcon={ThumbDownIcon}
+                onClick={() => handleBanClick(offer[OF_ID])}
+                sx={banIcon}
+              />
             </Tooltip>
           </Grid>
         </Grid>
