@@ -52,6 +52,7 @@ export const adminBanGrid = {
   justifyContent: "center",
   alignItems: "center",
   color: "text.secondary",
+  p: 0,
   "&:hover": {
     cursor: "pointer",
     color: "red",
@@ -61,18 +62,23 @@ export const banIcon = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  width: 56,
+  height: 56,
+  minWidth: 56,
+  minHeight: 56,
   color: "text.secondary",
-  "& .outline": { display: "block", fontSize: "2rem" },
-  "& .filled": { display: "none", fontSize: "2rem" },
+  "& .outline": { display: "block", fontSize: "2rem", lineHeight: 1 },
+  "& .filled": { display: "none", fontSize: "2rem", lineHeight: 1 },
   "&:hover": {
     cursor: "pointer",
+
     color: "red",
-    "& .outline": { display: "none", fontSize: "2rem" },
-    "& .filled": { display: "block", fontSize: "2rem" },
+    "& .outline": { display: "none" },
+    "& .filled": { display: "block" },
   },
 };
 export const okIcon = {
-  ...banIcon, // reuse everything
+  ...banIcon,
   "&:hover": {
     cursor: "pointer",
     color: "green",
@@ -85,6 +91,7 @@ export const adminOkGrid = {
   justifyContent: "center",
   alignItems: "center",
   color: "text.secondary",
+  p: 0,
   "&:hover": {
     cursor: "pointer",
     color: "green",

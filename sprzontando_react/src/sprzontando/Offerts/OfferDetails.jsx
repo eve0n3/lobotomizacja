@@ -32,8 +32,6 @@ import OutlinedFlagIcon from "@mui/icons-material/OutlinedFlag";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
-import {
-  AP_USER_ID,
 import PersonIcon from "@mui/icons-material/Person";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -181,7 +179,7 @@ function OfferDetails() {
     return (
       <Grid spacing={2} sx={flexCentered} container>
         {" "}
-        <Grid item size={4} sx={{ pr: "5px" }}>
+        <Grid item size={4} sx={{ pr: "10px" }}>
           <Tooltip title="ilość zgłoszeń" arrow>
             <Box sx={adminGrid}>
               <OutlinedFlagIcon sx={biggerIcon} />
@@ -191,7 +189,7 @@ function OfferDetails() {
             </Box>
           </Tooltip>
         </Grid>
-        {offer[ROF_COUNT] >= 0 && (
+        {offer[ROF_COUNT] > 0 && (
           <Grid item size={4} sx={adminOkGrid} disabled={banned || discarded}>
             <Tooltip title="odrzuć zgłoszenia" arrow>
               <HoverFilledIconButton
@@ -214,6 +212,8 @@ function OfferDetails() {
           </Tooltip>
         </Grid>
       </Grid>
+    );
+  };
   const handleReportClick = async () => {
     if (userId == null) {
       navigate(LOGIN_LOCATION);
@@ -233,18 +233,29 @@ function OfferDetails() {
     navigate(EDIT_OFFER_LOCATION, { state: { offer }, replace: true });
   };
   const getEditOrReportIcon = () => {
+    if (isCreator && isAdmin) {
+      return (
+        <Tooltip title="edytuj" arrow>
+          {" "}
+          <IconButton onClick={handleEditClick}>
+            <EditIcon sx={{ fontSize: "2rem" }} />
+          </IconButton>
+        </Tooltip>
+      );
+    } else if (isAdmin) return;
+
     return isCreator ? (
-      <IconButton onClick={handleEditClick} sx={{ p: 0 }}>
-        <EditIcon sx={{ fontSize: 48 }} />
-      </IconButton>
+      <Tooltip title="edytuj" arrow>
+        <IconButton onClick={handleEditClick}>
+          <EditIcon sx={{ fontSize: "2rem" }} />
+        </IconButton>
+      </Tooltip>
     ) : (
-      <IconButton
-        disabled={isReported}
-        onClick={handleReportClick}
-        sx={{ p: 0 }}
-      >
-        <FlagIcon sx={{ fontSize: 48 }} />
-      </IconButton>
+      <Tooltip title="ilość zgłoszeń" arrow>
+        <IconButton disabled={isReported} onClick={handleReportClick}>
+          <FlagIcon sx={{ fontSize: "2rem" }} />
+        </IconButton>
+      </Tooltip>
     );
   };
 
@@ -266,8 +277,10 @@ function OfferDetails() {
             >
               {offer[OF_TITLE]}
             </Typography>
-            {isAdmin && getAdminButtons()}
-            {getEditOrReportIcon()}
+            <Box sx={flexCentered}>
+              {isAdmin && !isCreator && getAdminButtons()}
+              {getEditOrReportIcon()}
+            </Box>
           </Box>
           <Stack direction={"row"}>
             <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />
