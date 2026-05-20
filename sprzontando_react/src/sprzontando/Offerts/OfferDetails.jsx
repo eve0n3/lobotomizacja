@@ -26,6 +26,14 @@ import ShareIcon from "@mui/icons-material/Share";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
+import OutlinedFlagIcon from "@mui/icons-material/OutlinedFlag";
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+
+import {
+  AP_USER_ID,
 import PersonIcon from "@mui/icons-material/Person";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -44,16 +52,31 @@ import {
   OF_PRICE,
   OF_TITLE,
   OF_TYPE,
+  REPORTED_OFFERS_LOCATION,
+  ROF_COUNT,
   US_USERNAME,
 } from "../../../utils/consts";
 import ImagePlaceHolder from "../../components/ImagePlaceHolder";
-import { getLoggedUserId } from "../../../utils/utilis";
+import { getIsLoggedUserAdmin, getLoggedUserId } from "../../../utils/utilis";
 import { applyForOfferInDb } from "../../api/applyForOfferInDb";
 import ErrorAlert from "../../components/ErrorAlert";
 import SuccessAlert from "../../components/SuccessAlert";
 import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import MyOfferAppliedUsers from "../MyOffers/MyOfferAppliedUsers";
+import {
+  adminBanGrid,
+  adminGrid,
+  adminOkGrid,
+  banIcon,
+  biggerIcon,
+  okIcon,
+} from "../../styles/offersListItem.styles";
+import { FONT_SIZE_XL } from "../../../utils/styleConsts";
+import { flexCentered } from "../../styles/AppStyle";
+import { banReportedOfferInDb } from "../../api/banReportedOfferInDb";
+import HoverFilledIconButton from "../../components/HoverFilledIconButton";
+import { okReportedOfferInDb } from "../../api/okReportedOfferInDb";
 import BackButton from "../../components/BackButton";
 import FlagIcon from "@mui/icons-material/Flag";
 import { reportOfferInDb } from "../../api/reportOfferInDb";
@@ -64,6 +87,8 @@ function OfferDetails() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
+  const [banned, setBanned] = useState(false);
+  const [discarded, setDiscarded] = useState(false);
   const [isReported, setIsReported] = useState(false);
 
   const offer = location.state?.offer;
@@ -80,6 +105,7 @@ function OfferDetails() {
 
   const userId = getLoggedUserId();
   const isCreator = userId === offer[OF_CREATOR_ID];
+  const isAdmin = getIsLoggedUserAdmin();
 
   const handleApplyButtonClick = async () => {
     if (userId === null) {
@@ -118,11 +144,76 @@ function OfferDetails() {
       setLoading(false);
     }
   };
+  const handleBanClick = async (id) => {
+    const result = await banReportedOfferInDb(id);
+    if (result.success) {
+      setBanned(true);
+      setMessage(result.message);
+      navigate(HOME_LOCATION, {
+        replace: true,
+        state: { message: "Pomyślnie zbanowano ogłoszenie" },
+      });
+    } else {
+      setBanned(false);
+      setError(result.message);
+    }
+  };
+  const handleDiscardClick = async (id) => {
+    const result = await okReportedOfferInDb(id);
+    if (result.success) {
+      setDiscarded(true);
+      setMessage(result.message);
+      navigate(HOME_LOCATION, {
+        replace: true,
+        state: { message: "Pomyślnie odrzucono zgłoszenia" },
+      });
+    } else {
+      setDiscarded(false);
+      setError(result.message);
+    }
+  };
 
   const handleSuccess = () => {
     setError(null);
     setMessage("Pomyślnie zgłoszono się do wykonania ogłoszenia.");
   };
+  const getAdminButtons = () => {
+    return (
+      <Grid spacing={2} sx={flexCentered} container>
+        {" "}
+        <Grid item size={4} sx={{ pr: "5px" }}>
+          <Tooltip title="ilość zgłoszeń" arrow>
+            <Box sx={adminGrid}>
+              <OutlinedFlagIcon sx={biggerIcon} />
+              <Typography sx={{ fontSize: FONT_SIZE_XL }}>
+                {offer[ROF_COUNT]}
+              </Typography>
+            </Box>
+          </Tooltip>
+        </Grid>
+        {offer[ROF_COUNT] >= 0 && (
+          <Grid item size={4} sx={adminOkGrid} disabled={banned || discarded}>
+            <Tooltip title="odrzuć zgłoszenia" arrow>
+              <HoverFilledIconButton
+                OutlineIcon={ThumbUpOutlinedIcon}
+                FilledIcon={ThumbUpIcon}
+                onClick={() => handleDiscardClick(offer[OF_ID])}
+                sx={okIcon}
+              />
+            </Tooltip>
+          </Grid>
+        )}
+        <Grid item size={4} sx={adminBanGrid}>
+          <Tooltip title="zbanuj" arrow>
+            <HoverFilledIconButton
+              OutlineIcon={ThumbDownAltOutlinedIcon}
+              FilledIcon={ThumbDownAltIcon}
+              onClick={() => handleBanClick(offer[OF_ID])}
+              sx={banIcon}
+            />
+          </Tooltip>
+        </Grid>
+      </Grid>
   const handleReportClick = async () => {
     if (userId == null) {
       navigate(LOGIN_LOCATION);
@@ -175,6 +266,7 @@ function OfferDetails() {
             >
               {offer[OF_TITLE]}
             </Typography>
+            {isAdmin && getAdminButtons()}
             {getEditOrReportIcon()}
           </Box>
           <Stack direction={"row"}>
