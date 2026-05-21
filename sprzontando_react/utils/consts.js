@@ -53,6 +53,10 @@ export const US_USERNAME = "nazwa";
 export const US_EMAIL = "email";
 export const US_RATING = "avgocena";
 export const US_LAST_OFFER = "ostatnie_zlecenie";
+//modes
+export const ACTIVE = "active";
+export const BANNED = "banned";
+export const ENDED = "ended";
 
 //navigacja podstrony
 
