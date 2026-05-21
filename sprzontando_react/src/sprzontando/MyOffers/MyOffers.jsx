@@ -94,7 +94,7 @@ function MyOffers() {
         <>
           <Typography variant="h3">{getTitle()}</Typography>
           {offers.length > 0 ? (
-            <OffersList offers={offers} />
+            <OffersList offers={offers} mode={mode} />
           ) : (
             <NoMyOffers mode={mode} />
           )}

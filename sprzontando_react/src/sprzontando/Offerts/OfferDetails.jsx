@@ -36,8 +36,11 @@ import PersonIcon from "@mui/icons-material/Person";
 import EditIcon from "@mui/icons-material/Edit";
 
 import {
+  ACTIVE,
   AP_USER_ID,
+  BANNED,
   EDIT_OFFER_LOCATION,
+  ENDED,
   HOME_LOCATION,
   LOGIN_LOCATION,
   MY_OFFERS_LOCATION,
@@ -91,6 +94,7 @@ function OfferDetails() {
   const [isChosen, setIsChosen] = useState(false);
 
   const offer = location.state?.offer;
+  const mode = location.state?.mode || ACTIVE;
   if (!offer) {
     console.log("location.state", location.state);
     return (
@@ -233,7 +237,10 @@ function OfferDetails() {
   const handleEditClick = () => {
     navigate(EDIT_OFFER_LOCATION, { state: { offer }, replace: true });
   };
-  const getEditOrReportIcon = () => {
+  const getEditOrReportIcon = (mode) => {
+    if (mode === (BANNED || ENDED)) {
+      return;
+    }
     if (isCreator && isAdmin) {
       return (
         <Tooltip title="edytuj" arrow>
@@ -280,7 +287,7 @@ function OfferDetails() {
             </Typography>
             <Box sx={flexCentered}>
               {isAdmin && !isCreator && getAdminButtons()}
-              {getEditOrReportIcon()}
+              {getEditOrReportIcon(mode)}
             </Box>
           </Box>
           <Stack direction={"row"}>

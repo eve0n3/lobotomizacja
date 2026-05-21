@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import ImagePlaceHolder from "../../components/ImagePlaceHolder";
 import Divider from "@mui/material/Divider";
 import {
+  ACTIVE,
   OF_CITY,
   OF_DATE,
   OF_PRICE,
@@ -37,11 +38,11 @@ import { flexCentered } from "../../styles/AppStyle";
 
 import { useNavigate } from "react-router-dom";
 
-function OffersListItem({ offer }) {
+function OffersListItem({ offer, mode }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/offer`, { state: { offer: offer } });
+    navigate(`/offer`, { state: { offer: offer, mode: mode || ACTIVE } });
   };
 
   return (
