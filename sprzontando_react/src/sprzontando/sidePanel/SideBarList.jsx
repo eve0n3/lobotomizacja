@@ -18,6 +18,7 @@ import { USER_PROFILE_LOCATION } from "../../../utils/consts";
 import { getIsLoggedUserAdmin } from "../../../utils/utilis";
 import SideBarAdminList from "./SideBarAdminList";
 import MyOffersList from "./MyOffersList";
+import MyApplicationsList from "./MyApplicationsList";
 
 const SideBarList = () => {
   const navigate = useNavigate();
@@ -49,15 +50,7 @@ const SideBarList = () => {
           </ListItemButton>
         </ListItem>
         <MyOffersList />
-        <ListItem key={4} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <CampaignOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Moje zgłoszenia"} />
-          </ListItemButton>
-        </ListItem>
-
+        <MyApplicationsList />
         <Divider />
 
         <ListItem key={5} disablePadding>

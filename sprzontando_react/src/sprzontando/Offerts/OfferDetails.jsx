@@ -38,10 +38,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import {
   ACTIVE,
   AP_USER_ID,
+  APPLIED,
   BANNED,
   EDIT_OFFER_LOCATION,
   ENDED,
   HOME_LOCATION,
+  IN_PROGRESS,
   LOGIN_LOCATION,
   MY_OFFERS_LOCATION,
   OF_ADRESS,
@@ -238,7 +240,7 @@ function OfferDetails() {
     navigate(EDIT_OFFER_LOCATION, { state: { offer }, replace: true });
   };
   const getEditOrReportIcon = (mode) => {
-    if (mode === (BANNED || ENDED)) {
+    if (mode !== ACTIVE) {
       return;
     }
     if (isCreator && isAdmin) {
@@ -349,7 +351,7 @@ function OfferDetails() {
                 </Box>
               </Stack>
 
-              {!isCreator && (
+              {!isCreator && mode === ACTIVE && (
                 <Button
                   variant="contained"
                   onClick={async () => handleApplyButtonClick()}

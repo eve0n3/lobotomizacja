@@ -64,10 +64,12 @@
 
         if($rows){
             echo json_encode([
-                "data"=>$rows
+                "data"=>$rows,
+                "success"=>true,
             ]);
         }else{
             echo json_encode([
+                "success"=>true,
                 "data"=>[],
                 "message"=>"Nic nie spełnia kryterii"
             ]); 
