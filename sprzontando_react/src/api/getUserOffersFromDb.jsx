@@ -2,9 +2,10 @@ import axios from "axios";
 import { OFFERS_URL, USER_OFFERS_URL } from "../../utils/consts";
 import { getOfferAppliedUserFromDb } from "./getOfferAppliedUserFromDb";
 
-export const getUserOffersFromDb = async (userId) => {
+export const getUserOffersFromDb = async (userId, mode) => {
   const data = {
     id_zglasz: userId,
+    mode: mode,
   };
   try {
     const response = await axios.post(USER_OFFERS_URL, data, {

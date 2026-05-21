@@ -12,16 +12,19 @@ import AddOffertButton from "../Offerts/AddOffertButton";
 import OffersList from "../Offerts/OffersList";
 import NoOffers from "../Offerts/NoOffers";
 import { getLoggedUserId } from "../../../utils/utilis";
-import { useNavigate } from "react-router-dom";
-import { LOGIN_LOCATION } from "../../../utils/consts";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ACTIVE, BANNED, ENDED, LOGIN_LOCATION } from "../../../utils/consts";
 import NoMyOffers from "./NoMyOffers";
 
 function MyOffers() {
+  const location = useLocation();
   const navigate = useNavigate();
   const [offers, setOffers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const userId = getLoggedUserId();
+  const mode = location.state?.mode || ACTIVE;
 
   useEffect(() => {
     let retryCount = 0;
@@ -35,7 +38,7 @@ function MyOffers() {
       return;
     } else {
       const fetchData = async () => {
-        const response = await getUserOffersFromDb(userId);
+        const response = await getUserOffersFromDb(userId, mode);
 
         if (!response.success && retryCount < maxRetries) {
           retryCount++;
@@ -53,7 +56,7 @@ function MyOffers() {
       };
       fetchData().catch(console.error);
     }
-  }, []);
+  }, [mode]);
 
   if (error) {
     // TO do obiekt erroru
@@ -67,14 +70,34 @@ function MyOffers() {
       </Grid>
     );
   }
+  const getTitle = () => {
+    switch (mode) {
+      case ACTIVE:
+        return "Aktywne oferty:";
+        break;
+      case ENDED:
+        return "Zakończone oferty:";
+        break;
+      case BANNED:
+        return "Zbanowane oferty:";
+        break;
 
+      default:
+        break;
+    }
+  };
   return (
     <Grid>
       {isLoading ? (
         <LinearProgress />
       ) : (
         <>
-          {offers.length > 0 ? <OffersList offers={offers} /> : <NoMyOffers />}
+          <Typography variant="h3">{getTitle()}</Typography>
+          {offers.length > 0 ? (
+            <OffersList offers={offers} />
+          ) : (
+            <NoMyOffers mode={mode} />
+          )}
           <AddOffertButton />
         </>
       )}

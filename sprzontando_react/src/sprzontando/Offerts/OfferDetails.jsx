@@ -88,6 +88,7 @@ function OfferDetails() {
   const [banned, setBanned] = useState(false);
   const [discarded, setDiscarded] = useState(false);
   const [isReported, setIsReported] = useState(false);
+  const [isChosen, setIsChosen] = useState(false);
 
   const offer = location.state?.offer;
   if (!offer) {
@@ -384,6 +385,8 @@ function OfferDetails() {
               <MyOfferAppliedUsers
                 offerUsers={offer?.appliedUsers || null}
                 offerId={offer[OF_ID]}
+                setIsChosen={setIsChosen}
+                isChosen={isChosen}
               />
             </Grid>
           )}
