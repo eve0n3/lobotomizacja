@@ -14,7 +14,7 @@
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
     
     $id_zglasz = $data["id_zglasz"];
-    $mode = $data["mode"];
+    $mode = $data["mode"] ?? "active";
 
     include 'dbconnect.php';
 

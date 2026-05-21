@@ -76,6 +76,7 @@ const MyOfferAppliedUsers = ({ offerUsers, offerId, setIsChosen }) => {
     const result = await choseUserInDb(user[AP_USER_ID], offerId);
     if (result.success) {
       setChosenUser(user);
+      setIsChosen(true);
     } else {
       setError(result.message || "Nie udało się wybrać wykonawcy.");
     }

@@ -17,7 +17,7 @@
 
     $id_ogl = $data["id_ogl"] ?? null;
     $id_chetnego = $data["id_chetnego"] ?? null;
-    $mode = $data["mode"] ?? null; //BARDZO WAŻNE: to musi być jak robisz zapytnie o id_chetnego. bez tego null trzeba manualnie podać wartość null żeby działało gdy pytasz o id_ogl
+    $mode = $data["mode"] ?? "applied"; //BARDZO WAŻNE: to musi być jak robisz zapytnie o id_chetnego. bez tego null trzeba manualnie podać wartość null żeby działało gdy pytasz o id_ogl
 
     if(!is_null($id_chetnego)){
         switch($mode){
