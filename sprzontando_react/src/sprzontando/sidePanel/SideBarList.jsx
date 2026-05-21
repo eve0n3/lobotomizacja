@@ -15,10 +15,13 @@ import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { useNavigate } from "react-router-dom";
 import { USER_PROFILE_LOCATION } from "../../../utils/consts";
+import { getIsLoggedUserAdmin } from "../../../utils/utilis";
+import SideBarAdminList from "./SideBarAdminList";
 import MyOffersList from "./MyOffersList";
 
 const SideBarList = () => {
   const navigate = useNavigate();
+  const isAdmin = getIsLoggedUserAdmin();
   return (
     <Box sx={{ width: 250 }}>
       <List>
@@ -66,16 +69,7 @@ const SideBarList = () => {
           </ListItemButton>
         </ListItem>
 
-        <Divider />
-
-        <ListItem key={6} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <SettingsOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Ustawienia"} />
-          </ListItemButton>
-        </ListItem>
+        {isAdmin && <SideBarAdminList />}
       </List>
     </Box>
   );

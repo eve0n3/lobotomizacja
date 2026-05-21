@@ -19,7 +19,7 @@
     //połączenie z bazą danych
     include 'dbconnect.php';
 
-$stmt = $conn->prepare('SELECT id, nazwa, email, haslo,zatwierdzony FROM users WHERE email = ?');
+$stmt = $conn->prepare('SELECT id, nazwa, email, haslo, zatwierdzony, admin FROM users WHERE email = ?');
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -30,7 +30,7 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Nie poprawne hasło lub email', 'type' => 'password']);
 } else {
-    if ($user["zatwierdzony"] == null){
+    if ($user["zatwierdzony"] == 0){
         echo json_encode([
         'success' => false,
         'message' => 'Weryfikacja wymagana', 
@@ -39,24 +39,68 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
     ]);
     }
     else{
-      setcookie("loggedas", json_encode([
-        "id"=>$user['id'],
-        "username"=>$user['nazwa']]),
-        [
-        'expires'  => time() + 3600,
-        'path'     => '/',
-        'secure'   => true,        // true in production (HTTPS)
-        'httponly' => false,        // must be false so JS can read it
-        'samesite' => 'None',       // required for cross-origin
-    ]);
-        echo json_encode([
-        'success' => true,
-        'message' => 'Login successful', 
-        
-    ]);
+
+        $stmt1 = $conn->prepare("SELECT IF(ban_end>NOW(), true, false) AS czy_ban, ban_end, id FROM users WHERE id = ?;");
+        $stmt1->bind_param("i", $user['id']);
+
+        if($stmt1->execute()){
+            $res = $stmt1->get_result();
+            $rows = $res->fetch_assoc();
+
+            if($rows["czy_ban"]==1){
+                echo json_encode([
+                "success"=>false,
+                "message"=>"użytkownik zbanowany"
+                ]);
+            }else{
+                if(!is_null($rows["ban_end"]) && $rows["ban_end"] < date("Y-m-d H:i:s")){
+                    $stmt2 = $conn->prepare("UPDATE users SET ban_data = null, ban_end = null, ban = 0 WHERE id = ?;");
+                    $stmt2->bind_param("i", $user["id"]);
+                    
+                    if($stmt2->execute()){
+                        setcookie("loggedas", 
+                        json_encode([
+                        "id"=>$user['id'],
+                        "username"=>$user['nazwa'],
+                        "admin"=>$user['admin']
+                        ]),
+                        [
+                        'expires'  => time() + 3600,
+                        'path'     => '/',
+                        'secure'   => true,        // true in production (HTTPS)
+                        'httponly' => false,        // must be false so JS can read it
+                        'samesite' => 'None',       // required for cross-origin
+                        ]);
+
+                        echo json_encode([
+                        'success' => true,
+                        'message' => 'Zalogowano pomyślnie i użytkownik odbanowany', 
+                        ]);
+                    }
+                }else{
+                    setcookie("loggedas", 
+                    json_encode([
+                    "id"=>$user['id'],
+                    "username"=>$user['nazwa'],
+                    "admin"=>$user['admin']
+                    ]),
+                    [
+                    'expires'  => time() + 3600,
+                    'path'     => '/',
+                    'secure'   => true,        // true in production (HTTPS)
+                    'httponly' => false,        // must be false so JS can read it
+                    'samesite' => 'None',       // required for cross-origin
+                    ]);
+
+                    echo json_encode([
+                    'success' => true,
+                    'message' => 'Pomyślnie zalogowano', 
+                    ]);
+                    }
+            }
+                
+        }  
     }
-    
-    
 }
 
 $stmt->close();

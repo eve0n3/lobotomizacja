@@ -125,6 +125,7 @@ function EditOfferForm() {
     newOffer[OF_TYPE] = form.type;
     newOffer[OF_DATE] = form.date;
     newOffer[OF_DESCRIPTION] = form.description;
+    newOffer.appliedUsers = null;
 
     navigate(`/offer`, { state: { offer: newOffer }, replace: true });
     setLoading(false);
