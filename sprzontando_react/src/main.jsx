@@ -30,6 +30,7 @@ import {
   SUCCESS_VERIFICATION_LOCATION,
   USER_PROFILE_LOCATION,
   USERS_RANKING_LOCATION,
+  ADMIN_USERS_LOCATION,
 } from "../utils/consts";
 import UserProfile from "./sprzontando/UserProfile/UserProfile";
 import MyOffers from "./sprzontando/MyOffers/MyOffers";
@@ -39,6 +40,7 @@ import ReportedOfferDetails from "./sprzontando/ReportedOffers/ReportedOfferDeta
 import ResetPasswordPage from "./sprzontando/loginPage/ResetPasswordPage";
 import SuccessPasswordReset from "./sprzontando/loginPage/SuccessPasswordReset";
 import EditOffer from "./sprzontando/EditOffer/EditOffer";
+import AdminUsers from "./sprzontando/AdminUsers/AdminUsers";
 
 const router = createBrowserRouter([
   {
@@ -108,6 +110,10 @@ const router = createBrowserRouter([
       {
         path: EDIT_OFFER_LOCATION,
         element: <EditOffer />,
+      },
+      {
+        path: ADMIN_USERS_LOCATION,
+        element: <AdminUsers />,
       },
     ],
   },

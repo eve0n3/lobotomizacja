@@ -35,6 +35,10 @@ export const RESET_PASSWORD_VERIFY_URL =
   "http://localhost/lobotomizacja/phpscripts/passwd_check.php";
 export const REPORT_OFFER_URL =
   "http://localhost/lobotomizacja/phpscripts/report.php";
+export const ADMIN_USERS_URL =
+  "http://localhost/lobotomizacja/phpscripts/admin/users.php";
+export const BAN_USER_URL =
+  "http://localhost/lobotomizacja/phpscripts/admin/ban_uz.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";
@@ -77,6 +81,7 @@ export const MY_OFFERS_LOCATION = "/myOffers";
 export const USER_PROFILE_LOCATION = "/userProfile";
 export const OTHER_USER_PROFILE_LOCATION = "/OtherUserProfile";
 export const REPORTED_OFFERS_LOCATION = "/reportedOffers";
+export const ADMIN_USERS_LOCATION = "/adminUsers";
 
 // feczowanko z bazy
 export const MAX_RETRIES_COUNT = 3;
