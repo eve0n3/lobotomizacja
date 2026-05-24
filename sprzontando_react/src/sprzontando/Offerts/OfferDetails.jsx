@@ -36,9 +36,14 @@ import PersonIcon from "@mui/icons-material/Person";
 import EditIcon from "@mui/icons-material/Edit";
 
 import {
+  ACTIVE,
   AP_USER_ID,
+  APPLIED,
+  BANNED,
   EDIT_OFFER_LOCATION,
+  ENDED,
   HOME_LOCATION,
+  IN_PROGRESS,
   LOGIN_LOCATION,
   MY_OFFERS_LOCATION,
   OF_ADRESS,
@@ -88,8 +93,10 @@ function OfferDetails() {
   const [banned, setBanned] = useState(false);
   const [discarded, setDiscarded] = useState(false);
   const [isReported, setIsReported] = useState(false);
+  const [isChosen, setIsChosen] = useState(false);
 
   const offer = location.state?.offer;
+  const mode = location.state?.mode || ACTIVE;
   if (!offer) {
     console.log("location.state", location.state);
     return (
@@ -104,6 +111,7 @@ function OfferDetails() {
   const userId = getLoggedUserId();
   const isCreator = userId === offer[OF_CREATOR_ID];
   const isAdmin = getIsLoggedUserAdmin();
+  console.log("Offer details - offer:", offer);
 
   const handleApplyButtonClick = async () => {
     if (userId === null) {
@@ -232,7 +240,10 @@ function OfferDetails() {
   const handleEditClick = () => {
     navigate(EDIT_OFFER_LOCATION, { state: { offer }, replace: true });
   };
-  const getEditOrReportIcon = () => {
+  const getEditOrReportIcon = (mode) => {
+    if (mode !== ACTIVE) {
+      return;
+    }
     if (isCreator && isAdmin) {
       return (
         <Tooltip title="edytuj" arrow>
@@ -279,7 +290,7 @@ function OfferDetails() {
             </Typography>
             <Box sx={flexCentered}>
               {isAdmin && !isCreator && getAdminButtons()}
-              {getEditOrReportIcon()}
+              {getEditOrReportIcon(mode)}
             </Box>
           </Box>
           <Stack direction={"row"}>
@@ -341,7 +352,7 @@ function OfferDetails() {
                 </Box>
               </Stack>
 
-              {!isCreator && (
+              {!isCreator && mode === ACTIVE && (
                 <Button
                   variant="contained"
                   onClick={async () => handleApplyButtonClick()}
@@ -384,6 +395,8 @@ function OfferDetails() {
               <MyOfferAppliedUsers
                 offerUsers={offer?.appliedUsers || null}
                 offerId={offer[OF_ID]}
+                setIsChosen={setIsChosen}
+                isChosen={isChosen}
               />
             </Grid>
           )}

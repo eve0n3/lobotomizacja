@@ -17,12 +17,33 @@
 
     $id_ogl = $data["id_ogl"] ?? null;
     $id_chetnego = $data["id_chetnego"] ?? null;
+    $mode = $data["mode"] ?? "applied"; //BARDZO WAŻNE: to musi być jak robisz zapytnie o id_chetnego. bez tego null trzeba manualnie podać wartość null żeby działało gdy pytasz o id_ogl
 
     if(!is_null($id_chetnego)){
-        $sqlquery = "SELECT *, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
-                    LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl=chetny.id_ogloszenia
-                    JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia
-                    WHERE id_chetnego = ?;"; 
+        switch($mode){
+            case "applied":
+                $sqlquery = "SELECT *, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
+                            LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl=chetny.id_ogloszenia
+                            JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia
+                            WHERE id_chetnego = ?
+                            HAVING wybrany = 0;"; 
+                break;
+            case "inProgress":
+                $sqlquery = "SELECT *, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
+                            LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl=chetny.id_ogloszenia
+                            JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia
+                            WHERE id_chetnego = ? AND zakonczone = 0
+                            HAVING wybrany = 1;"; 
+                break;
+            case "ended":
+                $sqlquery = "SELECT *, ogloszenia_zrobione.ocena, ogloszenia_zrobione.ocena_opis, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
+                            LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl=chetny.id_ogloszenia
+                            JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia
+
+                            WHERE id_chetnego = ? AND zakonczone = 1
+                            HAVING wybrany = 1;"; 
+                break;
+        }
         $param = $id_chetnego;
     }elseif(!is_null($id_ogl)){
         $sqlquery = "SELECT *,ROUND(CAST(AVG(oceny.ocena) AS DECIMAL(4,2)),2) AS avgocena, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
@@ -43,10 +64,12 @@
 
         if($rows){
             echo json_encode([
-                "data"=>$rows
+                "data"=>$rows,
+                "success"=>true,
             ]);
         }else{
             echo json_encode([
+                "success"=>true,
                 "data"=>[],
                 "message"=>"Nic nie spełnia kryterii"
             ]); 

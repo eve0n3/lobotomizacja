@@ -10,19 +10,25 @@ import {
   noOffersText,
 } from "../../styles/noOffers.styles";
 import { flexCentered } from "../../styles/AppStyle";
-import { ACTIVE, BANNED, ENDED } from "../../../utils/consts";
+import {
+  ACTIVE,
+  APPLIED,
+  BANNED,
+  ENDED,
+  IN_PROGRESS,
+} from "../../../utils/consts";
 
-function NoMyOffers({ mode }) {
+function NoMyOffersApplications({ mode }) {
   const getTitle = (mode) => {
     switch (mode) {
-      case ACTIVE:
-        return "Nie stworzyłeś jeszcze żadnej aktywnej oferty";
+      case APPLIED:
+        return "Nie zglosiłeś się jeszcze do żadnej aktywnej oferty";
         break;
       case ENDED:
-        return "Nie ma jeszcze żadnych zakończonych ofert";
+        return "Nie zakończyłeś jeszcze żadnej oferty";
         break;
-      case BANNED:
-        return "Nie ma jeszcze żadnych zbanowanych ofert";
+      case IN_PROGRESS:
+        return `Tu pojawią się zlecenia do których zostałeś wybrany`;
         break;
 
       default:
@@ -31,18 +37,11 @@ function NoMyOffers({ mode }) {
   };
   const getSubtitle = (mode) => {
     switch (mode) {
-      case ACTIVE:
-        return (
-          <>
-            <Typography variant="body2" sx={noOffersText}>
-              Możesz stworzyć swoją pierwszą ofertę, klikając przycisk
-            </Typography>
-            <AddCircleIcon color="primary" />
-            <Typography variant="body2" sx={noOffersText}>
-              w prawym dolnym rogu ekranu
-            </Typography>
-          </>
-        );
+      case APPLIED:
+        return `możesz to zrobic w zagłedce "Ogłoszenia"`;
+        break;
+      case IN_PROGRESS:
+        return `na razie nie masz żadnych zaczętych zleceń`;
         break;
 
       default:
@@ -60,4 +59,4 @@ function NoMyOffers({ mode }) {
   );
 }
 
-export default NoMyOffers;
+export default NoMyOffersApplications;

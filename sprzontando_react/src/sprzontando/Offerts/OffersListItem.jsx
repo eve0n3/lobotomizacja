@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import ImagePlaceHolder from "../../components/ImagePlaceHolder";
 import Divider from "@mui/material/Divider";
 import {
+  ACTIVE,
   OF_CITY,
   OF_DATE,
   OF_PRICE,
@@ -16,7 +17,7 @@ import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
-import { nowToPlDate } from "../../../utils/utilisTime";
+import { nowToPlDate, sqlToPlDateTime } from "../../../utils/utilisTime";
 import Paper from "@mui/material/Paper";
 import {
   biggerIcon,
@@ -37,11 +38,11 @@ import { flexCentered } from "../../styles/AppStyle";
 
 import { useNavigate } from "react-router-dom";
 
-function OffersListItem({ offer }) {
+function OffersListItem({ offer, mode }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/offer`, { state: { offer: offer } });
+    navigate(`/offer`, { state: { offer: offer, mode: mode || ACTIVE } });
   };
 
   return (
@@ -90,7 +91,7 @@ function OffersListItem({ offer }) {
           <Grid item size={4} sx={infoGrid}>
             <TodayOutlinedIcon sx={icon} />
             <Typography sx={{ fontSize: FONT_SIZE_LG }}>
-              {nowToPlDate(offer[OF_DATE])}
+              {sqlToPlDateTime(offer[OF_DATE])}
             </Typography>
           </Grid>
 

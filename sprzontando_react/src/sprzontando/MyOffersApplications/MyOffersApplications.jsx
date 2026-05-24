@@ -13,10 +13,19 @@ import OffersList from "../Offerts/OffersList";
 import NoOffers from "../Offerts/NoOffers";
 import { getLoggedUserId } from "../../../utils/utilis";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ACTIVE, BANNED, ENDED, LOGIN_LOCATION } from "../../../utils/consts";
-import NoMyOffers from "./NoMyOffers";
+import {
+  ACTIVE,
+  APPLIED,
+  BANNED,
+  ENDED,
+  IN_PROGRESS,
+  LOGIN_LOCATION,
+} from "../../../utils/consts";
 
-function MyOffers() {
+import NoMyOffersApplications from "./NoMyOffersApplications";
+import { getUserOffersApplicationsFromDb } from "../../api/getUserOffersApplicationsFromDb";
+
+function MyOffersApplications() {
   const location = useLocation();
   const navigate = useNavigate();
   const [offers, setOffers] = useState([]);
@@ -24,7 +33,7 @@ function MyOffers() {
   const [error, setError] = useState(null);
 
   const userId = getLoggedUserId();
-  const mode = location.state?.mode || ACTIVE;
+  const mode = location.state?.mode || APPLIED;
 
   useEffect(() => {
     let retryCount = 0;
@@ -38,7 +47,7 @@ function MyOffers() {
       return;
     } else {
       const fetchData = async () => {
-        const response = await getUserOffersFromDb(userId, mode);
+        const response = await getUserOffersApplicationsFromDb(userId, mode);
 
         if (!response.success && retryCount < maxRetries) {
           retryCount++;
@@ -72,14 +81,14 @@ function MyOffers() {
   }
   const getTitle = () => {
     switch (mode) {
-      case ACTIVE:
-        return "Aktywne oferty:";
+      case APPLIED:
+        return "Aplikowane oferty:";
         break;
       case ENDED:
         return "Zakończone oferty:";
         break;
-      case BANNED:
-        return "Zbanowane oferty:";
+      case IN_PROGRESS:
+        return "Oferty w trakcie wykonania:";
         break;
 
       default:
@@ -96,7 +105,7 @@ function MyOffers() {
           {offers.length > 0 ? (
             <OffersList offers={offers} mode={mode} />
           ) : (
-            <NoMyOffers mode={mode} />
+            <NoMyOffersApplications mode={mode} />
           )}
           <AddOffertButton />
         </>
@@ -105,4 +114,4 @@ function MyOffers() {
   );
 }
 
-export default MyOffers;
+export default MyOffersApplications;
