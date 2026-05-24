@@ -17,7 +17,7 @@
 
     $id = $data["id"];
 
-    $sqlQuery = "UPDATE ogloszenia_oferty SET zakonczone = 1 WHERE id = ?;";
+    $sqlQuery = "UPDATE ogloszenia_oferty SET zakonczone = 1, data_zakonczenia = NOW() WHERE id = ?;";
 
     $stmt = $conn->prepare($sqlQuery);
     $stmt->bind_param("i", $id);
