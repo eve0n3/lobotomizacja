@@ -20,13 +20,21 @@
 
     switch($mode){
         case "active":
-            $sqlQuery = 'SELECT ogloszenia_oferty.*,users.nazwa FROM ogloszenia_oferty JOIN users ON users.id = ogloszenia_oferty.id_zglasz WHERE id_zglasz = ? AND zakonczone = 0 AND ogloszenia_oferty.ban = 0;';
+            $sqlQuery = 'SELECT ogloszenia_oferty.*,users.nazwa FROM ogloszenia_oferty 
+            JOIN users ON users.id = ogloszenia_oferty.id_zglasz 
+           
+            WHERE id_zglasz = ? AND zakonczone = 0 AND ogloszenia_oferty.ban = 0;';
             break;
         case "ended":
-            $sqlQuery = 'SELECT ogloszenia_oferty.*,users.nazwa FROM ogloszenia_oferty JOIN users ON users.id = ogloszenia_oferty.id_zglasz WHERE id_zglasz = ? AND zakonczone = 1 AND ogloszenia_oferty.ban = 0;';
+            $sqlQuery = 'SELECT ogloszenia_oferty.*,users.nazwa,ogloszenia_zrobione.ocena, ogloszenia_zrobione.ocena_opis FROM ogloszenia_oferty 
+            JOIN users ON users.id = ogloszenia_oferty.id_zglasz 
+            LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl=ogloszenia_oferty.id 
+             WHERE id_zglasz = ? AND zakonczone = 1 AND ogloszenia_oferty.ban = 0;';
             break;
         case "banned":
-            $sqlQuery = 'SELECT ogloszenia_oferty.*,users.nazwa FROM ogloszenia_oferty JOIN users ON users.id = ogloszenia_oferty.id_zglasz WHERE id_zglasz = ? AND ogloszenia_oferty.ban = 1;';
+            $sqlQuery = 'SELECT ogloszenia_oferty.*,users.nazwa FROM ogloszenia_oferty 
+            JOIN users ON users.id = ogloszenia_oferty.id_zglasz 
+            WHERE id_zglasz = ? AND ogloszenia_oferty.ban = 1;';
             break;
     }
    

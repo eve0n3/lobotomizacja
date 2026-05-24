@@ -13,19 +13,15 @@
     $dataJSON = file_get_contents('php://input');
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
     
-    $id_ogl = $data["id_ogl"];
-    $id_uz= $data["id_uz"];
+    $id_ogl = $data["id_ogl"];   
 
     $ocena = $data["ocena"];
     $opis = $data["opis"] ?? null;
 
-
-
-
     if (mb_strlen($opis, 'UTF-8') <= 255) {
         include 'dbconnect.php';
-        $stmt = $conn->prepare('UPDATE ogloszenia_zrobione SET ocena = ?, ocena_opis = ? WHERE id_ogl=? AND id_wykon=?');
-        $stmt->bind_param('isii', $ocena, $opis, $id_ogl, $id_uz);
+        $stmt = $conn->prepare('UPDATE ogloszenia_zrobione SET ocena = ?, ocena_opis = ? WHERE id_ogl=? ');
+        $stmt->bind_param('isi', $ocena, $opis, $id_ogl);
         $stmt->execute();
 
         if($stmt->execute()){

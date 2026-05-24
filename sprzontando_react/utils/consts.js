@@ -19,6 +19,8 @@ export const CHOSE_USER_URL = `${ADDRESS}lobotomizacja/phpscripts/ogloszenie_wyb
 export const RESET_PASSWORD_EMAIL_URL = `${ADDRESS}lobotomizacja/phpscripts/passwd_reset.php`;
 export const RESET_PASSWORD_VERIFY_URL = `${ADDRESS}lobotomizacja/phpscripts/passwd_check.php`;
 export const REPORT_OFFER_URL = `${ADDRESS}lobotomizacja/phpscripts/report.php`;
+export const END_OFFER_URL = `${ADDRESS}lobotomizacja/phpscripts/offer_end.php`;
+export const SET_OFFER_RATING_URL = `${ADDRESS}lobotomizacja/phpscripts/rating.php`;
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";
@@ -31,6 +33,9 @@ export const OF_DESCRIPTION = "opis";
 export const OF_ADRESS = "adres";
 export const OF_ID = "id";
 export const OF_CREATOR_ID = "id_zglasz";
+export const OF_RATING = "ocena";
+export const OF_RATING_DESCRIPTION = "ocena_opis";
+export const OF_ENDED = "zakonczone";
 //admin offers
 export const ROF_COUNT = "report_count";
 

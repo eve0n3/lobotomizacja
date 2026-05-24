@@ -22,24 +22,26 @@
     if(!is_null($id_chetnego)){
         switch($mode){
             case "applied":
-                $sqlquery = "SELECT *, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
+                $sqlquery = "SELECT ogloszenia_oferty.*, users.nazwa, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
                             LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl=chetny.id_ogloszenia
                             JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia
+                            JOIN users ON users.id = ogloszenia_oferty.id_zglasz
                             WHERE id_chetnego = ?
                             HAVING wybrany = 0;"; 
                 break;
             case "inProgress":
-                $sqlquery = "SELECT *, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
+                $sqlquery = "SELECT ogloszenia_oferty.*, users.nazwa, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
                             LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl=chetny.id_ogloszenia
                             JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia
+                            JOIN users ON users.id = ogloszenia_oferty.id_zglasz
                             WHERE id_chetnego = ? AND zakonczone = 0
                             HAVING wybrany = 1;"; 
                 break;
             case "ended":
-                $sqlquery = "SELECT *, ogloszenia_zrobione.ocena, ogloszenia_zrobione.ocena_opis, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
+                $sqlquery = "SELECT ogloszenia_oferty.*, users.nazwa, ogloszenia_zrobione.ocena, ogloszenia_zrobione.ocena_opis, if(ogloszenia_zrobione.id_wykon=chetny.id_chetnego, true, false) AS wybrany FROM `chetny`
                             LEFT JOIN ogloszenia_zrobione ON ogloszenia_zrobione.id_ogl=chetny.id_ogloszenia
                             JOIN ogloszenia_oferty ON ogloszenia_oferty.id=chetny.id_ogloszenia
-
+                            JOIN users ON users.id = ogloszenia_oferty.id_zglasz
                             WHERE id_chetnego = ? AND zakonczone = 1
                             HAVING wybrany = 1;"; 
                 break;
