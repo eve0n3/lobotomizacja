@@ -29,8 +29,10 @@ function AdminUserItem({ user, onUserBanned }) {
 
   const calculateBanEndDate = (days) => {
     const date = new Date();
-    date.setDate(date.getDate() + parseInt(days));
-    return date.toISOString().split("T")[0];
+    const parsedDays = parseInt(days, 10);
+    const daysToAdd = isNaN(parsedDays) ? 0 : parsedDays;
+    date.setDate(date.getDate() + daysToAdd);
+    return date.toLocaleDateString("sv-SE");
   };
 
   const handleBanUser = async () => {
@@ -39,7 +41,6 @@ function AdminUserItem({ user, onUserBanned }) {
     const response = await banUserInDb(user.id, banEndDate);
 
     if (response.success) {
-      onUserBanned(user.id);
       handleCloseDialog();
     } else {
       alert("Błąd podczas banowania użytkownika: " + response.message);
@@ -63,6 +64,12 @@ function AdminUserItem({ user, onUserBanned }) {
         <Box sx={{ flex: 1 }}>
           <Typography variant="h6">{user.nazwa}</Typography>
           <Box sx={{ display: "flex", gap: 2, mt: 1, flexWrap: "wrap" }}>
+            <Box>
+              <Typography variant="body2" color="textSecondary">
+               ID: {user.id}
+              </Typography>
+            </Box>
+
             <Box>
               <Typography variant="body2" color="textSecondary">
                 Ocena:
@@ -89,8 +96,13 @@ function AdminUserItem({ user, onUserBanned }) {
                 Ogłoszenia: {user.liczba_ogloszen || 0}
               </Typography>
             </Box>
+            <Box>
+              <Typography variant="body2" color="textSecondary">
+                Konto od:  {user.utworzenie || 0}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        </Box>     
         <Button
           variant="contained"
           color="error"

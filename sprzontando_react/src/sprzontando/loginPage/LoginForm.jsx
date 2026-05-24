@@ -28,13 +28,18 @@ function LoginForm() {
     const response = await submitLogin(loginData);
 
     if (!response.success) {
-      response.type === "password"
-        ? setMessage(response.message)
-        : setIsPopupOpen(true);
+
+    if (response.message === "użytkownik zbanowany") {
+      setMessage(`Twoje konto jest zbanowane do:${response.ban_end}`);
+    } else if (response.type === "password") {
+      setMessage(response.message);
+    } else {
+      setIsPopupOpen(true);
+    }
     } else {
       navigate("/");
     }
-    setLoading(false);
+      setLoading(false);
   };
   const handlePasswordReset = () => {
     navigate(LOGIN_RESET_LOCATION);
