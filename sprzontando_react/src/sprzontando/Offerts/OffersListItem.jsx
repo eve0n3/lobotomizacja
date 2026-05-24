@@ -17,7 +17,7 @@ import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
-import { nowToPlDate } from "../../../utils/utilisTime";
+import { nowToPlDate, sqlToPlDateTime } from "../../../utils/utilisTime";
 import Paper from "@mui/material/Paper";
 import {
   biggerIcon,
@@ -91,7 +91,7 @@ function OffersListItem({ offer, mode }) {
           <Grid item size={4} sx={infoGrid}>
             <TodayOutlinedIcon sx={icon} />
             <Typography sx={{ fontSize: FONT_SIZE_LG }}>
-              {nowToPlDate(offer[OF_DATE])}
+              {sqlToPlDateTime(offer[OF_DATE])}
             </Typography>
           </Grid>
 

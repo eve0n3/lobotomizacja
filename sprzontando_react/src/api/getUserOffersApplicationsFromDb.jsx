@@ -10,7 +10,7 @@ export const getUserOffersApplicationsFromDb = async (userId, mode) => {
     id_chetnego: userId,
     mode: mode,
   };
-  console.log(data);
+
   try {
     const response = await axios.post(USER_OFFERS_APPLICATIONS_URL, data, {
       headers: {

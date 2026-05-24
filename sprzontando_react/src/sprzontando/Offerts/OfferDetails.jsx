@@ -111,6 +111,7 @@ function OfferDetails() {
   const userId = getLoggedUserId();
   const isCreator = userId === offer[OF_CREATOR_ID];
   const isAdmin = getIsLoggedUserAdmin();
+  console.log("Offer details - offer:", offer);
 
   const handleApplyButtonClick = async () => {
     if (userId === null) {
