@@ -13,8 +13,8 @@ const BackButton = ({ fallback = "/", backLocation }) => {
           startIcon={<ArrowBackIcon />}
           onClick={() =>
             backLocation
-              ? navigate(backLocation, { state: {} })
-              : navigate(canGoBack ? -1 : fallback, { state: {} })
+              ? navigate(backLocation)
+              : navigate(canGoBack ? -1 : fallback)
           }
         >
           Powrót

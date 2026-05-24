@@ -28,7 +28,7 @@ function OffersList({ offers, mode }) {
           (setMessage(""),
             navigate(".", {
               replace: true,
-              state: { ...location.state, message: null },
+              state: { mode: mode, message: null },
             }));
         }}
       />
