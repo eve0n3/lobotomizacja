@@ -42,6 +42,10 @@ function OffersListItem({ offer, mode }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    navigate(".", {
+      replace: true,
+      state: { ...location.state, message: null },
+    });
     navigate(`/offer`, { state: { offer: offer, mode: mode || ACTIVE } });
   };
 

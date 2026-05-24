@@ -2,12 +2,13 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import OffersListItem from "./OffersListItem";
 import { listGrid } from "../../styles/offersListItem.styles";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import SuccessAlert from "../../components/SuccessAlert";
 
 function OffersList({ offers, mode }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [message, setMessage] = useState(location.state?.message || "");
   const getListItems = (offers, mode) => {
     return offers.map((offer) => (
@@ -23,7 +24,13 @@ function OffersList({ offers, mode }) {
       <SuccessAlert
         message={message}
         open={!!message}
-        onClose={() => setMessage("")}
+        onClose={() => {
+          (setMessage(""),
+            navigate(".", {
+              replace: true,
+              state: { ...location.state, message: null },
+            }));
+        }}
       />
     </>
   );

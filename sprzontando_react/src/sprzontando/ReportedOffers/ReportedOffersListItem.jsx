@@ -63,6 +63,10 @@ function ReportedOffersListItem({ offer, setError, setMessage }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    navigate(".", {
+      replace: true,
+      state: { ...location.state, message: null },
+    });
     navigate(`/reportedOffer`, { state: { offer: offer } });
   };
   const handleBanClick = async (e, id) => {
