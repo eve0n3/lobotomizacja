@@ -22,6 +22,7 @@ import {
   HOME_LOCATION,
   LOGIN_LOCATION,
   LOGIN_RESET_LOCATION,
+  MY_APPLICATIONS_LOCATION,
   OTHER_USER_PROFILE_LOCATION,
   REGISTER_LOCATION,
   REPORTED_OFFERS_LOCATION,
@@ -39,6 +40,9 @@ import ReportedOfferDetails from "./sprzontando/ReportedOffers/ReportedOfferDeta
 import ResetPasswordPage from "./sprzontando/loginPage/ResetPasswordPage";
 import SuccessPasswordReset from "./sprzontando/loginPage/SuccessPasswordReset";
 import EditOffer from "./sprzontando/EditOffer/EditOffer";
+import MyApplicationsList from "./sprzontando/sidePanel/MyApplicationsList";
+import MyOfferAppliedUsers from "./sprzontando/MyOffers/MyOfferAppliedUsers";
+import MyOffersApplications from "./sprzontando/MyOffersApplications/MyOffersApplications";
 
 const router = createBrowserRouter([
   {
@@ -108,6 +112,10 @@ const router = createBrowserRouter([
       {
         path: EDIT_OFFER_LOCATION,
         element: <EditOffer />,
+      },
+      {
+        path: MY_APPLICATIONS_LOCATION,
+        element: <MyOffersApplications />,
       },
     ],
   },

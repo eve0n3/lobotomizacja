@@ -6,10 +6,11 @@ import ReportedOffersListItem from "./ReportedOffersListItem";
 import { useState } from "react";
 import ErrorAlert from "../../components/ErrorAlert";
 import SuccessAlert from "../../components/SuccessAlert";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ReportedOffersList({ offers }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [message, setMessage] = useState(location.state?.message || "");
   const [error, setError] = useState(null);
 
@@ -40,7 +41,13 @@ function ReportedOffersList({ offers }) {
         <SuccessAlert
           message={message}
           open={!!message}
-          onClose={() => setMessage("")}
+          onClose={() => {
+            (setMessage(""),
+              navigate(".", {
+                replace: true,
+                state: { ...location.state, message: null },
+              }));
+          }}
         />
       )}
     </>

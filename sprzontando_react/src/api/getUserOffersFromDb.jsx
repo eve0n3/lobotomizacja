@@ -13,7 +13,7 @@ export const getUserOffersFromDb = async (userId, mode) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("Received offers:", response.data);
+
     if (response.data.success) {
       return await handleSuccessResponse(response);
     } else {
@@ -28,7 +28,6 @@ export const getUserOffersFromDb = async (userId, mode) => {
   }
 };
 const handleSuccessResponse = async (response) => {
-  console.log("Received offers:", response.data);
   const oferty = response.data.data;
   const offersWithUsers = await getAppliedUsers(oferty);
   return { success: true, data: offersWithUsers };

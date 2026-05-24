@@ -36,16 +36,23 @@ import PersonIcon from "@mui/icons-material/Person";
 import EditIcon from "@mui/icons-material/Edit";
 
 import {
+  ACTIVE,
   AP_USER_ID,
+  APPLIED,
+  BANNED,
   EDIT_OFFER_LOCATION,
+  ENDED,
   HOME_LOCATION,
+  IN_PROGRESS,
   LOGIN_LOCATION,
+  MY_APPLICATIONS_LOCATION,
   MY_OFFERS_LOCATION,
   OF_ADRESS,
   OF_CITY,
   OF_CREATOR_ID,
   OF_DATE,
   OF_DESCRIPTION,
+  OF_ENDED,
   OF_ID,
   OF_PRICE,
   OF_TITLE,
@@ -78,6 +85,9 @@ import { okReportedOfferInDb } from "../../api/okReportedOfferInDb";
 import BackButton from "../../components/BackButton";
 import FlagIcon from "@mui/icons-material/Flag";
 import { reportOfferInDb } from "../../api/reportOfferInDb";
+import { endOfferInDb } from "../../api/endOfferInDb";
+import OfferRating from "./OfferRating";
+import { sqlToPlDateTime } from "../../../utils/utilisTime";
 
 function OfferDetails() {
   const location = useLocation();
@@ -91,8 +101,9 @@ function OfferDetails() {
   const [isChosen, setIsChosen] = useState(false);
 
   const offer = location.state?.offer;
+
+  const mode = location.state?.mode || ACTIVE;
   if (!offer) {
-    console.log("location.state", location.state);
     return (
       <Container sx={{ mt: 4 }}>
         <Typography variant="h5" color="error">
@@ -129,6 +140,25 @@ function OfferDetails() {
       setLoading(false);
     } else {
       setError("Nie udało się zgłosić się do wykonania ogłoszenia.");
+      setLoading(false);
+    }
+  };
+  const handleEndButtonClick = async () => {
+    if (userId === null) {
+      navigate(LOGIN_LOCATION);
+      return;
+    }
+
+    setLoading(true);
+    const result = await endOfferInDb(offer[OF_ID]);
+    if (result.success) {
+      setLoading(false);
+      navigate(MY_APPLICATIONS_LOCATION, {
+        state: { mode: ENDED },
+        replace: true,
+      });
+    } else {
+      setError("Nie udało się zakończyć zlecenia.");
       setLoading(false);
     }
   };
@@ -233,7 +263,10 @@ function OfferDetails() {
   const handleEditClick = () => {
     navigate(EDIT_OFFER_LOCATION, { state: { offer }, replace: true });
   };
-  const getEditOrReportIcon = () => {
+  const getEditOrReportIcon = (mode) => {
+    if (mode !== ACTIVE) {
+      return;
+    }
     if (isCreator && isAdmin) {
       return (
         <Tooltip title="edytuj" arrow>
@@ -263,7 +296,7 @@ function OfferDetails() {
   return (
     <>
       <BackButton />
-      <Container sx={{ pt: 8, pr: 8 }}>
+      <Container sx={{ pt: 8, pr: 8, pb: 4 }}>
         {/* NAGŁÓWEK NAD ZDJĘCIEM */}
 
         <Box sx={{ mb: 3 }}>
@@ -280,7 +313,7 @@ function OfferDetails() {
             </Typography>
             <Box sx={flexCentered}>
               {isAdmin && !isCreator && getAdminButtons()}
-              {getEditOrReportIcon()}
+              {getEditOrReportIcon(mode)}
             </Box>
           </Box>
           <Stack direction={"row"}>
@@ -329,7 +362,7 @@ function OfferDetails() {
                     Data ważności ogłoszenia
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {offer[OF_DATE]}
+                    {sqlToPlDateTime(offer[OF_DATE])}
                   </Typography>
                 </Box>
 
@@ -342,7 +375,7 @@ function OfferDetails() {
                 </Box>
               </Stack>
 
-              {!isCreator && (
+              {!isCreator && mode === ACTIVE && (
                 <Button
                   variant="contained"
                   onClick={async () => handleApplyButtonClick()}
@@ -350,6 +383,16 @@ function OfferDetails() {
                   startIcon={loading && <CircularProgress size={20} />}
                 >
                   Zgłoś się
+                </Button>
+              )}
+              {mode === IN_PROGRESS && (
+                <Button
+                  variant="contained"
+                  onClick={async () => handleEndButtonClick()}
+                  disabled={loading}
+                  startIcon={loading && <CircularProgress size={20} />}
+                >
+                  Zakończ zlecenie
                 </Button>
               )}
             </Stack>
@@ -374,21 +417,39 @@ function OfferDetails() {
               {offer[OF_DESCRIPTION]}
             </Typography>
           </Grid>
-          <Grid size={12} item>
-            <Divider sx={{ my: 4 }} />
-          </Grid>
+
           {isCreator && (
-            <Grid size={12} item>
-              <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
-                Chętni
-              </Typography>
-              <MyOfferAppliedUsers
-                offerUsers={offer?.appliedUsers || null}
-                offerId={offer[OF_ID]}
-                setIsChosen={setIsChosen}
-                isChosen={isChosen}
-              />
-            </Grid>
+            <>
+              <Grid size={12} item>
+                <Divider sx={{ my: 4 }} />
+              </Grid>
+              <Grid size={12} item>
+                <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
+                  Chętni
+                </Typography>
+                <MyOfferAppliedUsers
+                  offerUsers={offer?.appliedUsers || null}
+                  offerId={offer[OF_ID]}
+                  setIsChosen={setIsChosen}
+                  isChosen={isChosen}
+                />
+              </Grid>
+            </>
+          )}
+
+          {mode === ENDED && (
+            <>
+              <Grid size={12} item>
+                <Divider sx={{ my: 4 }} />
+              </Grid>
+              <Grid size={12} item>
+                <OfferRating
+                  isCreator={isCreator}
+                  offer={offer}
+                  setError={setError}
+                />
+              </Grid>
+            </>
           )}
         </Grid>
         {error && (
