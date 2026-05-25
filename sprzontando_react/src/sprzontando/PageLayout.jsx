@@ -50,7 +50,12 @@ function PageLayout() {
                 ZALOGUJ SIĘ
               </Button>
             ) : (
+              <Box 
+                onClick={() => navigate("/userProfile")}
+                sx={{cursor: "pointer",}}
+              >
               <ToolbarLoggedUser loggedUser={loggedUser} />
+              </Box>
             )}
           </Toolbar>
         </AppBar>
