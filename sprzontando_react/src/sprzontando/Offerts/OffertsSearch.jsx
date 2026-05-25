@@ -118,14 +118,14 @@ function OffertsSearch({ searchProps }) {
           <Grid item size={2}>
             <OffertTypeSelect type={type} setType={setType} />
           </Grid>
-          <Grid item size={4}>
+          <Grid item size={3}>
             <PriceInputs inputsProps={priceInputsProps} />
           </Grid>
-          <Grid item size={1}>
+          <Grid item size={2}>
             <Button
               type="submit"
               variant="contained"
-              sx={{ width: "100%", height: "100%" }}
+              sx={{ width: "100%", height: "56px" }}
               disabled={disableSearch}
             >
               wyszukaj
