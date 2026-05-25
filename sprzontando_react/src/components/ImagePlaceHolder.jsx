@@ -1,5 +1,6 @@
 import ImageIcon from "@mui/icons-material/Image";
 import Box from "@mui/material/Box";
+import HideImageOutlinedIcon from "@mui/icons-material/HideImageOutlined";
 
 function ImagePlaceHolder() {
   return (
@@ -14,7 +15,7 @@ function ImagePlaceHolder() {
         borderRadius: 1,
       }}
     >
-      <ImageIcon></ImageIcon>
+      <HideImageOutlinedIcon />
     </Box>
   );
 }
