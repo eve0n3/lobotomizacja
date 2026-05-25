@@ -1,13 +1,13 @@
 KROKI INSTALACJI
-PONIŻSZE KROKI W FOLDERZE sprzontando_react
 
-`npm install vite`
+przenieść folder `lobotomizacja` do folderu `htdocs`
 
-`npm install @mui/x-date-pickers moment @emotion/react @emotion/styled`
+w folderze sprzontando_react
+`npm install`
+`npm run dev`
 
-`npm run dev` <- uruchamia frontend
+zhostować `phpscripts` za pomocą xampp
 
----
+stworzyć bazę danych mysql o nazwie `sprzontando`
+importować `sprzontando.sql`
 
-phpscripts MUSI BYĆ LOKALNIE POSTAWIONE
-BAZA DANYCH MUSI NAZYWAĆ SIĘ sprzontando I ZAWIERAĆ DANE Z sprzontando.sql
