@@ -17,7 +17,7 @@
 
     include 'dbconnect.php';
 
-    $stm = $conn->prepare('SELECT ogloszenia_oferty.* FROM ogloszenia_oferty JOIN ogloszenia_zrobione ON ogloszenia_oferty.id = ogloszenia_zrobione.id_ogl 
+    $stmt = $conn->prepare('SELECT ogloszenia_oferty.* FROM ogloszenia_oferty JOIN ogloszenia_zrobione ON ogloszenia_oferty.id = ogloszenia_zrobione.id_ogl 
     WHERE ogloszenia_oferty.zakonczone = 1 AND ogloszenia_zrobione.id_wykon = ? AND ogloszenia_oferty.ban = 0 ORDER BY ogloszenia_oferty.data_zakonczenia DESC LIMIT 1');
     $stmt->bind_param('i', $user_id);
 
@@ -27,17 +27,17 @@
         
         if($rows){
 
-            $stm = $conn->prepare('SELECT nazwa FROM users WHERE id = ?');
+            $stmt = $conn->prepare('SELECT nazwa FROM users WHERE id = ?');
             $stmt->bind_param('i', $rows['id_zglasz']);
             $stmt->execute();
 
             $res_users = $stmt->get_result();
-            $rows_users = $res->fetch_assoc();
+            $rows_users = $res_users->fetch_assoc();
 
             echo json_encode([
                 "success" => true,
-                "ogloszenie" => $row,
-                "user" => $row_user
+                "ogloszenie" => $rows,
+                "user" => $rows_users
             ]);
             
             
