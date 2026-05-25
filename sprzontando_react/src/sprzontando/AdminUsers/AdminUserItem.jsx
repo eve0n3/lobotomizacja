@@ -12,6 +12,7 @@ import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { banUserInDb } from "../../api/banUserInDb";
+import { unbanUserInDb } from "../../api/unbanUserInDb";
 
 function AdminUserItem({ user, onUserBanned }) {
   const [openDialog, setOpenDialog] = useState(false);
@@ -42,11 +43,28 @@ function AdminUserItem({ user, onUserBanned }) {
 
     if (response.success) {
       handleCloseDialog();
+      window.location.reload();
     } else {
       alert("Błąd podczas banowania użytkownika: " + response.message);
     }
     setIsLoading(false);
   };
+    
+  const handleUnbanUser = async () => {
+    setIsLoading(true);
+  const response = await unbanUserInDb(user.id);
+  if (response.success) {
+    if (onUserBanned) {
+      onUserBanned();
+      window.location.reload();
+    }
+  } else {
+    alert("Błąd podczas odbanowywania użytkownika: " + response.message);
+  }
+
+  setIsLoading(false);
+};
+  
 
   return (
     <>
@@ -101,16 +119,61 @@ function AdminUserItem({ user, onUserBanned }) {
                 Konto od:  {user.utworzenie || 0}
               </Typography>
             </Box>
+            <Box>
+  <Box
+    sx={{
+      backgroundColor: user.ban == 1 ? "#d32f2f" : "#1976d2",
+      color: "white",
+      px: 2,
+      py: 0.5,
+      borderRadius: 2,
+      fontWeight: "bold",
+      fontSize: "0.8rem",
+      textAlign: "center",
+      minWidth: "120px",
+      boxShadow: 2,
+    }}
+  >
+    {user.ban == 1 ? "Zbanowany" : "Niezbanowany"}
+  </Box>
+
+  {user.ban == 1 && (
+    <Typography
+      variant="body2"
+      sx={{
+        mt: 0.5,
+        fontSize: "0.75rem",
+        color: "#d32f2f",
+        fontWeight: "bold",
+        textAlign: "center",
+      }}
+    >
+      Ban do: {user.ban_end}
+    </Typography>
+  )}
+</Box>
           </Box>
-        </Box>     
+        </Box>
+        <Box>    
         <Button
-          variant="contained"
-          color="error"
-          onClick={handleOpenDialog}
-          sx={{ ml: 2 }}
-        >
-          Banuj
-        </Button>
+  variant="contained"
+  color="error"
+  onClick={handleOpenDialog}
+  sx={{ ml: 2 }}
+>
+  Banuj
+</Button>
+
+<Button
+  variant="contained"
+  color="success"
+  onClick={handleUnbanUser}
+  sx={{ ml: 2 }}
+  disabled={isLoading}
+>
+  Odbanuj
+</Button>
+</Box> 
       </ListItem>
 
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>

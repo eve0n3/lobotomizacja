@@ -39,6 +39,8 @@ export const ADMIN_USERS_URL =
   "http://localhost/lobotomizacja/phpscripts/admin/users.php";
 export const BAN_USER_URL =
   "http://localhost/lobotomizacja/phpscripts/admin/ban_uz.php";
+export const UNBAN_USER_URL =
+  "http://localhost/lobotomizacja/phpscripts/admin/unban_user.php";
 
 export const OF_CITY = "miasto";
 export const OF_MIN_PRICE = "minCena";
@@ -86,3 +88,5 @@ export const ADMIN_USERS_LOCATION = "/adminUsers";
 // feczowanko z bazy
 export const MAX_RETRIES_COUNT = 3;
 export const SUCCESS_PASSWORD_RESET_LOCATION = "/successPasswordReset";
+
+
