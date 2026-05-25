@@ -5,7 +5,7 @@ import { getLoggedUserId } from "../../../utils/utilis";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import AddOfferFormFields from "./AddOfferFormFields";
-import { validateAddOfferForm } from "./validateAddOfferForm";
+import { validateOfferForm } from "./validateOfferForm";
 import { addOffer } from "../../api/addOffer";
 import { useNavigate } from "react-router-dom";
 import { LOGIN_LOCATION } from "../../../utils/consts";
@@ -52,7 +52,7 @@ function AddOfferForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const isCorrect = validateAddOfferForm(setErrors, form);
+    const isCorrect = validateOfferForm(setErrors, form);
 
     if (isCorrect) {
       setLoading(true);

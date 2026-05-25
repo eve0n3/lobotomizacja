@@ -18,22 +18,33 @@ import OfferDetails from "./sprzontando/Offerts/OfferDetails";
 import AddOffer from "./sprzontando/AddOffer/AddOffer";
 import {
   ADD_OFFER_LOCATION,
+  EDIT_OFFER_LOCATION,
   HOME_LOCATION,
   LOGIN_LOCATION,
   LOGIN_RESET_LOCATION,
+  MY_APPLICATIONS_LOCATION,
   OTHER_USER_PROFILE_LOCATION,
   REGISTER_LOCATION,
+  REPORTED_OFFERS_LOCATION,
   SUCCESS_PASSWORD_RESET_LOCATION,
   SUCCESS_REGISTER_LOCATION,
   SUCCESS_VERIFICATION_LOCATION,
   USER_PROFILE_LOCATION,
   USERS_RANKING_LOCATION,
+  ADMIN_USERS_LOCATION,
 } from "../utils/consts";
 import UserProfile from "./sprzontando/UserProfile/UserProfile";
 import MyOffers from "./sprzontando/MyOffers/MyOffers";
 import OtherUserProfile from "./sprzontando/UserProfile/OtherUserProfile";
+import ReportedOffers from "./sprzontando/ReportedOffers/ReportedOffers";
+import ReportedOfferDetails from "./sprzontando/ReportedOffers/ReportedOfferDetails";
 import ResetPasswordPage from "./sprzontando/loginPage/ResetPasswordPage";
 import SuccessPasswordReset from "./sprzontando/loginPage/SuccessPasswordReset";
+import EditOffer from "./sprzontando/EditOffer/EditOffer";
+import AdminUsers from "./sprzontando/AdminUsers/AdminUsers";
+import MyApplicationsList from "./sprzontando/sidePanel/MyApplicationsList";
+import MyOfferAppliedUsers from "./sprzontando/MyOffers/MyOfferAppliedUsers";
+import MyOffersApplications from "./sprzontando/MyOffersApplications/MyOffersApplications";
 
 const router = createBrowserRouter([
   {
@@ -91,6 +102,25 @@ const router = createBrowserRouter([
       {
         path: OTHER_USER_PROFILE_LOCATION,
         element: <OtherUserProfile />,
+      },
+      {
+        path: REPORTED_OFFERS_LOCATION,
+        element: <ReportedOffers />,
+      },
+      {
+        path: "/reportedOffer",
+        element: <ReportedOfferDetails />,
+      },
+      {
+        path: EDIT_OFFER_LOCATION,
+        element: <EditOffer />,
+      },
+      {
+        path: ADMIN_USERS_LOCATION,
+        element: <AdminUsers />,
+      },{
+        path: MY_APPLICATIONS_LOCATION,
+        element: <MyOffersApplications />,
       },
     ],
   },

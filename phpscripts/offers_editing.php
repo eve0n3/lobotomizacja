@@ -79,12 +79,21 @@
     array_push($params, $ogloszenie_id);
     $paramTypes .= "i";
 
-    $sqlQueryEnd = " WHERE id = ?";
+    $sqlQueryEnd = " WHERE id = ?;";
+
     $sqlQuery = $sqlQueryStart.$sqlQueryEnd;
 
-    //echo json_encode($sqlQuery);
+    echo json_encode($sqlQuery);
     $stmt = $conn->prepare($sqlQuery);
     $stmt->bind_param($paramTypes, ...$params);
+
+    $sqlQuery2 = "DELETE FROM chetny WHERE id_ogloszenia = ?;";
+    $stmt2 = $conn->prepare($sqlQuery2);
+    $stmt2->bind_param("i", $ogloszenie_id);
+
+    $sqlQuery3 = "DELETE FROM ogloszenia_zrobione WHERE id_ogl = ?;";
+    $stmt3 = $conn->prepare($sqlQuery3);
+    $stmt3->bind_param("i", $ogloszenie_id);
 
     if($stmt->execute()){
         $kod_zapisywanie = $conn->prepare('DELETE FROM chetny WHERE id_ogloszenia = ?');
@@ -95,9 +104,10 @@
             "success" => true,
             "message" => "Dane ogloszenie zostaly zmienione"
         ]);
-        http_response_code(200);
-        
-        
+
+        $stmt2->execute();
+        $stmt3->execute();
+
     }else{
         echo json_encode([
             "success" => false,

@@ -47,6 +47,64 @@ export const infoGrid = {
   alignItems: "center",
   color: "#1A759F",
 };
+export const adminBanGrid = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  color: "text.secondary",
+  p: 0,
+  "&:hover": {
+    cursor: "pointer",
+    color: "red",
+  },
+};
+export const banIcon = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: 56,
+  height: 56,
+  minWidth: 56,
+  minHeight: 56,
+  color: "text.secondary",
+  "& .outline": { display: "block", fontSize: "2rem", lineHeight: 1 },
+  "& .filled": { display: "none", fontSize: "2rem", lineHeight: 1 },
+  "&:hover": {
+    cursor: "pointer",
+
+    color: "red",
+    "& .outline": { display: "none" },
+    "& .filled": { display: "block" },
+  },
+};
+export const okIcon = {
+  ...banIcon,
+  "&:hover": {
+    cursor: "pointer",
+    color: "green",
+    "& .outline": { display: "none" },
+    "& .filled": { display: "block" },
+  },
+};
+export const adminOkGrid = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  color: "text.secondary",
+  p: 0,
+  "&:hover": {
+    cursor: "pointer",
+    color: "green",
+  },
+};
+export const adminGrid = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  color: "text.secondary",
+};
+
 export const priceGrid = {
   display: "flex",
   justifyContent: "center",
@@ -59,5 +117,5 @@ export const icon = {
 };
 export const biggerIcon = {
   paddingRight: "1%",
-  fontSize: "1.9rem",
+  fontSize: "2rem",
 };

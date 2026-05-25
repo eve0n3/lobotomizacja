@@ -1,0 +1,199 @@
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import ImagePlaceHolder from "../../components/ImagePlaceHolder";
+import Divider from "@mui/material/Divider";
+import {
+  OF_CITY,
+  OF_DATE,
+  OF_ID,
+  OF_PRICE,
+  OF_TITLE,
+  OF_TYPE,
+  REPORTED_OFFERS_LOCATION,
+  ROF_COUNT,
+} from "../../../utils/consts";
+
+import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
+import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
+import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+
+import OutlinedFlagIcon from "@mui/icons-material/OutlinedFlag";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import { nowToPlDate } from "../../../utils/utilisTime";
+import Paper from "@mui/material/Paper";
+import {
+  adminBanGrid,
+  adminGrid,
+  adminOkGrid,
+  banIcon,
+  biggerIcon,
+  icon,
+  infoGrid,
+  itemBox,
+  itemStack,
+  offerPaper,
+  okIcon,
+  priceGrid,
+  titleGrid,
+} from "../../styles/offersListItem.styles";
+import {
+  FONT_SIZE_LG,
+  FONT_SIZE_XL,
+  FONT_SIZE_XXL,
+} from "../../../utils/styleConsts";
+import { flexCentered } from "../../styles/AppStyle";
+
+import { useNavigate } from "react-router-dom";
+import { IconButton, Tooltip } from "@mui/material";
+import { useState } from "react";
+import { banReportedOfferInDb } from "../../api/banReportedOfferInDb";
+import { okReportedOfferInDb } from "../../api/okReportedOfferInDb";
+import HoverFilledIconButton from "../../components/HoverFilledIconButton";
+
+function ReportedOffersListItem({ offer, setError, setMessage }) {
+  const [banned, setBanned] = useState(false);
+  const [discarded, setDiscarded] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(".", {
+      replace: true,
+      state: { ...location.state, message: null },
+    });
+    navigate(`/reportedOffer`, { state: { offer: offer } });
+  };
+  const handleBanClick = async (e, id) => {
+    e.stopPropagation();
+    const result = await banReportedOfferInDb(id);
+    if (result.success) {
+      setBanned(true);
+      setMessage(result.message);
+    } else {
+      setBanned(false);
+      setError(result.message);
+    }
+  };
+
+  const handleDiscardClick = async (e, id) => {
+    e.stopPropagation();
+    const result = await okReportedOfferInDb(id);
+    if (result.success) {
+      setDiscarded(true);
+      setMessage(result.message);
+      navigate(REPORTED_OFFERS_LOCATION, {
+        replace: true,
+        state: { message: "Pomyślnie odrzucono zgłoszenia" },
+      });
+    } else {
+      setDiscarded(false);
+      setError(result.message);
+    }
+  };
+  if (banned || discarded) return null;
+
+  return (
+    <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
+      <Paper
+        sx={offerPaper}
+        onClick={handleClick}
+        style={{ cursor: "pointer" }}
+      >
+        <Box sx={itemBox}>
+          <Stack sx={itemStack}>
+            <ImagePlaceHolder />
+          </Stack>
+        </Box>
+
+        <Grid sx={flexCentered} container spacing={2}>
+          <Grid item size={12} sx={titleGrid}>
+            <Typography
+              sx={{
+                fontSize: FONT_SIZE_XXL,
+                maxWidth: "100%",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {offer[OF_TITLE]}
+            </Typography>
+          </Grid>
+
+          <Grid item size={4} sx={infoGrid}>
+            <PinDropOutlinedIcon sx={icon} />
+            <Typography
+              sx={{
+                fontSize: FONT_SIZE_LG,
+                maxWidth: "100%",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {offer[OF_CITY]}
+            </Typography>
+          </Grid>
+
+          <Grid item size={4} sx={infoGrid}>
+            <TodayOutlinedIcon sx={icon} />
+            <Typography sx={{ fontSize: FONT_SIZE_LG }}>
+              {nowToPlDate(offer[OF_DATE])}
+            </Typography>
+          </Grid>
+
+          <Grid item size={4} sx={priceGrid}>
+            <PaymentsOutlinedIcon sx={biggerIcon} />
+            <Typography sx={{ fontSize: FONT_SIZE_XL }}>
+              {offer[OF_PRICE]}zł
+            </Typography>
+          </Grid>
+
+          <Grid item size={4}>
+            <Tooltip title="ilość zgłoszeń" arrow>
+              <Box sx={adminGrid}>
+                <OutlinedFlagIcon sx={biggerIcon} />
+                <Typography sx={{ fontSize: FONT_SIZE_XL }}>
+                  {offer[ROF_COUNT]}
+                </Typography>
+              </Box>
+            </Tooltip>
+          </Grid>
+
+          <Grid item size={4} sx={adminOkGrid}>
+            <Tooltip title="odrzuć zgłoszenia" arrow>
+              <HoverFilledIconButton
+                OutlineIcon={ThumbUpOutlinedIcon}
+                FilledIcon={ThumbUpIcon}
+                onClick={(e) => handleDiscardClick(e, offer[OF_ID])}
+                sx={okIcon}
+              />
+            </Tooltip>
+          </Grid>
+          <Grid
+            item
+            onClick={(e) => handleBanClick(e, offer[OF_ID])}
+            size={4}
+            sx={adminBanGrid}
+          >
+            <Tooltip title="zbanuj" arrow>
+              <HoverFilledIconButton
+                OutlineIcon={ThumbDownAltOutlinedIcon}
+                FilledIcon={ThumbDownIcon}
+                onClick={() => handleBanClick(offer[OF_ID])}
+                sx={banIcon}
+              />
+            </Tooltip>
+          </Grid>
+        </Grid>
+      </Paper>
+    </Grid>
+  );
+}
+export default ReportedOffersListItem;

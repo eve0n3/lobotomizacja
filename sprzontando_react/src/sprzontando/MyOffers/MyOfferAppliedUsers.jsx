@@ -25,7 +25,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { flexCentered } from "../../styles/AppStyle";
 import { choseUserInDb } from "../../api/choseUserInDb";
 
-const MyOfferAppliedUsers = ({ offerUsers, offerId }) => {
+const MyOfferAppliedUsers = ({ offerUsers, offerId, setIsChosen }) => {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [isChosenLoading, setIsChosenLoading] = useState(false);
@@ -36,6 +36,7 @@ const MyOfferAppliedUsers = ({ offerUsers, offerId }) => {
   const checkChosenUser = (users) => {
     const chosen = users.find((user) => user[AP_CHOSEN_USER] === 1);
     setChosenUser(chosen || null);
+    setIsChosen(!!chosen);
   };
 
   useEffect(() => {
@@ -75,6 +76,7 @@ const MyOfferAppliedUsers = ({ offerUsers, offerId }) => {
     const result = await choseUserInDb(user[AP_USER_ID], offerId);
     if (result.success) {
       setChosenUser(user);
+      setIsChosen(true);
     } else {
       setError(result.message || "Nie udało się wybrać wykonawcy.");
     }

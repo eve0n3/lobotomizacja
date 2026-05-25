@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const BackButton = ({ fallback = "/" }) => {
+const BackButton = ({ fallback = "/", backLocation }) => {
   const navigate = useNavigate();
   const canGoBack = window.history.length > 1;
 
@@ -11,7 +11,11 @@ const BackButton = ({ fallback = "/" }) => {
       <Box sx={{ position: "absolute", top: 0, left: 0 }}>
         <Button
           startIcon={<ArrowBackIcon />}
-          onClick={() => (canGoBack ? navigate(-1) : navigate(fallback))}
+          onClick={() =>
+            backLocation
+              ? navigate(backLocation)
+              : navigate(canGoBack ? -1 : fallback)
+          }
         >
           Powrót
         </Button>

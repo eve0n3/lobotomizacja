@@ -26,33 +26,68 @@ import ShareIcon from "@mui/icons-material/Share";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
+import OutlinedFlagIcon from "@mui/icons-material/OutlinedFlag";
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+
 import PersonIcon from "@mui/icons-material/Person";
+import EditIcon from "@mui/icons-material/Edit";
 
 import {
+  ACTIVE,
   AP_USER_ID,
+  APPLIED,
+  BANNED,
+  EDIT_OFFER_LOCATION,
+  ENDED,
+  HOME_LOCATION,
+  IN_PROGRESS,
   LOGIN_LOCATION,
+  MY_APPLICATIONS_LOCATION,
+  MY_OFFERS_LOCATION,
   OF_ADRESS,
   OF_CITY,
   OF_CREATOR_ID,
   OF_DATE,
   OF_DESCRIPTION,
+  OF_ENDED,
   OF_ID,
   OF_PRICE,
   OF_TITLE,
   OF_TYPE,
+  REPORTED_OFFERS_LOCATION,
+  ROF_COUNT,
   US_USERNAME,
 } from "../../../utils/consts";
 import ImagePlaceHolder from "../../components/ImagePlaceHolder";
-import { getLoggedUserId } from "../../../utils/utilis";
+import { getIsLoggedUserAdmin, getLoggedUserId } from "../../../utils/utilis";
 import { applyForOfferInDb } from "../../api/applyForOfferInDb";
 import ErrorAlert from "../../components/ErrorAlert";
 import SuccessAlert from "../../components/SuccessAlert";
 import { getOfferAppliedUserFromDb } from "../../api/getOfferAppliedUserFromDb";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import MyOfferAppliedUsers from "../MyOffers/MyOfferAppliedUsers";
+import {
+  adminBanGrid,
+  adminGrid,
+  adminOkGrid,
+  banIcon,
+  biggerIcon,
+  okIcon,
+} from "../../styles/offersListItem.styles";
+import { FONT_SIZE_XL } from "../../../utils/styleConsts";
+import { flexCentered } from "../../styles/AppStyle";
+import { banReportedOfferInDb } from "../../api/banReportedOfferInDb";
+import HoverFilledIconButton from "../../components/HoverFilledIconButton";
+import { okReportedOfferInDb } from "../../api/okReportedOfferInDb";
 import BackButton from "../../components/BackButton";
 import FlagIcon from "@mui/icons-material/Flag";
 import { reportOfferInDb } from "../../api/reportOfferInDb";
+import { endOfferInDb } from "../../api/endOfferInDb";
+import OfferRating from "./OfferRating";
+import { sqlToPlDateTime } from "../../../utils/utilisTime";
 
 function OfferDetails() {
   const location = useLocation();
@@ -60,9 +95,14 @@ function OfferDetails() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
+  const [banned, setBanned] = useState(false);
+  const [discarded, setDiscarded] = useState(false);
   const [isReported, setIsReported] = useState(false);
+  const [isChosen, setIsChosen] = useState(false);
 
   const offer = location.state?.offer;
+
+  const mode = location.state?.mode || ACTIVE;
   if (!offer) {
     return (
       <Container sx={{ mt: 4 }}>
@@ -75,6 +115,7 @@ function OfferDetails() {
 
   const userId = getLoggedUserId();
   const isCreator = userId === offer[OF_CREATOR_ID];
+  const isAdmin = getIsLoggedUserAdmin();
 
   const handleApplyButtonClick = async () => {
     if (userId === null) {
@@ -102,6 +143,25 @@ function OfferDetails() {
       setLoading(false);
     }
   };
+  const handleEndButtonClick = async () => {
+    if (userId === null) {
+      navigate(LOGIN_LOCATION);
+      return;
+    }
+
+    setLoading(true);
+    const result = await endOfferInDb(offer[OF_ID]);
+    if (result.success) {
+      setLoading(false);
+      navigate(MY_APPLICATIONS_LOCATION, {
+        state: { mode: ENDED },
+        replace: true,
+      });
+    } else {
+      setError("Nie udało się zakończyć zlecenia.");
+      setLoading(false);
+    }
+  };
 
   const checkIfUserAlreadyApplied = async () => {
     const result = await getOfferAppliedUserFromDb(offer.id);
@@ -113,10 +173,77 @@ function OfferDetails() {
       setLoading(false);
     }
   };
+  const handleBanClick = async (id) => {
+    const result = await banReportedOfferInDb(id);
+    if (result.success) {
+      setBanned(true);
+      setMessage(result.message);
+      navigate(HOME_LOCATION, {
+        replace: true,
+        state: { message: "Pomyślnie zbanowano ogłoszenie" },
+      });
+    } else {
+      setBanned(false);
+      setError(result.message);
+    }
+  };
+  const handleDiscardClick = async (id) => {
+    const result = await okReportedOfferInDb(id);
+    if (result.success) {
+      setDiscarded(true);
+      setMessage(result.message);
+      navigate(HOME_LOCATION, {
+        replace: true,
+        state: { message: "Pomyślnie odrzucono zgłoszenia" },
+      });
+    } else {
+      setDiscarded(false);
+      setError(result.message);
+    }
+  };
 
   const handleSuccess = () => {
     setError(null);
     setMessage("Pomyślnie zgłoszono się do wykonania ogłoszenia.");
+  };
+  const getAdminButtons = () => {
+    return (
+      <Grid spacing={2} sx={flexCentered} container>
+        {" "}
+        <Grid item size={4} sx={{ pr: "10px" }}>
+          <Tooltip title="ilość zgłoszeń" arrow>
+            <Box sx={adminGrid}>
+              <OutlinedFlagIcon sx={biggerIcon} />
+              <Typography sx={{ fontSize: FONT_SIZE_XL }}>
+                {offer[ROF_COUNT]}
+              </Typography>
+            </Box>
+          </Tooltip>
+        </Grid>
+        {offer[ROF_COUNT] > 0 && (
+          <Grid item size={4} sx={adminOkGrid} disabled={banned || discarded}>
+            <Tooltip title="odrzuć zgłoszenia" arrow>
+              <HoverFilledIconButton
+                OutlineIcon={ThumbUpOutlinedIcon}
+                FilledIcon={ThumbUpIcon}
+                onClick={() => handleDiscardClick(offer[OF_ID])}
+                sx={okIcon}
+              />
+            </Tooltip>
+          </Grid>
+        )}
+        <Grid item size={4} sx={adminBanGrid}>
+          <Tooltip title="zbanuj" arrow>
+            <HoverFilledIconButton
+              OutlineIcon={ThumbDownAltOutlinedIcon}
+              FilledIcon={ThumbDownAltIcon}
+              onClick={() => handleBanClick(offer[OF_ID])}
+              sx={banIcon}
+            />
+          </Tooltip>
+        </Grid>
+      </Grid>
+    );
   };
   const handleReportClick = async () => {
     if (userId == null) {
@@ -133,31 +260,61 @@ function OfferDetails() {
     }
   };
 
+  const handleEditClick = () => {
+    navigate(EDIT_OFFER_LOCATION, { state: { offer }, replace: true });
+  };
+  const getEditOrReportIcon = (mode) => {
+    if (mode !== ACTIVE) {
+      return;
+    }
+    if (isCreator && isAdmin) {
+      return (
+        <Tooltip title="edytuj" arrow>
+          {" "}
+          <IconButton onClick={handleEditClick}>
+            <EditIcon sx={{ fontSize: "2rem" }} />
+          </IconButton>
+        </Tooltip>
+      );
+    } else if (isAdmin) return;
+
+    return isCreator ? (
+      <Tooltip title="edytuj" arrow>
+        <IconButton onClick={handleEditClick}>
+          <EditIcon sx={{ fontSize: "2rem" }} />
+        </IconButton>
+      </Tooltip>
+    ) : (
+      <Tooltip title="ilość zgłoszeń" arrow>
+        <IconButton disabled={isReported} onClick={handleReportClick}>
+          <FlagIcon sx={{ fontSize: "2rem" }} />
+        </IconButton>
+      </Tooltip>
+    );
+  };
+
   return (
     <>
       <BackButton />
-      <Container sx={{ pt: 8, pr: 8 }}>
+      <Container sx={{ pt: 8, pr: 8, pb: 4 }}>
         {/* NAGŁÓWEK NAD ZDJĘCIEM */}
 
         <Box sx={{ mb: 3 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography
-              sx={{ flexGrow: 1 }}
               variant="h3"
               sx={{
                 whiteSpace: "normal",
                 overflowWrap: "anywhere",
+                flexGrow: 1,
               }}
             >
               {offer[OF_TITLE]}
             </Typography>
-            <IconButton
-              disabled={isReported}
-              onClick={handleReportClick}
-              sx={{ p: 0 }}
-            >
-              <FlagIcon sx={{ fontSize: 48 }} />
-            </IconButton>
+            <Box sx={flexCentered}>
+              {isAdmin && !isCreator && getAdminButtons()}
+              {getEditOrReportIcon(mode)}
+            </Box>
           </Box>
           <Stack direction={"row"}>
             <PaymentsOutlinedIcon sx={{ fontSize: 42 }} />
@@ -205,7 +362,7 @@ function OfferDetails() {
                     Data ważności ogłoszenia
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {offer[OF_DATE]}
+                    {sqlToPlDateTime(offer[OF_DATE])}
                   </Typography>
                 </Box>
 
@@ -218,7 +375,7 @@ function OfferDetails() {
                 </Box>
               </Stack>
 
-              {!isCreator && (
+              {!isCreator && mode === ACTIVE && (
                 <Button
                   variant="contained"
                   onClick={async () => handleApplyButtonClick()}
@@ -226,6 +383,16 @@ function OfferDetails() {
                   startIcon={loading && <CircularProgress size={20} />}
                 >
                   Zgłoś się
+                </Button>
+              )}
+              {mode === IN_PROGRESS && (
+                <Button
+                  variant="contained"
+                  onClick={async () => handleEndButtonClick()}
+                  disabled={loading}
+                  startIcon={loading && <CircularProgress size={20} />}
+                >
+                  Zakończ zlecenie
                 </Button>
               )}
             </Stack>
@@ -250,19 +417,39 @@ function OfferDetails() {
               {offer[OF_DESCRIPTION]}
             </Typography>
           </Grid>
-          <Grid size={12} item>
-            <Divider sx={{ my: 4 }} />
-          </Grid>
+
           {isCreator && (
-            <Grid size={12} item>
-              <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
-                Chętni
-              </Typography>
-              <MyOfferAppliedUsers
-                offerUsers={offer?.appliedUsers || null}
-                offerId={offer[OF_ID]}
-              />
-            </Grid>
+            <>
+              <Grid size={12} item>
+                <Divider sx={{ my: 4 }} />
+              </Grid>
+              <Grid size={12} item>
+                <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
+                  Chętni
+                </Typography>
+                <MyOfferAppliedUsers
+                  offerUsers={offer?.appliedUsers || null}
+                  offerId={offer[OF_ID]}
+                  setIsChosen={setIsChosen}
+                  isChosen={isChosen}
+                />
+              </Grid>
+            </>
+          )}
+
+          {mode === ENDED && (
+            <>
+              <Grid size={12} item>
+                <Divider sx={{ my: 4 }} />
+              </Grid>
+              <Grid size={12} item>
+                <OfferRating
+                  isCreator={isCreator}
+                  offer={offer}
+                  setError={setError}
+                />
+              </Grid>
+            </>
           )}
         </Grid>
         {error && (

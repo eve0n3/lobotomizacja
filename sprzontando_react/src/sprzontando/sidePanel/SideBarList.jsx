@@ -15,9 +15,14 @@ import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { useNavigate } from "react-router-dom";
 import { USER_PROFILE_LOCATION } from "../../../utils/consts";
+import { getIsLoggedUserAdmin } from "../../../utils/utilis";
+import SideBarAdminList from "./SideBarAdminList";
+import MyOffersList from "./MyOffersList";
+import MyApplicationsList from "./MyApplicationsList";
 
 const SideBarList = () => {
   const navigate = useNavigate();
+  const isAdmin = getIsLoggedUserAdmin();
   return (
     <Box sx={{ width: 250 }}>
       <List>
@@ -44,24 +49,8 @@ const SideBarList = () => {
             <ListItemText primary={"Mój profil"} />
           </ListItemButton>
         </ListItem>
-
-        <ListItem key={3} onClick={() => navigate("/myOffers")} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <ChairOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Moje ogłoszenia"} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem key={4} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <CampaignOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Moje zgłoszenia"} />
-          </ListItemButton>
-        </ListItem>
-
+        <MyOffersList />
+        <MyApplicationsList />
         <Divider />
 
         <ListItem key={5} disablePadding>
@@ -73,16 +62,7 @@ const SideBarList = () => {
           </ListItemButton>
         </ListItem>
 
-        <Divider />
-
-        <ListItem key={6} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <SettingsOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Ustawienia"} />
-          </ListItemButton>
-        </ListItem>
+        {isAdmin && <SideBarAdminList />}
       </List>
     </Box>
   );
