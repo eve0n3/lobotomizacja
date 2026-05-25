@@ -26,7 +26,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 
-if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba bedzie to poprawic
+if (!$user || !password_verify($password, $user["haslo"])) { //jebac bezpieczenstwo trzeba bedzie to poprawic
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Nie poprawne hasło lub email', 'type' => 'password']);
 } else {
