@@ -14,6 +14,7 @@
     $data = json_decode( $dataJSON, TRUE ); //convert JSON into array
 
     $user_id = $data["user_id"];
+    
 
     include 'dbconnect.php';
 
@@ -36,7 +37,7 @@
 
             echo json_encode([
                 "success" => true,
-                "ogloszenie" => $rows,
+                "data" => $rows,
                 "user" => $rows_users
             ]);
             
@@ -44,8 +45,7 @@
         }else{
             echo json_encode([
                 "success" => true,
-                "data" => [],
-                "message" => "Użytkownik nie ma jeszcze żadnych wykonanych ogłoszeń"
+                "data" => "Użytkownik nie ma jeszcze żadnych wykonanych ogłoszeń"
             ]);
         }
     }else{
