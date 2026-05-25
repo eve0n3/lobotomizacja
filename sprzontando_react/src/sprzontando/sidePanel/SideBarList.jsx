@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { USER_PROFILE_LOCATION } from "../../../utils/consts";
 import { getIsLoggedUserAdmin } from "../../../utils/utilis";
 import SideBarAdminList from "./SideBarAdminList";
+import MyOffersList from "./MyOffersList";
+import MyApplicationsList from "./MyApplicationsList";
 
 const SideBarList = () => {
   const navigate = useNavigate();
@@ -47,24 +49,8 @@ const SideBarList = () => {
             <ListItemText primary={"Mój profil"} />
           </ListItemButton>
         </ListItem>
-
-        <ListItem key={3} onClick={() => navigate("/myOffers")} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <ChairOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Moje ogłoszenia"} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem key={4} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <CampaignOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Moje zgłoszenia"} />
-          </ListItemButton>
-        </ListItem>
-
+        <MyOffersList />
+        <MyApplicationsList />
         <Divider />
 
         <ListItem key={5} disablePadding>

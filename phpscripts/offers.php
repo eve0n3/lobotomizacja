@@ -38,10 +38,9 @@
      $sqlQueryStart .= " WHERE ";
      array_push($criteria, "isnull(id_wykon)");
      array_push($criteria, "ogloszenia_oferty.ban = 0");
+     array_push($criteria, "ogloszenia_oferty.waznosc > CURRENT_TIMESTAMP");
 
     if(!is_null($tytul) || !is_null($miasto) || !is_null($kategoria) || !is_null($minCena) || !is_null($maxCena)){
-       
-
         if(!is_null($tytul)){
             array_push($criteria, "tytul LIKE ?");
             array_push($params, "%".$tytul."%");

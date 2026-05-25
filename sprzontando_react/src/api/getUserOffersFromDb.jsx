@@ -2,9 +2,10 @@ import axios from "axios";
 import { OFFERS_URL, USER_OFFERS_URL } from "../../utils/consts";
 import { getOfferAppliedUserFromDb } from "./getOfferAppliedUserFromDb";
 
-export const getUserOffersFromDb = async (userId) => {
+export const getUserOffersFromDb = async (userId, mode) => {
   const data = {
     id_zglasz: userId,
+    mode: mode,
   };
   try {
     const response = await axios.post(USER_OFFERS_URL, data, {
@@ -12,7 +13,7 @@ export const getUserOffersFromDb = async (userId) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("Received offers:", response.data);
+
     if (response.data.success) {
       return await handleSuccessResponse(response);
     } else {
@@ -27,7 +28,6 @@ export const getUserOffersFromDb = async (userId) => {
   }
 };
 const handleSuccessResponse = async (response) => {
-  console.log("Received offers:", response.data);
   const oferty = response.data.data;
   const offersWithUsers = await getAppliedUsers(oferty);
   return { success: true, data: offersWithUsers };
