@@ -40,7 +40,7 @@
         $sqlQueryStart .= " WHERE ";
 
         if(!is_null($id)){
-            array_push($criteria, "users.id LIKE ?");
+            array_push($criteria, "users.id = ?");
             array_push($params, $id);
             $paramTypes .= "i";
         }
@@ -53,8 +53,6 @@
     }
     
     $sqlQuery = $sqlQueryStart.$sqlQueryEnd;
-    
-    echo json_encode($sqlQuery);
 
     $stmt = $conn->prepare($sqlQuery);
     if($paramTypes != ""){
@@ -67,6 +65,7 @@
 
         if($rows){
             echo json_encode([
+                "success" => true,
                 "data"=>$rows
             ]);
         }else{
@@ -78,7 +77,8 @@
     }else{
         echo json_encode([
             "success"=>false,
-            "message"=>"wystąpił błąd"
+            "message"=>"Łączenie z bazą danych nie powiodło się"
         ]);
+        http_response_code(503);
     }
 ?>

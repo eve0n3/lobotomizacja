@@ -31,6 +31,7 @@ import {
   SUCCESS_VERIFICATION_LOCATION,
   USER_PROFILE_LOCATION,
   USERS_RANKING_LOCATION,
+  ADMIN_USERS_LOCATION,
 } from "../utils/consts";
 import UserProfile from "./sprzontando/UserProfile/UserProfile";
 import MyOffers from "./sprzontando/MyOffers/MyOffers";
@@ -40,6 +41,7 @@ import ReportedOfferDetails from "./sprzontando/ReportedOffers/ReportedOfferDeta
 import ResetPasswordPage from "./sprzontando/loginPage/ResetPasswordPage";
 import SuccessPasswordReset from "./sprzontando/loginPage/SuccessPasswordReset";
 import EditOffer from "./sprzontando/EditOffer/EditOffer";
+import AdminUsers from "./sprzontando/AdminUsers/AdminUsers";
 import MyApplicationsList from "./sprzontando/sidePanel/MyApplicationsList";
 import MyOfferAppliedUsers from "./sprzontando/MyOffers/MyOfferAppliedUsers";
 import MyOffersApplications from "./sprzontando/MyOffersApplications/MyOffersApplications";
@@ -114,6 +116,9 @@ const router = createBrowserRouter([
         element: <EditOffer />,
       },
       {
+        path: ADMIN_USERS_LOCATION,
+        element: <AdminUsers />,
+      },{
         path: MY_APPLICATIONS_LOCATION,
         element: <MyOffersApplications />,
       },

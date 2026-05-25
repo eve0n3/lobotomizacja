@@ -47,10 +47,11 @@ if (!$user || !($password == $user['haslo'])) { //jebac bezpieczenstwo trzeba be
             $res = $stmt1->get_result();
             $rows = $res->fetch_assoc();
 
-            if($rows["czy_ban"]==1){
+            if((int)$rows["czy_ban"] === 1){
                 echo json_encode([
                 "success"=>false,
-                "message"=>"użytkownik zbanowany"
+                "message"=>"użytkownik zbanowany",
+                "ban_end" => $rows["ban_end"],
                 ]);
             }else{
                 if(!is_null($rows["ban_end"]) && $rows["ban_end"] < date("Y-m-d H:i:s")){

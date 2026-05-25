@@ -73,7 +73,10 @@ export const MY_APPLICATIONS_LOCATION = "/myOffersApplications";
 export const USER_PROFILE_LOCATION = "/userProfile";
 export const OTHER_USER_PROFILE_LOCATION = "/OtherUserProfile";
 export const REPORTED_OFFERS_LOCATION = "/reportedOffers";
+export const ADMIN_USERS_LOCATION = "/adminUsers";
 
 // feczowanko z bazy
 export const MAX_RETRIES_COUNT = 3;
 export const SUCCESS_PASSWORD_RESET_LOCATION = "/successPasswordReset";
+
+
