@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2026 at 06:45 PM
+-- Generation Time: May 25, 2026 at 08:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -212,27 +212,22 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `haslo`, `nazwa`, `utworzenie`, `ban`, `ban_data`, `ban_end`, `kod`, `zatwierdzony`, `admin`) VALUES
-(1, 'jan.kowalski@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'JanKowalski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(2, 'anna.nowak@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'AnnaNowak', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(3, 'piotr.zielinski@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'PiotrZielinski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(4, 'katarzyna.malysz@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'KasiaMalysz', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(5, 'marek.kowal@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'MarekKowal', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(6, 'magdalena.nowakowska@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'MagdaNowakowska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(7, 'tomasz.wisniewski@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'TomekWisniewski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(8, 'joanna.kaczmarek@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'JoannaKaczmarek', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(9, 'adam.kowalczyk@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'AdamKowalczyk', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(10, 'ewa.szymanska@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'EwaSzymanska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(11, 'piotr.lewandowski@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'PiotrLewandowski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(12, 'anna.wroblewska@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'AnnaWroblewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(13, 'marcin.kaminskii@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'MarcinKaminski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(14, 'agnieszka.sikora@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'AgnieszkaSikora', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(15, 'lukasz.jablonski@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'LukaszJablonski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(16, 'marta.krol@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'MartaKrol', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(17, 'pawel.dabrowski@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'PawelDabrowski', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(18, 'monika.kowalska@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'MonikaKowalska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(19, 'krzysztof.nowicki@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'KrzysztofNowicki', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(20, 'ania.wisniewska@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'AniaWisniewska', '2026-02-22 13:05:04', 0, NULL, NULL, NULL, 1, 0),
-(21, 'LORDMIOTLA@example.com', '$2y$10$Wz1/3pgEW7wK0FEpDmkOMeS8o0V.i9u4j0piqx2FZ5smKj6DMXMmO', 'BOHATER MIOTLY I MOPA', '2001-09-11 12:05:04', 0, NULL, NULL, NULL, 1, 1);
+(1, 'jan.kowalski@example.com', '$2y$10$F96XCLrQVy.eHA1k5TDKXejGs21AN9BR8DoBVIdoEzBCzCCfsai9C', 'JanKowalski', '2026-05-25 18:26:14', NULL, NULL, NULL, NULL, 1, 0),
+(2, 'anna.nowak@example.com', '$2y$10$nVYnKIZ1MlKUavwALdD8HuyOhAaARMsQRWNV8j8KGmVzI3NmD.6Nm', 'AnnaNowak', '2026-05-25 18:27:39', NULL, NULL, NULL, NULL, 1, 0),
+(3, 'Steve_Macejkovic@example.com', '$2y$10$lQBJbVK8t85gU.8dczd2sOd77A9TkFM/PyXqjNjLSmj65fc7Mq5Ay', 'Selmer.Moore', '2026-05-25 18:28:32', NULL, NULL, NULL, NULL, 1, 0),
+(4, 'Issac6@example.org', '$2y$10$MsXeO9ocqRe1ds485ns94ONseJtcANbb./KgmxTa4BiBYNFiLk1L2', 'Maye.Shields47', '2026-05-25 18:28:33', NULL, NULL, NULL, NULL, 1, 0),
+(5, 'Jaiden.Graham6@example.net', '$2y$10$0jW4HZUoBx.uzHJJMIiJbepO9aHfixLxK.YdK3nZ3MENd5R5M.JCS', 'Rodger.Kuphal56', '2026-05-25 18:28:34', NULL, NULL, NULL, NULL, 1, 0),
+(6, 'William_Ward13@example.com', '$2y$10$m9xjvcVq/TvvFHG71S4HEek.a9nTOojSPaqLsOurCTqNRFShZxsTa', 'Alana68', '2026-05-25 18:28:35', NULL, NULL, NULL, NULL, 1, 0),
+(7, 'Marjolaine_Keeling@example.org', '$2y$10$9Uko3ykAIjJca2kEfA4VaOqBqa82AIjHPKXBsUwJyZq9.qhcbUEpq', 'Linwood.Cole', '2026-05-25 18:28:36', NULL, NULL, NULL, NULL, 1, 0),
+(8, 'Elwin31@example.com', '$2y$10$bGavS2y4DrP7OhbHU2G2aeR8xQmJDR/rJwfUVCKX3ZCwOOjK3KX4y', 'Aubree35', '2026-05-25 18:28:37', NULL, NULL, NULL, NULL, 1, 0),
+(9, 'Dax_Quitzon@example.net', '$2y$10$N1c1I39jAY8t2CmoRxycJ..FDN4UcjhpuR9SBfI9h6HPg0Apcpgum', 'Caroline58', '2026-05-25 18:28:38', NULL, NULL, NULL, NULL, 1, 0),
+(10, 'Emilio.Paucek83@example.org', '$2y$10$ycf09NDt51nURbQZSudKfevmrY5o/VNPLG77SyKtjSu/I8QwLwfSO', 'Lenna98', '2026-05-25 18:28:39', NULL, NULL, NULL, NULL, 1, 0),
+(11, 'Amy_Sawayn@example.com', '$2y$10$YtaR.fjvyfOayRQWl2N9OOwz1jClRl3IDh/BuGCvomSUprXHAeb1y', 'Naomi.Hahn96', '2026-05-25 18:28:41', NULL, NULL, NULL, NULL, 1, 0),
+(12, 'Dolly18@example.org', '$2y$10$s0aSZqLBjruxC9E79O62YOVDcAbLi/bcuXtYewaEjYYRCDq9SDS12', 'Meghan.Parisian16', '2026-05-25 18:28:42', NULL, NULL, NULL, NULL, 1, 0),
+(13, 'Ashleigh_Anderson@example.net', '$2y$10$s6y5TZ1UKhQ89vrSQjXv8eBROVCSUqbQvxHYx7eLwa7WEd20q5aBu', 'Ashley_Braun', '2026-05-25 18:28:43', NULL, NULL, NULL, NULL, 1, 0),
+(14, 'Kennedi_Hane@example.net', '$2y$10$0mD4xUyCjG9BTL2ULzlaOe62YSggOTZbHIW6Lh8YalYa2gQwLttVi', 'Elyse46', '2026-05-25 18:28:44', NULL, NULL, NULL, NULL, 1, 0),
+(15, 'Grant_Hartmann83@example.net', '$2y$10$dJXwsUf42G1T4lo7JiELruQ1XB6YgXoGlUbe.QYMuyS0c5QoYqaQ6', 'Hector.Glover', '2026-05-25 18:28:45', NULL, NULL, NULL, NULL, 1, 0),
+(16, 'LORDMIOTLA@example.com', '$2y$10$TjEJZmF.6BU5a2ZwNNBnHu/5rbZo0jvzFQTg6taK6ZZZoIhWtX4Pe', 'BOHATER MIOTLY I MOPA', '2026-05-25 18:28:46', NULL, NULL, NULL, NULL, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -290,7 +285,7 @@ ALTER TABLE `ogloszenia_zrobione`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
