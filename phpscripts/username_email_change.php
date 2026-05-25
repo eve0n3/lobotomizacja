@@ -18,7 +18,10 @@
     $email = $data['email'] ?? null;
 
     $oldpass = $data['oldpass'] ?? null;
+    $oldhashpass = password_hash($oldpass, PASSWORD_BCRYPT);
+
     $newpass = $data['newpass'] ?? null;
+    $newhashpass = password_hash($newpass, PASSWORD_BCRYPT);
 
     //połączenie z bazą danych
     include 'dbconnect.php';
@@ -109,8 +112,8 @@
         }
 
         if(!is_null($newpass)){
-            if($oldpass == $user['haslo'] ){
-                if($newpass == $user['haslo']){
+            if(password_verify($oldpass, $oldhashpass)){
+                if(password_verify($newpass, $oldhashpass)){
                 echo json_encode([
                     'success' => false, 
                     'message' => 'Nowe haslo nie może być takie samo jak stare'
@@ -119,7 +122,7 @@
                 exit(0);
                 }else{
                     array_push($criteria, "haslo = ?");
-                    array_push($params, $newpass);
+                    array_push($params, $newhashpass);
                     $paramTypes .= "s";
                 }
             }else{
@@ -138,7 +141,6 @@
             $paramTypes .= "i";
             $sqlQueryEnd = " WHERE id = ?";
             $sqlQuery = $sqlQueryStart.$sqlQueryEnd;
-            echo json_encode($sqlQuery);
             $stmt = $conn->prepare($sqlQuery);
             $stmt->bind_param($paramTypes, ...$params);
 

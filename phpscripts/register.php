@@ -59,7 +59,8 @@
         ]);
     }else{
         $stmt = $conn->prepare("INSERT INTO users (nazwa, email, haslo) VALUES (?, ?, ?)"); //TODO: timestamp tworzenia
-        $stmt->bind_param("sss", $username, $email, $password);
+        $hashpass = password_hash($password, PASSWORD_BCRYPT);
+        $stmt->bind_param("sss", $username, $email, $hashpass);
         
         if($stmt->execute()){
             http_response_code(201);

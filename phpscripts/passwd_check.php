@@ -20,6 +20,8 @@
     $kod = trim($data['kod']); 
     $haslo = trim($data['haslo']);
 
+    $hashpass = password_hash($haslo, PASSWORD_BCRYPT);
+
 
 
     //połączenie z bazą danych
@@ -35,7 +37,7 @@
 
             if ($kod == $odp_kod["kod"]){
                 $stmt = $conn->prepare('UPDATE users SET haslo=? WHERE email = ?');
-                $stmt->bind_param('ss', $haslo, $email);
+                $stmt->bind_param('ss', $hashpass, $email);
                 $stmt->execute();
 
                 $stmt = $conn->prepare('UPDATE users SET kod=NULL WHERE email = ?');
