@@ -28,7 +28,7 @@
     include 'dbconnect.php';
 
     
-    $stmt = $conn->prepare('SELECT kod, kod_wygasniecie FROM users WHERE email = ?');
+    $stmt = $conn->prepare('SELECT kod FROM users WHERE email = ?');
     $stmt->bind_param('s',$email);
     $stmt->execute();   
 
